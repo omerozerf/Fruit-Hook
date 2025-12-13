@@ -1,0 +1,14 @@
+{
+  "ignores": [],
+  "groups": [
+    [
+      "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/Properties/AssemblyInfo.cs"
+    ],
+    [
+      "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/Sources/OtherDummyScript.cs"
+    ],
+    [
+      "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/obj/Debug/.NETFramework,Version=v4.7.AssemblyAttributes.cs"
+    ]
+  ]
+}
