@@ -1,27 +1,27 @@
-report@config:load 6.27
+report@config:load 31.82
 Authorized using stored user info.
-report@account:authorize 11.46
-Exporting assets from Unity.....
+report@account:authorize 6.48
+Exporting assets from Unity......
 
 [ Stage1 ] Assets exported from Unity and staged for further processing
-report@unity:export 2008.16
-report@config:load 6.20
+report@unity:export 3057.30
+report@config:load 17.44
 Resources:
 {}
-report@assets:stage2 1547.48
-report@assets:stage3 97.41
+report@assets:stage2 2070.45
+report@assets:stage3 121.96
 [ Stage2 ] Assets postprocessed and bundled successfully
-report@config:unity 0.09
-report@config:load 1.80
-report@config:unity 0.05
-report@code:compose 20.43
+report@config:unity 0.22
+report@config:load 25.42
+report@config:unity 0.36
+report@code:compose 44.87
 Authorized using stored user info.
-report@account:authorize 3.38
+report@account:authorize 4.27
 Microsoft (R) Build Engine version 16.10.1 for Mono
 Copyright (C) Microsoft Corporation. All rights reserved.
 
 
-Build started 12/13/2025 3:27:52 PM.
+Build started 12/13/2025 4:01:41 PM.
 
 Project "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/Scripts.csproj" on node 1 (Rebuild target(s)).
 
@@ -43,35 +43,30 @@ CoreClean:
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.Core.dll".
 
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.dom.dll".
+
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.es5.dll".
+
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.scripthost.dll".
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/UnityEngine.dll".
 
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/UnityEngine.UI.dll".
-
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/UnityEngine.UniversalRenderPipeline.dll".
-
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Bridge.xml".
-
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Bridge.Html5.xml".
-
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Bridge.WebGL.xml".
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Newtonsoft.Json.xml".
+
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.Core.xml".
 
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.dom.xml".
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.es5.xml".
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.scripthost.xml".
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/TextMeshPro.dll".
-
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/obj/Debug/Scripts.csproj.AssemblyReference.cache".
 
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/obj/Debug/Scripts.csproj.CoreCompileInputs.cache".
-
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/obj/Debug/Scripts.csproj.CopyComplete".
-
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/obj/Debug/UnityScriptsCompiler.dll".
-
   Deleting file "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/obj/Debug/UnityScriptsCompiler.pdb".
 
 GenerateTargetFrameworkMonikerAttribute:
@@ -79,49 +74,44 @@ Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output fil
 
 CoreCompile:
 
-  /Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/msbuild/Current/bin/Roslyn/csc.exe /noconfig /nowarn:CS0626,1701,1702 /fullpaths /nostdlib+ /errorreport:prompt /warn:4 /define:UNITY_LUNA;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_2022;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;UNITY_2022_3;UNITY_2022_3_51 /highentropyva+ /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.Core.17.9.42-luna/lib/net40/Bridge.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.Html5.17.9.0/lib/net40/Bridge.Html5.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.WebGL.1.22.0/lib/net40/Bridge.WebGL.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/DOTween.1.2.705/lib/net40/DOTween.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/com.unity.ide.rider/3.0.0/JetBrains.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.Newtonsoft.Json.1.16.0/lib/net40/Newtonsoft.Json.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.Core.1.6.6733/lib/net40/Retyped.Core.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.dom.2.8.6733/lib/net40/Retyped.dom.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.es5.2.8.6733/lib/net40/Retyped.es5.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.scripthost.2.8.6733/lib/net40/Retyped.scripthost.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/com.unity.textmeshpro/3.0.6/TextMeshPro.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/Vendor/UnityEngine.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/com.unity.ui/1.2.1/UnityEngine.UI.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/com.unity.urp/7.6/UnityEngine.UniversalRenderPipeline.dll /debug+ /debug:full /optimize- /out:obj/Debug/UnityScriptsCompiler.dll /subsystemversion:6.00 /target:library /warnaserror- /utf8output /langversion:8 Properties/AssemblyInfo.cs Sources/OtherDummyScript.cs "obj/Debug/.NETFramework,Version=v4.7.AssemblyAttributes.cs"
+  /Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/msbuild/Current/bin/Roslyn/csc.exe /noconfig /nowarn:CS0626,1701,1702 /fullpaths /nostdlib+ /errorreport:prompt /warn:4 /define:UNITY_LUNA;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_2022;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;UNITY_2022_3;UNITY_2022_3_51 /highentropyva+ /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.Core.17.9.42-luna/lib/net40/Bridge.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.Html5.17.9.0/lib/net40/Bridge.Html5.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.WebGL.1.22.0/lib/net40/Bridge.WebGL.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/DOTween.1.2.705/lib/net40/DOTween.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/com.unity.ide.rider/3.0.0/JetBrains.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.Newtonsoft.Json.1.16.0/lib/net40/Newtonsoft.Json.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.Core.1.6.6733/lib/net40/Retyped.Core.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.dom.2.8.6733/lib/net40/Retyped.dom.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.es5.2.8.6733/lib/net40/Retyped.es5.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.scripthost.2.8.6733/lib/net40/Retyped.scripthost.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/com.unity.textmeshpro/3.0.6/TextMeshPro.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/Vendor/UnityEngine.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/com.unity.ui/1.2.1/UnityEngine.UI.dll /reference:/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/com.unity.urp/7.6/UnityEngine.UniversalRenderPipeline.dll /debug+ /debug:full /optimize- /out:obj/Debug/UnityScriptsCompiler.dll /subsystemversion:6.00 /target:library /warnaserror- /utf8output /langversion:8 /Users/omerozerf/SoftwareProjects/UnityProjects/Fruit-Hook/LunaTemp/stage3/processed-scripts/Assets/_Game/Tile.cs Properties/AssemblyInfo.cs Sources/OtherDummyScript.cs "obj/Debug/.NETFramework,Version=v4.7.AssemblyAttributes.cs"
 
   Using shared compilation with compiler from directory: /Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/msbuild/Current/bin/Roslyn
 
 _CopyFilesMarkedCopyLocal:
+  Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.Core.17.9.42-luna/lib/net40/Bridge.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Bridge.dll".
 
   Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.Html5.17.9.0/lib/net40/Bridge.Html5.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Bridge.Html5.dll".
-
-  Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.Core.17.9.42-luna/lib/net40/Bridge.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Bridge.dll".
-  Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/DOTween.1.2.705/lib/net40/DOTween.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/DOTween.dll".
-
   Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.Newtonsoft.Json.1.16.0/lib/net40/Newtonsoft.Json.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Newtonsoft.Json.dll".
-
   Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/com.unity.ide.rider/3.0.0/JetBrains.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/JetBrains.dll".
   Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.WebGL.1.22.0/lib/net40/Bridge.WebGL.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Bridge.WebGL.dll".
-
-  Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/Vendor/UnityEngine.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/UnityEngine.dll".
-
-  Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.scripthost.2.8.6733/lib/net40/Retyped.scripthost.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.scripthost.dll".
-  Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.dom.2.8.6733/lib/net40/Retyped.dom.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.dom.dll".
-
-  Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/com.unity.ui/1.2.1/UnityEngine.UI.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/UnityEngine.UI.dll".
+  Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/DOTween.1.2.705/lib/net40/DOTween.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/DOTween.dll".
 
   Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.Core.1.6.6733/lib/net40/Retyped.Core.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.Core.dll".
   Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/com.unity.textmeshpro/3.0.6/TextMeshPro.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/TextMeshPro.dll".
 
+  Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.scripthost.2.8.6733/lib/net40/Retyped.scripthost.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.scripthost.dll".
+
   Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.es5.2.8.6733/lib/net40/Retyped.es5.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.es5.dll".
 
+  Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/Vendor/UnityEngine.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/UnityEngine.dll".
+  Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/com.unity.ui/1.2.1/UnityEngine.UI.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/UnityEngine.UI.dll".
+
+  Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.dom.2.8.6733/lib/net40/Retyped.dom.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.dom.dll".
   Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/com.unity.urp/7.6/UnityEngine.UniversalRenderPipeline.dll" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/UnityEngine.UniversalRenderPipeline.dll".
 
   Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.Core.17.9.42-luna/lib/net40/Bridge.xml" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Bridge.xml".
 
   Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.Html5.17.9.0/lib/net40/Bridge.Html5.xml" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Bridge.Html5.xml".
 
-  Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.WebGL.1.22.0/lib/net40/Bridge.WebGL.xml" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Bridge.WebGL.xml".
-
   Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.Newtonsoft.Json.1.16.0/lib/net40/Newtonsoft.Json.xml" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Newtonsoft.Json.xml".
+  Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Bridge.WebGL.1.22.0/lib/net40/Bridge.WebGL.xml" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Bridge.WebGL.xml".
 
   Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.Core.1.6.6733/lib/net40/Retyped.Core.xml" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.Core.xml".
 
-  Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.es5.2.8.6733/lib/net40/Retyped.es5.xml" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.es5.xml".
-
   Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.dom.2.8.6733/lib/net40/Retyped.dom.xml" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.dom.xml".
+
+  Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.es5.2.8.6733/lib/net40/Retyped.es5.xml" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.es5.xml".
 
   Copying file from "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/packages/Retyped.scripthost.2.8.6733/lib/net40/Retyped.scripthost.xml" to "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/bin/Debug/Retyped.scripthost.xml".
 
@@ -155,19 +145,19 @@ Build succeeded.
 
 
 
-Time Elapsed 00:00:14.87
+Time Elapsed 00:00:17.01
 
 Source code compiled successfully!
 PHC: LP error code not found in JSON: 3015, JSON file might be outdated. Error message: Sequence contains no matching element
 
 Diagnostics gathered successfully
-report@code:build 20063.22
-report@diagnostics:verify 0.82
-report@diagnostics:upload 1919.20
-report@code:stage 6445.67
+report@code:build 22231.23
+report@diagnostics:verify 0.97
+report@diagnostics:upload 4905.52
+report@code:stage 6667.63
 [ Stage3 ] Code compiled and bundled successfully.
-report@code:bundle 28462.74
-report@package:stage 1864.20
+report@code:bundle 33891.18
+report@package:stage 1845.56
 [ Stage4 ] Target platform: develop
 [ Stage4 ] Package bundled successfully
-report@assets:stats 0.20
+report@assets:stats 0.11

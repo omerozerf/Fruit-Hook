@@ -2,6 +2,9 @@
   "ignores": [],
   "groups": [
     [
+      "/Users/omerozerf/SoftwareProjects/UnityProjects/Fruit-Hook/LunaTemp/stage3/processed-scripts/Assets/_Game/Tile.cs"
+    ],
+    [
       "/Users/omerozerf/6.2.1/pipeline/templates/LunaCompiler/Scripts/Properties/AssemblyInfo.cs"
     ],
     [
