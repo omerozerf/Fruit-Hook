@@ -11,7 +11,7 @@ namespace _Game._Scripts
 
         private Vector2 m_MovementInput;
 
-        
+
         private void Awake()
         {
             InitializeRigidbody();
@@ -28,7 +28,7 @@ namespace _Game._Scripts
             HandleFacingDirection();
         }
 
-        
+
         private void InitializeRigidbody()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -60,7 +60,9 @@ namespace _Game._Scripts
                 return;
 
             Vector3 localScale = transform.localScale;
-            localScale.x = m_MovementInput.x > 0 ? Mathf.Abs(localScale.x) : -Mathf.Abs(localScale.x);
+            localScale.x = m_MovementInput.x > 0 
+                ? Mathf.Abs(localScale.x) 
+                : -Mathf.Abs(localScale.x);
             transform.localScale = localScale;
         }
 
