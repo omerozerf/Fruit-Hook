@@ -8,6 +8,7 @@ namespace _Game._Scripts
         [SerializeField] private FloatingJoystick _floatingJoystick;
         [SerializeField] private float _moveSpeed;
         [SerializeField] private Rigidbody2D _rigidbody2D;
+        [SerializeField] private Transform _visualsTransform;
 
         private Vector2 m_MovementInput;
 
@@ -59,11 +60,11 @@ namespace _Game._Scripts
             if (Mathf.Abs(m_MovementInput.x) < 0.01f)
                 return;
 
-            Vector3 localScale = transform.localScale;
+            Vector3 localScale = _visualsTransform.localScale;
             localScale.x = m_MovementInput.x > 0 
                 ? Mathf.Abs(localScale.x) 
                 : -Mathf.Abs(localScale.x);
-            transform.localScale = localScale;
+            _visualsTransform.localScale = localScale;
         }
 
 
