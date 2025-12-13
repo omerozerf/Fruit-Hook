@@ -1,0 +1,207 @@
+{
+  "BuildID": "c59e8a59-6ac8-4d5c-bc5a-d9d2426fd8ae",
+  "Command": "project:build",
+  "ProjectID": "14a77b16bfe8a47b8adf999ff416b621",
+  "ProjectStateHash": "25c0caae69d7572120c4ca7c4cf181a9cb58a765e4945e148721299f0c42825b",
+  "StageCompletedAt": 3,
+  "EarliestFatalError": 0,
+  "StartTime": 1765641449287,
+  "EndTime": 1765641479998,
+  "PlaygroundUserID": 16252,
+  "OperatingSystem": "darwin",
+  "UnityPackageID": null,
+  "TargetPlatform": "develop",
+  "UnityVersion": "2022.3.51f1",
+  "LunaVersion": "6.2.1",
+  "LogCount": 8,
+  "Logs": [
+    {
+      "LogID": "4057a67a-a8f0-47aa-92e1-95a47338770a",
+      "Order": 4,
+      "Timestamp": 1765641480091,
+      "Stage": 3,
+      "ErrorType": 0,
+      "ErrorCode": "LP3005",
+      "Description": "You are using a Luna reserved keyword: Handle",
+      "Details": [
+        "You are using a reserved keyword: Handle for Luna. Please change the name of the field/class"
+      ],
+      "DescriptionValues": [
+        "Handle"
+      ],
+      "DetailsValues": [
+        "Handle"
+      ],
+      "LogCount": 1,
+      "LinePosition": 25,
+      "FilePath": "/Users/omerozerf/SoftwareProjects/UnityProjects/Fruit-Hook/LunaTemp/Assemblies/stage_2/decompiled/Joystick.cs",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "79d1939a-2066-4256-b637-0c6caad704fe",
+      "Order": 4,
+      "Timestamp": 1765641480117,
+      "Stage": 3,
+      "ErrorType": 1,
+      "ErrorCode": "LP3006",
+      "Description": "You are not using the Luna API: Playable.InstallFullGame",
+      "Details": [
+        "You are not using the Luna API: Playable.InstallFullGame. Some ad networks require these calls. Please add these calls to ensure your playable works on all ad networks. Check documentation for more information."
+      ],
+      "DescriptionValues": [
+        "Playable",
+        "InstallFullGame"
+      ],
+      "DetailsValues": [
+        "Playable",
+        "InstallFullGame"
+      ],
+      "LogCount": 1,
+      "LinePosition": null,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "4adaaefc-f866-4662-b879-8d6dd27fe4de",
+      "Order": 4,
+      "Timestamp": 1765641480117,
+      "Stage": 3,
+      "ErrorType": 1,
+      "ErrorCode": "LP3015",
+      "Description": "You are not the Game Ended API: LifeCycle.GameEnded",
+      "Details": [
+        "You are not using the Game Ended API: LifeCycle.GameEnded. Some ad networks require this call, please add the event to avoid the ad being rejected."
+      ],
+      "DescriptionValues": [
+        "LifeCycle",
+        "GameEnded"
+      ],
+      "DetailsValues": [
+        "LifeCycle",
+        "GameEnded"
+      ],
+      "LogCount": 1,
+      "LinePosition": null,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "6fcc7e10-24f6-46f1-af38-527c586b0060",
+      "Order": 4,
+      "Timestamp": 1765641480117,
+      "Stage": 3,
+      "ErrorType": 3,
+      "ErrorCode": "LP3007",
+      "Description": "You are not using any custom events",
+      "Details": [
+        "You are not using any custom events. It is recommended to use custom events to have a better understanding of the playable."
+      ],
+      "DescriptionValues": [
+        ""
+      ],
+      "DetailsValues": [
+        ""
+      ],
+      "LogCount": 1,
+      "LinePosition": null,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "210aacf5-92c2-4275-9ac7-942299a913e4",
+      "Order": 4,
+      "Timestamp": 1765641480118,
+      "Stage": 3,
+      "ErrorType": 3,
+      "ErrorCode": "LP3011",
+      "Description": "You are not using any LunaPlaygroundFields attributes.",
+      "Details": [
+        "You are not using any LunaPlaygroundFields attributes, it allows you to configure your playable to different concepts to find the best variation, which can drastically improve playable performance on all ad networks."
+      ],
+      "DescriptionValues": null,
+      "DetailsValues": null,
+      "LogCount": 1,
+      "LinePosition": null,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "8e03e29d-c1d8-4af9-afd4-56090acbd233",
+      "Order": 0,
+      "Timestamp": 1765641452772,
+      "Stage": 1,
+      "ErrorType": 0,
+      "ErrorCode": "LP1027",
+      "Description": "This DOTween version is not supported",
+      "Details": [
+        "The incorrect DOTween version for this Unity version is in use, please update or downgrade to the recommended version {0} in the package manager. Go to Window → Package Manager."
+      ],
+      "DescriptionValues": [],
+      "DetailsValues": [
+        ""
+      ],
+      "LogCount": 1,
+      "LinePosition": 0,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "e7856806-4503-4b82-89bf-1a8c8e5724a1",
+      "Order": 1,
+      "Timestamp": 1765641452772,
+      "Stage": 1,
+      "ErrorType": 0,
+      "ErrorCode": "LP1015",
+      "Description": "This TMP version is not fully supported",
+      "Details": [
+        "The incorrect Text Mesh Pro for this Unity version is in use, please update or downgrade to the recommended version {0} in the package manager. Go to Window → Package Manager"
+      ],
+      "DescriptionValues": [],
+      "DetailsValues": [
+        ""
+      ],
+      "LogCount": 1,
+      "LinePosition": 0,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "c9cb58ff-b44c-4c64-8534-27b46e22db80",
+      "Order": 2,
+      "Timestamp": 1765641452772,
+      "Stage": 1,
+      "ErrorType": 0,
+      "ErrorCode": "LP1032",
+      "Description": "Package(s) is not supported in Luna",
+      "Details": [
+        "Currently package(s) com.unity.timeline are not supported in Luna. We recommend you to remove it and workaround it's functionality."
+      ],
+      "DescriptionValues": [
+        "com.unity.timeline (1.7.6)"
+      ],
+      "DetailsValues": [
+        "com.unity.timeline"
+      ],
+      "LogCount": 1,
+      "LinePosition": 0,
+      "FilePath": "/Users/omerozerf/SoftwareProjects/UnityProjects/Fruit-Hook/Packages/manifest.json",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    }
+  ]
+}

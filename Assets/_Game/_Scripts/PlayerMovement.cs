@@ -70,8 +70,6 @@ namespace _Game._Scripts
 
         private void OnValidate()
         {
-            if (!_floatingJoystick)
-                _floatingJoystick = FindFirstObjectByType<FloatingJoystick>();
             if (!_rigidbody2D)
                 _rigidbody2D = GetComponent<Rigidbody2D>();
         }
