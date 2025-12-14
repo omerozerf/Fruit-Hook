@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -7,14 +8,25 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
     {
         private readonly MonoBehaviour m_Host;
         private readonly SwordOrbitController.DespawnSettings m_Settings;
+        private readonly Action<Transform> m_OnDespawnCompleted;
+        private Camera m_Cam;
 
-        
-        public SwordDespawnAnimator(MonoBehaviour host, SwordOrbitController.DespawnSettings settings)
+        public SwordDespawnAnimator(
+            MonoBehaviour host,
+            SwordOrbitController.DespawnSettings settings,
+            Action<Transform> onDespawnCompleted)
         {
             m_Host = host;
             m_Settings = settings;
+            m_OnDespawnCompleted = onDespawnCompleted;
         }
 
+        private void Awake()
+        {
+            m_Cam = Camera.main;
+        }
+
+        
         public void StartDespawn(Transform sword, Vector3 centerWorld, float orbitRadius)
         {
             if (sword == null || m_Host == null)
@@ -25,11 +37,9 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
 
         private IEnumerator DespawnRoutine(Transform sword, Vector3 centerWorld, float orbitRadius)
         {
-            var cam = Camera.main;
-
             var startPos = sword.position;
             var targetPos = OrbitMath.GetOffscreenTargetPosition(
-                cam,
+                m_Cam,
                 fromWorldPos: startPos,
                 centerWorld: centerWorld,
                 fallbackRadius: orbitRadius,
@@ -58,7 +68,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
             }
 
             if (sword != null)
-                UnityEngine.Object.Destroy(sword.gameObject);
+                m_OnDespawnCompleted?.Invoke(sword);
         }
     }
 }

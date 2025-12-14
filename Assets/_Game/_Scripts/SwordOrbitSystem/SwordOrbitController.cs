@@ -1,4 +1,5 @@
 using System;
+using _Game._Scripts.ObjectPoolSystem;
 using _Game._Scripts.SwordOrbitSystem.Helpers;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -16,19 +17,33 @@ namespace _Game._Scripts.SwordOrbitSystem
         [Header("References")]
         [SerializeField] private OrbitReferences _references = OrbitReferences.Default;
 
+        [Header("Pooling")]
+        [SerializeField] private int _prewarmCount = 8;
+
         [Header("Test Settings")]
         [SerializeField] private TestSettings _test = TestSettings.Default;
 
         private readonly SwordOrbitList m_OrbitList = new();
         private SwordDespawnAnimator m_DespawnAnimator;
 
+        private ObjectPool<Transform> m_SwordPool;
+
         private float m_SpawnTimer;
         private float m_RemoveTimer;
 
-        
         private void Awake()
         {
-            m_DespawnAnimator = new SwordDespawnAnimator(this, _despawn);
+            if (_references._swordPrefab != null)
+            {
+                m_SwordPool = new ObjectPool<Transform>(
+                    prefab: _references._swordPrefab,
+                    parent: transform,
+                    prewarmCount: Mathf.Max(0, _prewarmCount),
+                    keepWorldPositionWhenParenting: false
+                );
+            }
+
+            m_DespawnAnimator = new SwordDespawnAnimator(this, _despawn, OnSwordDespawnCompleted);
         }
 
         private void Update()
@@ -43,13 +58,23 @@ namespace _Game._Scripts.SwordOrbitSystem
             TickRotation();
         }
 
-
         public void SpawnSword()
         {
             if (_references._swordPrefab == null)
                 return;
 
-            var swordInstance = Instantiate(_references._swordPrefab, transform);
+            // Prefab sonradan atanırsa diye lazy init.
+            if (m_SwordPool == null)
+            {
+                m_SwordPool = new ObjectPool<Transform>(
+                    prefab: _references._swordPrefab,
+                    parent: transform,
+                    prewarmCount: 0,
+                    keepWorldPositionWhenParenting: false
+                );
+            }
+
+            var swordInstance = m_SwordPool.Get(transform, worldPositionStays: false);
             swordInstance.localPosition = Vector3.zero;
             swordInstance.localRotation = Quaternion.identity;
             swordInstance.localScale = Vector3.zero;
@@ -68,8 +93,18 @@ namespace _Game._Scripts.SwordOrbitSystem
             m_OrbitList.RecalculateTargetAngles();
 
             sword.SetParent(null, true);
-
             m_DespawnAnimator.StartDespawn(sword, transform.position, _orbit._radius);
+        }
+
+        private void OnSwordDespawnCompleted(Transform sword)
+        {
+            if (sword == null)
+                return;
+
+            if (m_SwordPool != null)
+                m_SwordPool.Release(sword);
+            else
+                Destroy(sword.gameObject);
         }
 
         private void AddSwordToOrbit(Transform sword)
@@ -127,14 +162,9 @@ namespace _Game._Scripts.SwordOrbitSystem
         [Serializable]
         private struct OrbitSettings
         {
-            [FormerlySerializedAs("radius")] public float _radius;
-
-            [FormerlySerializedAs("rotationSpeed")]
+            public float _radius;
             public float _rotationSpeed;
-
-            [FormerlySerializedAs("smoothTime")] public float _smoothTime;
-
-            [FormerlySerializedAs("spawnGrowDuration")]
+            public float _smoothTime;
             public float _spawnGrowDuration;
 
             public static OrbitSettings Default => new OrbitSettings
@@ -149,10 +179,8 @@ namespace _Game._Scripts.SwordOrbitSystem
         [Serializable]
         public struct DespawnSettings
         {
-            [FormerlySerializedAs("duration")] public float _duration;
-            [FormerlySerializedAs("spinSpeed")] public float _spinSpeed;
-
-            [FormerlySerializedAs("offscreenMargin")]
+            public float _duration;
+            public float _spinSpeed;
             public float _offscreenMargin;
 
             public static DespawnSettings Default => new DespawnSettings
@@ -166,8 +194,8 @@ namespace _Game._Scripts.SwordOrbitSystem
         [Serializable]
         private struct OrbitReferences
         {
-            [FormerlySerializedAs("center")] public Transform _center;
-            [FormerlySerializedAs("swordPrefab")] public Transform _swordPrefab;
+            public Transform _center;
+            public Transform _swordPrefab;
 
             public static OrbitReferences Default => new OrbitReferences
             {
@@ -179,16 +207,9 @@ namespace _Game._Scripts.SwordOrbitSystem
         [Serializable]
         private struct TestSettings
         {
-            [FormerlySerializedAs("enableTestSpawning")]
             public bool _enableTestSpawning;
-
-            [FormerlySerializedAs("spawnInterval")]
             public float _spawnInterval;
-
-            [FormerlySerializedAs("enableTestRemoval")]
             public bool _enableTestRemoval;
-
-            [FormerlySerializedAs("removeInterval")]
             public float _removeInterval;
 
             public static TestSettings Default => new TestSettings
