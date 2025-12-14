@@ -2,6 +2,7 @@ using System;
 using _Game._Scripts.ObjectPoolSystem;
 using _Game._Scripts.SwordOrbitSystem.Helpers;
 using _Game._Scripts.SwordSystem;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -9,6 +10,7 @@ namespace _Game._Scripts.SwordOrbitSystem
 {
     public sealed class SwordOrbitController : MonoBehaviour
     {
+        [SerializeField] private bool _isPlayer;
         [Header("Orbit Settings")]
         [SerializeField] private OrbitSettings _orbit = OrbitSettings.Default;
 
@@ -23,6 +25,12 @@ namespace _Game._Scripts.SwordOrbitSystem
 
         [Header("Test Settings")]
         [SerializeField] private TestSettings _test = TestSettings.Default;
+        
+        [Header("Camera Shake")]
+        [SerializeField] private float _shakeDuration = 0.3f;
+        [SerializeField] private float _shakeStrength = 0.7f;
+
+        private Tween m_CameraShakeTween;
 
         private readonly SwordOrbitList m_OrbitList = new();
         private SwordDespawnAnimator m_DespawnAnimator;
@@ -97,6 +105,28 @@ namespace _Game._Scripts.SwordOrbitSystem
             sword.SetSwordOrbitController(null);
             sword.SetColliderEnabled(false);
             m_DespawnAnimator.StartDespawn(swordTransform, transform.position, _orbit._radius);
+
+            if (_isPlayer) PlayCameraShake();
+        }
+        
+        private void PlayCameraShake()
+        {
+            Camera cam = Camera.main;
+            if (!cam) return;
+
+            Transform camTransform = cam.transform;
+
+            m_CameraShakeTween?.Kill();
+
+            m_CameraShakeTween = camTransform
+                .DOShakePosition(
+                    _shakeDuration,
+                    new Vector3(_shakeStrength, _shakeStrength, 0f),
+                    vibrato: 20,
+                    randomness: 90f,
+                    fadeOut: true
+                )
+                .SetUpdate(true);
         }
 
         private void OnSwordDespawnCompleted(Transform sword)

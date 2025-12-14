@@ -316,6 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb25d5a791f6443da69bd86fb107f145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isPlayer: 0
   _orbit:
     _radius: 2.3
     _rotationSpeed: 200
@@ -334,6 +335,8 @@ MonoBehaviour:
     _spawnInterval: 1
     _enableTestRemoval: 1
     _removeInterval: 3
+  _shakeDuration: 0.3
+  _shakeStrength: 0.7
 --- !u!4 &203255433
 Transform:
   m_ObjectHideFlags: 0
@@ -396,7 +399,7 @@ Transform:
   m_GameObject: {fileID: 270018987}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -25, y: -25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -434,7 +437,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 25, y: 25}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -445,7 +448,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 30, y: 30}
+  m_Size: {x: 50, y: 50}
   m_EdgeRadius: 0
 --- !u!1 &303005840
 GameObject:
@@ -672,7 +675,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: bigboss_99
+  m_text: china_boy
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1090,11 +1093,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8be4473f997463fa2f4292f7396752e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isPlayer: 0
+  _playerMovement: {fileID: 0}
+  _playerVisualController: {fileID: 0}
+  _playerHealthController: {fileID: 570966975}
   _swordBubbleCreator: {fileID: 536565775}
   _swordOrbitController: {fileID: 203255432}
   _bubbleSwordLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  _swordLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  _rigidbody2D: {fileID: 570966978}
+  _knockbackForce: 5
+  _shakeDuration: 0.3
+  _shakeStrength: 0.7
 --- !u!1 &527803441
 GameObject:
   m_ObjectHideFlags: 0
@@ -1464,14 +1478,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 570966974}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1479,10 +1493,10 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Interpolate: 1
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!4 &570966979
 Transform:
   m_ObjectHideFlags: 0
@@ -1925,6 +1939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb25d5a791f6443da69bd86fb107f145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isPlayer: 1
   _orbit:
     _radius: 2.3
     _rotationSpeed: 200
@@ -1943,6 +1958,8 @@ MonoBehaviour:
     _spawnInterval: 0.52
     _enableTestRemoval: 0
     _removeInterval: 3
+  _shakeDuration: 0.3
+  _shakeStrength: 0.7
 --- !u!1 &1059067925
 GameObject:
   m_ObjectHideFlags: 0
@@ -2470,6 +2487,7 @@ GameObject:
   - component: {fileID: 1618810751}
   - component: {fileID: 1618810750}
   - component: {fileID: 1618810754}
+  - component: {fileID: 1618810755}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -2516,6 +2534,7 @@ MonoBehaviour:
   _moveSpeed: 5
   _rigidbody2D: {fileID: 1618810752}
   _visualsTransform: {fileID: 684711428}
+  _knockbackDisableDuration: 0.15
 --- !u!50 &1618810752
 Rigidbody2D:
   serializedVersion: 4
@@ -2524,14 +2543,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1618810749}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -2539,10 +2558,10 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Interpolate: 1
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!4 &1618810753
 Transform:
   m_ObjectHideFlags: 0
@@ -2582,6 +2601,23 @@ MonoBehaviour:
   _fullHealthColor: {r: 0, g: 1, b: 0, a: 1}
   _midHealthColor: {r: 1, g: 0.5, b: 0, a: 1}
   _lowHealthColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &1618810755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618810749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c480b4da6714bb9824f0637c801142e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _duration: 0.15
+  _spriteRendererArray:
+  - {fileID: 1627529938}
+  - {fileID: 511877018}
+  - {fileID: 545383066}
 --- !u!1 &1627529936
 GameObject:
   m_ObjectHideFlags: 0
@@ -2935,7 +2971,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5f8337245959047e880a2a6a5cb21479, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3336d3b1755364e789e6f47d2b1dacad, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3187,11 +3223,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8be4473f997463fa2f4292f7396752e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isPlayer: 1
+  _playerMovement: {fileID: 1618810751}
+  _playerVisualController: {fileID: 1618810755}
+  _playerHealthController: {fileID: 1618810754}
   _swordBubbleCreator: {fileID: 536565775}
   _swordOrbitController: {fileID: 997336168}
   _bubbleSwordLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  _swordLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  _rigidbody2D: {fileID: 1618810752}
+  _knockbackForce: 5
+  _shakeDuration: 0.3
+  _shakeStrength: 0.7
 --- !u!58 &1999706572
 CircleCollider2D:
   m_ObjectHideFlags: 0

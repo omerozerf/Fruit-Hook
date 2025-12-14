@@ -1,12 +1,18 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 
 namespace _Game._Scripts.SwordSystem
 {
     public class SwordCollisionController : MonoBehaviour
     {
+        [SerializeField] private bool _isPlayer;
         [SerializeField] private Sword _sword;
         [SerializeField] private LayerMask _swordLayerMask;
+        [SerializeField] private float _shakeDuration = 0.3f;
+        [SerializeField] private float _shakeStrength = 0.7f;
+
+        private Tween m_CameraShakeTween;
 
         private void OnTriggerEnter2D(Collider2D other)
         {

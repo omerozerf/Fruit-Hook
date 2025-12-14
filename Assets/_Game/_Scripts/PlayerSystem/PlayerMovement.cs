@@ -11,6 +11,9 @@ namespace _Game._Scripts.PlayerSystem
 
         private Vector2 m_MovementInput;
 
+        [SerializeField] private float _knockbackDisableDuration = 0.15f;
+        private bool _movementLocked;
+
 
         private void Awake()
         {
@@ -24,6 +27,9 @@ namespace _Game._Scripts.PlayerSystem
 
         private void FixedUpdate()
         {
+            if (_movementLocked)
+                return;
+
             Move();
             HandleFacingDirection();
         }
@@ -36,7 +42,7 @@ namespace _Game._Scripts.PlayerSystem
 
         private void ReadInput()
         {
-            if (_floatingJoystick == null)
+            if (!_floatingJoystick)
             {
                 m_MovementInput = Vector2.zero;
                 return;
@@ -50,8 +56,11 @@ namespace _Game._Scripts.PlayerSystem
 
         private void Move()
         {
-            var targetVelocity = m_MovementInput * _moveSpeed;
-            _rigidbody2D.velocity = targetVelocity;
+            Vector2 targetVelocity = m_MovementInput * _moveSpeed;
+            _rigidbody2D.velocity = new Vector2(
+                targetVelocity.x,
+                targetVelocity.y
+            );
         }
 
         private void HandleFacingDirection()
@@ -66,6 +75,20 @@ namespace _Game._Scripts.PlayerSystem
             _visualsTransform.localScale = localScale;
         }
 
+
+        public void LockMovementTemporarily()
+        {
+            if (_movementLocked)
+                return;
+
+            _movementLocked = true;
+            Invoke(nameof(UnlockMovement), _knockbackDisableDuration);
+        }
+
+        private void UnlockMovement()
+        {
+            _movementLocked = false;
+        }
 
         private void OnValidate()
         {
