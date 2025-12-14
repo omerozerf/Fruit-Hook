@@ -21,8 +21,11 @@ namespace _Game._Scripts.PlayerSystem
             if (!IsInLayerMask(other.gameObject, _bubbleSwordLayerMask)) return;
             if (!other.TryGetComponent(out SwordBubbleCollision swordBubbleCollision)) return;
         
-            swordBubbleCollision.GetSwordBubble().gameObject.SetActive(false);
-            _swordOrbitController.SpawnSword();
+            swordBubbleCollision.GetSwordBubble().PlayPickupToCenter(transform, () =>
+            {
+                _swordOrbitController.SpawnSword();
+                swordBubbleCollision.GetSwordBubble().gameObject.SetActive(false);
+            });
         }
 
 
