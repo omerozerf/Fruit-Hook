@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 namespace LoopGames.Combat
 {
-    public class SwordOrbitController : MonoBehaviour
+    public class PlayerSwordOrbitController : MonoBehaviour
     {
         [Header("Orbit Settings")]
         [SerializeField] private float _radius;
@@ -24,7 +24,7 @@ namespace LoopGames.Combat
         
         private void Update()
         {
-            HandleTestSpawning();
+            // HandleTestSpawning();
             UpdateSwordLocalPositions();
             RotateController();
         }
@@ -42,19 +42,18 @@ namespace LoopGames.Combat
             }
         }
 
-        private void SpawnSword()
+        public void SpawnSword()
         {
             Transform swordInstance = Instantiate(_swordPrefab, transform);
             swordInstance.localPosition = Vector3.zero;
 
-            Vector3 targetScale = swordInstance.localScale;
             swordInstance.localScale = Vector3.zero;
 
-            AddSword(swordInstance, targetScale);
+            AddSword(swordInstance);
         }
 
 
-        public void AddSword(Transform sword, Vector3 targetScale)
+        private void AddSword(Transform sword)
         {
             SwordData data = new SwordData
             {
@@ -62,7 +61,7 @@ namespace LoopGames.Combat
                 currentAngle = 0f,
                 targetAngle = 0f,
                 angularVelocity = 0f,
-                targetLocalScale = targetScale,
+                targetLocalScale = Vector3.one,
                 spawnElapsed = 0f,
                 spawnDuration = Mathf.Max(0.01f, _spawnGrowDuration),
                 isSpawning = true
