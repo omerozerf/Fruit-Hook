@@ -1430,6 +1430,12 @@ MonoBehaviour:
   _radius: 80
   _deadZone: 0.05
   _followTouch: 1
+  _showHintOnStart: 1
+  _hintDelay: 0.25
+  _hintAmplitude: 110
+  _hintVerticalScale: 0.5
+  _hintLoopDuration: 1.2
+  _hintEase: 4
   _canvas: {fileID: 0}
   _uiCamera: {fileID: 0}
 --- !u!222 &8170153793458276660

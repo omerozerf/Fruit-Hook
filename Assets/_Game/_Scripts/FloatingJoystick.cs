@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 namespace _Game._Scripts
 {
@@ -13,6 +14,13 @@ namespace _Game._Scripts
         [SerializeField] private float _deadZone = 0.05f;
         [SerializeField] private bool _followTouch = true;
 
+        [Header("Tutorial Hint")]
+        [SerializeField] private bool _showHintOnStart = true;
+        [SerializeField] private float _hintAmplitude = 45f;
+        [SerializeField] private float _hintVerticalScale = 0.5f;
+        [SerializeField] private float _hintLoopDuration = 1.2f;
+        [SerializeField] private Ease _hintEase = Ease.InOutSine;
+
         [Header("Optional")]
         [SerializeField] private Canvas _canvas;
         [SerializeField] private Camera _uiCamera;
@@ -22,11 +30,15 @@ namespace _Game._Scripts
         private Vector2 m_Input;
         private Vector2 m_CenterLocalPos;
 
+        private Tween m_HintTween;
+        private bool m_HintDismissed;
+        private float m_HintT;
+
         public float Horizontal => m_Input.x;
         public float Vertical => m_Input.y;
         public Vector2 Direction => m_Input;
 
-        
+
         private void Awake()
         {
             if (_canvas == null)
@@ -39,25 +51,122 @@ namespace _Game._Scripts
             ResetHandle();
         }
 
+        private void Start()
+        {
+            TryStartHint();
+        }
+
         private void Update()
         {
             UpdatePointerState();
             UpdateHandleAndInput();
         }
 
+        private void OnDisable()
+        {
+            KillHintTween();
+        }
+
+        private void OnDestroy()
+        {
+            KillHintTween();
+        }
+
+        private void OnValidate()
+        {
+            _radius = Mathf.Max(1f, _radius);
+            _deadZone = Mathf.Clamp01(_deadZone);
+
+            _hintAmplitude = Mathf.Max(0f, _hintAmplitude);
+            _hintVerticalScale = Mathf.Max(0f, _hintVerticalScale);
+            _hintLoopDuration = Mathf.Max(0.01f, _hintLoopDuration);
+        }
+
+        
         private void UpdatePointerState()
         {
             if (Input.GetMouseButtonDown(0))
             {
+                DismissHintIfNeeded();
+
                 m_IsActive = true;
                 m_ActiveFingerId = -1;
                 BeginAtScreenPosition(Input.mousePosition);
             }
-            else if (m_IsActive && Input.GetMouseButtonUp(0))
+            else if (m_IsActive && m_ActiveFingerId < 0 && Input.GetMouseButtonUp(0))
             {
                 End();
             }
         }
+
+        private void TryStartHint()
+        {
+            if (!_showHintOnStart)
+                return;
+
+            if (m_HintDismissed)
+                return;
+
+            if (_background == null || _handle == null)
+                return;
+
+            SetVisualActive(true);
+            m_IsActive = false;
+            m_ActiveFingerId = -1;
+            m_Input = Vector2.zero;
+            m_CenterLocalPos = _background.anchoredPosition;
+
+            ResetHandle();
+            KillHintTween();
+
+            m_HintT = 0f;
+            _handle.anchoredPosition = GetInfinityHintPos(0f);
+
+            m_HintTween = DOTween
+                .To(() => m_HintT, x =>
+                {
+                    m_HintT = x;
+                    if (_handle != null)
+                        _handle.anchoredPosition = GetInfinityHintPos(m_HintT);
+                }, 1f, Mathf.Max(0.01f, _hintLoopDuration))
+                .SetEase(Ease.Linear)
+                .SetLoops(-1, LoopType.Restart)
+                .SetUpdate(true);
+        }
+
+        private Vector2 GetInfinityHintPos(float t01)
+        {
+            float a = Mathf.Abs(_hintAmplitude);
+            float b = a * Mathf.Max(0f, _hintVerticalScale);
+
+            float theta = t01 * Mathf.PI * 2f;
+            float x = a * Mathf.Sin(theta);
+            float y = b * Mathf.Sin(theta) * Mathf.Cos(theta);
+
+            return new Vector2(x, y);
+        }
+
+        private void DismissHintIfNeeded()
+        {
+            if (m_HintDismissed)
+                return;
+
+            m_HintDismissed = true;
+            KillHintTween();
+
+            ResetHandle();
+        }
+
+        private void KillHintTween()
+        {
+            if (m_HintTween != null && m_HintTween.IsActive())
+            {
+                m_HintTween.Kill();
+            }
+
+            m_HintTween = null;
+        }
+
 
         private void UpdateHandleAndInput()
         {
@@ -72,9 +181,6 @@ namespace _Game._Scripts
                 m_Input = Vector2.zero;
                 return;
             }
-
-            // We compute input as the delta between the current pointer position and the joystick center.
-            // IMPORTANT: Do NOT move the background every frame. If we move it, delta becomes ~0 and input breaks.
 
             Vector2 screenPos = GetActiveScreenPosition();
 
@@ -97,7 +203,6 @@ namespace _Game._Scripts
 
             var delta = currentLocalPos - m_CenterLocalPos;
 
-            // Convert delta into background-local space by using the same units as anchoredPosition.
             var clamped = Vector2.ClampMagnitude(delta, _radius);
             _handle.anchoredPosition = clamped;
 
@@ -131,9 +236,6 @@ namespace _Game._Scripts
             if (parent == null)
                 return;
 
-            // Determine center in parent-local space.
-            // If followTouch is enabled, the joystick center becomes where the user first pressed.
-            // If not enabled, we keep the background where it already is.
             if (_followTouch)
             {
                 if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -169,25 +271,6 @@ namespace _Game._Scripts
             SetVisualActive(false);
         }
 
-        private void MoveBackgroundToScreenPosition(Vector2 screenPos)
-        {
-            if (_background == null)
-                return;
-
-            var parent = _background.parent as RectTransform;
-            if (parent == null)
-                return;
-
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                    parent,
-                    screenPos,
-                    _uiCamera,
-                    out var localPos))
-            {
-                _background.anchoredPosition = localPos;
-            }
-        }
-
         private void ResetHandle()
         {
             if (_handle != null)
@@ -201,12 +284,6 @@ namespace _Game._Scripts
 
             if (_handle != null)
                 _handle.gameObject.SetActive(active);
-        }
-
-        private void OnValidate()
-        {
-            _radius = Mathf.Max(1f, _radius);
-            _deadZone = Mathf.Clamp01(_deadZone);
         }
     }
 }
