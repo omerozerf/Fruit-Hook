@@ -1420,8 +1420,9 @@ GameObject:
   - component: {fileID: 570966978}
   - component: {fileID: 570966976}
   - component: {fileID: 570966975}
+  - component: {fileID: 570966980}
   m_Layer: 0
-  m_Name: test_player
+  m_Name: enemy_player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1506,7 +1507,7 @@ Transform:
   m_GameObject: {fileID: 570966974}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.38, y: 2.32, z: 0}
+  m_LocalPosition: {x: 24.14, y: 2.32, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1515,6 +1516,34 @@ Transform:
   - {fileID: 1809767448}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &570966980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570966974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e89b8b9a4dc942eea0f14f2d40904479, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerTag: Player
+  _swordBubbleTag: SwordBubble
+  _swordScanRadius: 6
+  _opponentScanRadius: 8
+  _dangerScanRadius: 2.5
+  _attackRange: 1.25
+  _seekWeight: 1
+  _avoidWeight: 1.25
+  _minAvoidDistance: 0.25
+  _scanMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  _dangerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  _drawGizmos: 1
 --- !u!1 &684711427
 GameObject:
   m_ObjectHideFlags: 0
@@ -2530,6 +2559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ea7b48110ae4e34a789eb74b0f30761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isPlayer: 1
   _floatingJoystick: {fileID: 8170153792438848680}
   _moveSpeed: 5
   _rigidbody2D: {fileID: 1618810752}

@@ -4,6 +4,7 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerMovement : MonoBehaviour
     {
+        [SerializeField] private bool _isPlayer;
         [SerializeField] private FloatingJoystick _floatingJoystick;
         [SerializeField] private float _moveSpeed;
         [SerializeField] private Rigidbody2D _rigidbody2D;
@@ -12,7 +13,7 @@ namespace _Game._Scripts.PlayerSystem
         private Vector2 m_MovementInput;
 
         [SerializeField] private float _knockbackDisableDuration = 0.15f;
-        private bool _movementLocked;
+        private bool m_MovementLocked;
 
 
         private void Awake()
@@ -22,12 +23,12 @@ namespace _Game._Scripts.PlayerSystem
 
         private void Update()
         {
-            ReadInput();
+            if (_isPlayer) ReadInput();
         }
 
         private void FixedUpdate()
         {
-            if (_movementLocked)
+            if (m_MovementLocked)
                 return;
 
             Move();
@@ -78,16 +79,16 @@ namespace _Game._Scripts.PlayerSystem
 
         public void LockMovementTemporarily()
         {
-            if (_movementLocked)
+            if (m_MovementLocked)
                 return;
 
-            _movementLocked = true;
+            m_MovementLocked = true;
             Invoke(nameof(UnlockMovement), _knockbackDisableDuration);
         }
 
         private void UnlockMovement()
         {
-            _movementLocked = false;
+            m_MovementLocked = false;
         }
 
         private void OnValidate()
