@@ -367,10 +367,6 @@
                 "excluded": true
             },
             {
-                "name": "Bridge.GeneratorEnumerator",
-                "excluded": true
-            },
-            {
                 "name": "System.Runtime.Serialization.CollectionDataContractAttribute",
                 "excluded": true
             },
@@ -1615,10 +1611,6 @@
                 "excluded": true
             },
             {
-                "name": "UnityEngine.CustomYieldInstruction",
-                "excluded": true
-            },
-            {
                 "name": "UnityEngine.DefaultExecutionOrder",
                 "excluded": true
             },
@@ -1784,10 +1776,6 @@
             },
             {
                 "name": "UnityEngine.PropertyName",
-                "excluded": true
-            },
-            {
-                "name": "UnityEngine.Random",
                 "excluded": true
             },
             {
@@ -2167,10 +2155,6 @@
                 "excluded": true
             },
             {
-                "name": "UnityEngine.WaitForSeconds",
-                "excluded": true
-            },
-            {
                 "name": "UnityEngine.WaitForSecondsRealtime",
                 "excluded": true
             },
@@ -2403,10 +2387,6 @@
                 "excluded": true
             },
             {
-                "name": "UnityEngine.Collider2D",
-                "excluded": true
-            },
-            {
                 "name": "UnityEngine.Joint",
                 "excluded": true
             },
@@ -2463,10 +2443,6 @@
                 "excluded": true
             },
             {
-                "name": "UnityEngine.BoxCollider2D",
-                "excluded": true
-            },
-            {
                 "name": "UnityEngine.CapsuleCollider",
                 "excluded": true
             },
@@ -2480,10 +2456,6 @@
             },
             {
                 "name": "UnityEngine.CharacterJoint",
-                "excluded": true
-            },
-            {
-                "name": "UnityEngine.CircleCollider2D",
                 "excluded": true
             },
             {
@@ -6084,7 +6056,7 @@
             },
             {
                 "name": "UnityEngine.WrapMode",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.WSA.Folder",
@@ -6388,11 +6360,11 @@
             },
             {
                 "name": "UnityEngine.WaitForEndOfFrame",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.WaitForFixedUpdate",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "Luna.Unity.DTO.UnityEngine.Components.Behaviour",
@@ -8463,10 +8435,6 @@
                 "excluded": true
             },
             {
-                "name": "DG.Tweening.Core.SequenceCallback",
-                "excluded": true
-            },
-            {
                 "name": "DG.Tweening.DOTweenPath",
                 "excluded": true
             },
@@ -8532,10 +8500,6 @@
             },
             {
                 "name": "DG.Tweening.Plugins.DoublePlugin",
-                "excluded": true
-            },
-            {
-                "name": "DG.Tweening.Plugins.FloatPlugin",
                 "excluded": true
             },
             {
@@ -8644,10 +8608,6 @@
             },
             {
                 "name": "DG.Tweening.SpiralMode",
-                "excluded": true
-            },
-            {
-                "name": "_Game.TileCreator",
                 "excluded": true
             },
             {
@@ -8812,6 +8772,14 @@
             },
             {
                 "name": "AxisOptions",
+                "excluded": false
+            },
+            {
+                "name": "_Game._Scripts.TileCreator",
+                "excluded": true
+            },
+            {
+                "name": "LoopGames.IPoolable",
                 "excluded": false
             }
         ],
@@ -12390,7 +12358,7 @@
                 "instanceMethods": [
                     {
                         "name": "init",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "HashSetEquals",
@@ -12414,11 +12382,11 @@
                     },
                     {
                         "name": "ctor",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "$ctor3",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "$ctor1",
@@ -12434,7 +12402,7 @@
                     },
                     {
                         "name": "add",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "clear",
@@ -12462,7 +12430,7 @@
                     },
                     {
                         "name": "remove",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetEnumerator",
@@ -12526,19 +12494,19 @@
                     },
                     {
                         "name": "Initialize",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "IncreaseCapacity",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "SetCapacity",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "AddIfNotPresent",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ContainsAllElements",
@@ -12582,7 +12550,7 @@
                     },
                     {
                         "name": "InternalGetHashCode",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -12676,11 +12644,11 @@
                     },
                     {
                         "name": "init",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ctor",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "getHashCode",
@@ -12692,7 +12660,7 @@
                     },
                     {
                         "name": "$clone",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -12784,7 +12752,7 @@
                     },
                     {
                         "name": "$ctor2",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "$ctor1",
@@ -12804,7 +12772,7 @@
                     },
                     {
                         "name": "Enqueue",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetEnumerator",
@@ -12820,7 +12788,7 @@
                     },
                     {
                         "name": "Dequeue",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Peek",
@@ -12844,7 +12812,7 @@
                     },
                     {
                         "name": "MoveNext",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "TrimExcess",
@@ -13004,7 +12972,7 @@
                     },
                     {
                         "name": "Peek",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Pop",
@@ -14648,7 +14616,7 @@
                     },
                     {
                         "name": "Sample",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "InternalSample",
@@ -14672,7 +14640,7 @@
                     },
                     {
                         "name": "NextDouble",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "NextBytes",
@@ -15428,7 +15396,7 @@
                     },
                     {
                         "name": "value#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "value#set",
@@ -17628,7 +17596,7 @@
                     },
                     {
                         "name": "position#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "localScale#get",
@@ -17672,7 +17640,7 @@
                     },
                     {
                         "name": "rotation#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "forward#get",
@@ -17812,7 +17780,7 @@
                     },
                     {
                         "name": "Rotate$1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Rotate$2",
@@ -17832,7 +17800,7 @@
                     },
                     {
                         "name": "SetParent",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "DetachChildren",
@@ -17888,7 +17856,7 @@
                     },
                     {
                         "name": "SetPositionAndRotation",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -22838,11 +22806,11 @@
                 "instanceMethods": [
                     {
                         "name": "init",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ctor",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Cancel",
@@ -22850,7 +22818,7 @@
                     },
                     {
                         "name": "Update",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "HandleFixedUpdate",
@@ -22862,7 +22830,7 @@
                     },
                     {
                         "name": "MoveNext",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -24466,7 +24434,7 @@
                     },
                     {
                         "name": "MarkForKilling",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "EvaluateTweenLink",
@@ -24482,7 +24450,7 @@
                     },
                     {
                         "name": "DespawnActiveTweens",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "RemoveActiveTween",
@@ -24540,7 +24508,7 @@
                     },
                     {
                         "name": "To$4",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "To$1",
@@ -25106,7 +25074,7 @@
                     },
                     {
                         "name": "DOMove",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "DOMoveX",
@@ -25484,7 +25452,7 @@
                     },
                     {
                         "name": "OnComplete",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "OnKill",
@@ -25520,7 +25488,7 @@
                     },
                     {
                         "name": "AppendInterval",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "PrependInterval",
@@ -25528,7 +25496,7 @@
                     },
                     {
                         "name": "AppendCallback",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "PrependCallback",
@@ -25608,7 +25576,7 @@
                     },
                     {
                         "name": "SetOptions$13",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "SetOptions$12",
@@ -25780,7 +25748,7 @@
                     },
                     {
                         "name": "OnTweenCallback",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "OnTweenCallback$1",
@@ -26220,15 +26188,15 @@
                 "instanceMethods": [
                     {
                         "name": "getDefaultValue",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ctor",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Reset",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "getHashCode",
@@ -26240,7 +26208,7 @@
                     },
                     {
                         "name": "$clone",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -26357,102 +26325,6 @@
                     {
                         "name": "ApplyTween",
                         "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "_Game._Scripts.PlayerAnimator",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Start",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnValidate",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnDisable",
-                        "excluded": true
-                    },
-                    {
-                        "name": "CacheFootDefaults",
-                        "excluded": false
-                    },
-                    {
-                        "name": "UpdateFeetAnimationByMovement",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StartFeetStepAnimation",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StopFeetStepAnimation",
-                        "excluded": false
-                    },
-                    {
-                        "name": "UpdateIdleSpeedByMovement",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Update",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StartIdleAnimation",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StopIdleAnimation",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "_Game._Scripts.PlayerMovement",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Update",
-                        "excluded": false
-                    },
-                    {
-                        "name": "FixedUpdate",
-                        "excluded": false
-                    },
-                    {
-                        "name": "InitializeRigidbody",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ReadInput",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Move",
-                        "excluded": false
-                    },
-                    {
-                        "name": "HandleFacingDirection",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnValidate",
-                        "excluded": true
                     }
                 ]
             },
@@ -26583,106 +26455,6 @@
                     {
                         "name": "ScreenPointToAnchoredPosition",
                         "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "LoopGames.Combat.SwordOrbitController",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Update",
-                        "excluded": false
-                    },
-                    {
-                        "name": "HandleTestSpawning",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SpawnSword",
-                        "excluded": false
-                    },
-                    {
-                        "name": "AddSword",
-                        "excluded": false
-                    },
-                    {
-                        "name": "RemoveSword",
-                        "excluded": true
-                    },
-                    {
-                        "name": "UpdateSwordLocalPositions",
-                        "excluded": false
-                    },
-                    {
-                        "name": "RotateController",
-                        "excluded": false
-                    },
-                    {
-                        "name": "RecalculateTargetAngles",
-                        "excluded": false
-                    },
-                    {
-                        "name": "AngleToVector",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "LoopGames.Combat.SwordOrbitController.SwordData",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "LoopGames.Playable.GridMapBuilder",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Start",
-                        "excluded": false
-                    },
-                    {
-                        "name": "BuildGround",
-                        "excluded": false
-                    },
-                    {
-                        "name": "BuildFence",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GridToWorld",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetRandomGround",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "Tile",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "OnValidate",
-                        "excluded": true
-                    },
-                    {
-                        "name": "SetSprite",
-                        "excluded": true
                     }
                 ]
             },
@@ -27590,7 +27362,7 @@
                     },
                     {
                         "name": "DoAppendInterval",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "DoPrependInterval",
@@ -27598,7 +27370,7 @@
                     },
                     {
                         "name": "DoInsertCallback",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "init",
@@ -27832,6 +27604,960 @@
                     },
                     {
                         "name": "PathLength",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "Bridge.GeneratorEnumerator",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Current#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getCurrent",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getCurrent$1",
+                        "excluded": true
+                    },
+                    {
+                        "name": "reset",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.CustomYieldInstruction",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Current#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "moveNext",
+                        "excluded": true
+                    },
+                    {
+                        "name": "reset",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.Random",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "value#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "onUnitSphere#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "insideUnitSphere#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "state#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "state#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "insideUnitCircle#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "rotation#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SpherePoint",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Range$1",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Range",
+                        "excluded": true
+                    },
+                    {
+                        "name": "InitState",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.WaitForSeconds",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Update",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Reset",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.Collider2D",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "attachedRigidbody#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "isTrigger#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "isTrigger#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "usedByEffector#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "usedByEffector#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "usedByComposite#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "usedByComposite#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "density#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "density#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "offset#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "offset#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "shapeCount#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "bounds#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "sharedMaterial#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "sharedMaterial#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "$ctor1",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": true
+                    },
+                    {
+                        "name": "IsTouching",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OverlapPoint",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OverlapPoint$1",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OverlapCollider",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetContacts$2",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetContacts",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetContacts$3",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetContacts$1",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Raycast$2",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Raycast$1",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Raycast",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.BoxCollider2D",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "size#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "size#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.CircleCollider2D",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "radius#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "radius#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.GridMapBuilder",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Start",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BuildGround",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BuildFence",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GridToWorld",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetRandomGround",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.PlayerSystem.PlayerAnimator",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Start",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnValidate",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnDisable",
+                        "excluded": true
+                    },
+                    {
+                        "name": "CacheFootDefaults",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdateFeetAnimationByMovement",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StartFeetStepAnimation",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StopFeetStepAnimation",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdateIdleSpeedByMovement",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Update",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StartIdleAnimation",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StopIdleAnimation",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.PlayerSystem.PlayerCollisionController",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnTriggerEnter2D",
+                        "excluded": false
+                    },
+                    {
+                        "name": "HandleSwordBubbleCollision",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IsInLayerMask",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetSwordOrbitController",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.PlayerSystem.PlayerMovement",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Update",
+                        "excluded": false
+                    },
+                    {
+                        "name": "FixedUpdate",
+                        "excluded": false
+                    },
+                    {
+                        "name": "InitializeRigidbody",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ReadInput",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Move",
+                        "excluded": false
+                    },
+                    {
+                        "name": "HandleFacingDirection",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnValidate",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.SwordBubbleSystem.SwordBubbleCollision",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "OnValidate",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetSwordBubble",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.SwordOrbitSystem.Helpers.SwordDespawnAnimator",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StartDespawn",
+                        "excluded": true
+                    },
+                    {
+                        "name": "DespawnRoutine",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.SwordOrbitSystem.Helpers.SwordOrbitEntry",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "CreateForSpawn",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getDefaultValue",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Tick",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getHashCode",
+                        "excluded": true
+                    },
+                    {
+                        "name": "equals",
+                        "excluded": true
+                    },
+                    {
+                        "name": "$clone",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.SwordOrbitSystem.Helpers.SwordOrbitList",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Count#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Add",
+                        "excluded": false
+                    },
+                    {
+                        "name": "TryRemove",
+                        "excluded": true
+                    },
+                    {
+                        "name": "RecalculateTargetAngles",
+                        "excluded": false
+                    },
+                    {
+                        "name": "TickOrbit",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetLastTransform",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.SwordOrbitSystem.SwordOrbitController",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Update",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SpawnSword",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RemoveSword",
+                        "excluded": true
+                    },
+                    {
+                        "name": "AddSwordToOrbit",
+                        "excluded": false
+                    },
+                    {
+                        "name": "TickTestSpawning",
+                        "excluded": true
+                    },
+                    {
+                        "name": "TickTestRemoval",
+                        "excluded": true
+                    },
+                    {
+                        "name": "TickOrbit",
+                        "excluded": false
+                    },
+                    {
+                        "name": "TickRotation",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.SwordOrbitSystem.SwordOrbitController.DespawnSettings",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Default#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getDefaultValue",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getHashCode",
+                        "excluded": true
+                    },
+                    {
+                        "name": "equals",
+                        "excluded": true
+                    },
+                    {
+                        "name": "$clone",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.SwordOrbitSystem.SwordOrbitController.OrbitReferences",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Default#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getDefaultValue",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getHashCode",
+                        "excluded": true
+                    },
+                    {
+                        "name": "equals",
+                        "excluded": true
+                    },
+                    {
+                        "name": "$clone",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.SwordOrbitSystem.SwordOrbitController.OrbitSettings",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Default#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getDefaultValue",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getHashCode",
+                        "excluded": true
+                    },
+                    {
+                        "name": "equals",
+                        "excluded": true
+                    },
+                    {
+                        "name": "$clone",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.SwordOrbitSystem.SwordOrbitController.TestSettings",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Default#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getDefaultValue",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getHashCode",
+                        "excluded": true
+                    },
+                    {
+                        "name": "equals",
+                        "excluded": true
+                    },
+                    {
+                        "name": "$clone",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.Tile",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "OnValidate",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetSprite",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "LoopGames.ObjectPool$1",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "CallPoolableSpawned",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CallPoolableDespawned",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ActiveCount#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "InactiveCount#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Prewarm",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Get$1",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Release",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ReleaseAllActive",
+                        "excluded": true
+                    },
+                    {
+                        "name": "TryDequeueInactive",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CreateNewInstance",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ActivateInstance",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DeactivateAndEnqueue",
+                        "excluded": false
+                    },
+                    {
+                        "name": "MarkActive",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "LoopGames.SwordBubbleCreator",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Start",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDisable",
+                        "excluded": true
+                    },
+                    {
+                        "name": "StartSpawning",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StopSpawning",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SpawnOne",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Release",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SpawnLoop",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetNextSpawnDelay",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetRandomSpawnPosition",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetRandomPointInsideArea",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.SwordBubbleSystem.SwordBubble",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ApplyEase",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDisable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Update",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RotateSword",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PlayPickupToCenter",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetColliderEnabled",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ResetPickupVisuals",
+                        "excluded": false
+                    },
+                    {
+                        "name": "KillPickupSequence",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetTriggerCollider",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetScaleTarget",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnSpawnedFromPool",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDespawnedToPool",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "DG.Tweening.Core.SequenceCallback",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "DG.Tweening.Plugins.FloatPlugin",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Reset",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetFrom$1",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetFrom",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ConvertToStartValue",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetRelativeEndValue",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetChangeValue",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetSpeedBasedDuration",
+                        "excluded": true
+                    },
+                    {
+                        "name": "EvaluateAndApply",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.SwordOrbitSystem.Helpers.OrbitMath",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Smoothstep01",
+                        "excluded": false
+                    },
+                    {
+                        "name": "AngleToVector",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetOffscreenTargetPosition",
                         "excluded": true
                     }
                 ]

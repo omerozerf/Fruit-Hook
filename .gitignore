@@ -304,3 +304,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/unity,rider,macos,visualstudiocode,windows,jetbrains+all,git
+
+# Luna Playworks
+LunaTemp/
