@@ -18224,7 +18224,7 @@
                     },
                     {
                         "name": "nearClipPlane#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "nearClipPlane#set",
@@ -18240,7 +18240,7 @@
                     },
                     {
                         "name": "farClipPlane#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "farClipPlane#set",
@@ -18296,7 +18296,7 @@
                     },
                     {
                         "name": "orthographic#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "orthographic#set",
@@ -18376,7 +18376,7 @@
                     },
                     {
                         "name": "targetDisplay#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "targetDisplay#set",
@@ -18416,11 +18416,11 @@
                     },
                     {
                         "name": "WorldToScreenPoint",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ScreenToWorldPoint",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ResetWorldToCameraMatrix",
@@ -18432,7 +18432,7 @@
                     },
                     {
                         "name": "ScreenPointToRay",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "WorldToViewportPoint",
@@ -18440,7 +18440,7 @@
                     },
                     {
                         "name": "ScreenToViewportPoint",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ViewportToScreenPoint",
@@ -19274,7 +19274,7 @@
                     },
                     {
                         "name": "worldCamera#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "worldCamera#set",
@@ -23396,7 +23396,7 @@
                     },
                     {
                         "name": "IsRebuildingLayout",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "IsRebuildingGraphics",
@@ -23988,7 +23988,7 @@
                     },
                     {
                         "name": "blockingObjects#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "blockingObjects#set",
@@ -28559,6 +28559,72 @@
                     {
                         "name": "GetRandomPointInsideArea",
                         "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.FloatingJoystick",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Horizontal#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Vertical#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Direction#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Update",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdatePointerState",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdateHandleAndInput",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetActiveScreenPosition",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BeginAtScreenPosition",
+                        "excluded": false
+                    },
+                    {
+                        "name": "End",
+                        "excluded": false
+                    },
+                    {
+                        "name": "MoveBackgroundToScreenPosition",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ResetHandle",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetVisualActive",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnValidate",
+                        "excluded": true
                     }
                 ]
             }
