@@ -1,0 +1,60 @@
+using UnityEngine;
+
+namespace LoopGames.Combat
+{
+    internal static class OrbitMath
+    {
+        public static float Smoothstep01(float t)
+        {
+            t = Mathf.Clamp01(t);
+            return t * t * (3f - 2f * t);
+        }
+
+        public static Vector2 AngleToVector(float angle)
+        {
+            float rad = angle * Mathf.Deg2Rad;
+            return new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+        }
+
+        public static Vector3 GetOffscreenTargetPosition(
+            Camera cam,
+            Vector3 fromWorldPos,
+            Vector3 centerWorld,
+            float fallbackRadius,
+            float offscreenMargin
+        )
+        {
+            if (cam == null)
+            {
+                Vector3 dirFallback = (fromWorldPos - centerWorld);
+                if (dirFallback.sqrMagnitude < 0.0001f)
+                    dirFallback = Vector3.right;
+
+                dirFallback.Normalize();
+                return fromWorldPos + dirFallback * (fallbackRadius + offscreenMargin + 5f);
+            }
+
+            Vector3 dir = (fromWorldPos - centerWorld);
+            if (dir.sqrMagnitude < 0.0001f)
+                dir = Vector3.right;
+
+            dir.Normalize();
+
+            float halfHeight = cam.orthographicSize;
+            float halfWidth = halfHeight * cam.aspect;
+
+            Vector3 camCenter = cam.transform.position;
+            camCenter.z = fromWorldPos.z;
+
+            float needX = halfWidth + offscreenMargin;
+            float needY = halfHeight + offscreenMargin;
+
+            float tx = (Mathf.Abs(dir.x) < 0.0001f) ? float.PositiveInfinity : (needX / Mathf.Abs(dir.x));
+            float ty = (Mathf.Abs(dir.y) < 0.0001f) ? float.PositiveInfinity : (needY / Mathf.Abs(dir.y));
+            float t = Mathf.Min(tx, ty);
+
+            Vector3 edgePos = camCenter + (dir * t);
+            return edgePos + dir * offscreenMargin;
+        }
+    }
+}

@@ -1532,13 +1532,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb25d5a791f6443da69bd86fb107f145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _radius: 2.42
-  _rotationSpeed: 200
-  _smoothTime: 0.5
-  _spawnGrowDuration: 0.25
-  _center: {fileID: 997336167}
-  _swordPrefab: {fileID: 5994103736001037649, guid: d0df00ece857e45948a962b1967c774c, type: 3}
-  _spawnInterval: 2.5
+  _orbit:
+    _radius: 2.42
+    _rotationSpeed: 90
+    _smoothTime: 0.08
+    _spawnGrowDuration: 0.25
+  _despawn:
+    _duration: 0.35
+    _spinSpeed: 1080
+    _offscreenMargin: 1.5
+  _references:
+    _center: {fileID: 997336167}
+    _swordPrefab: {fileID: 5994103736001037649, guid: d0df00ece857e45948a962b1967c774c, type: 3}
+  _test:
+    _enableTestSpawning: 1
+    _spawnInterval: 1
+    _enableTestRemoval: 1
+    _removeInterval: 3
 --- !u!1 &1005971941
 GameObject:
   m_ObjectHideFlags: 0
