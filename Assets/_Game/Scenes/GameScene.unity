@@ -331,8 +331,8 @@ MonoBehaviour:
   _prewarmCount: 8
   _test:
     _enableTestSpawning: 1
-    _spawnInterval: 3.5
-    _enableTestRemoval: 0
+    _spawnInterval: 1
+    _enableTestRemoval: 1
     _removeInterval: 3
 --- !u!4 &203255433
 Transform:
@@ -379,8 +379,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1cb42216b5e488dbd1d6dc2e69c4f6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 10
-  _height: 10
+  _width: 50
+  _height: 50
   _cellSize: 1
   _groundPrefab: {fileID: 3571930598960314785, guid: 33a2ab8e1b0a24d1cb17bc57b35fe91d, type: 3}
   _groundVariants: []
