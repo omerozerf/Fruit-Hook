@@ -11,10 +11,8 @@ namespace _Game._Scripts
         [SerializeField] private float _cellSize;
 
         [Header("Prefabs")]
-        [SerializeField] private GameObject _groundPrefab;
+        [SerializeField, Range(0, 100)] private int _baseGroundWeight;
         [SerializeField] private GameObject[] _groundVariants;
-        [SerializeField] private GameObject _fenceHorizontal;
-        [SerializeField] private GameObject _fenceVertical;
         [SerializeField] private GameObject _fenceCorner;
 
 
@@ -31,31 +29,30 @@ namespace _Game._Scripts
             {
                 for (var y = 0; y < _height; y++)
                 {
-                    var pos = GridToWorld(x, y);
                     var prefab = GetRandomGround();
-                    Instantiate(prefab, pos, Quaternion.identity, transform);
+                    if (prefab == null)
+                        continue;
+
+                    Instantiate(prefab, GridToWorld(x, y), Quaternion.identity, transform);
                 }
             }
         }
 
         private void BuildFence()
         {
+            // Alt ve üst kenarlar (corner prefab full)
             for (var x = -1; x <= _width; x++)
             {
-                Instantiate(_fenceHorizontal, GridToWorld(x, -1), Quaternion.identity, transform);
-                Instantiate(_fenceHorizontal, GridToWorld(x, _height), Quaternion.identity, transform);
+                Instantiate(_fenceCorner, GridToWorld(x, -1), Quaternion.identity, transform);
+                Instantiate(_fenceCorner, GridToWorld(x, _height), Quaternion.identity, transform);
             }
 
+            // Sol ve sağ kenarlar (corner prefab full)
             for (var y = 0; y < _height; y++)
             {
-                Instantiate(_fenceVertical, GridToWorld(-1, y), Quaternion.identity, transform);
-                Instantiate(_fenceVertical, GridToWorld(_width, y), Quaternion.identity, transform);
+                Instantiate(_fenceCorner, GridToWorld(-1, y), Quaternion.identity, transform);
+                Instantiate(_fenceCorner, GridToWorld(_width, y), Quaternion.identity, transform);
             }
-
-            Instantiate(_fenceCorner, GridToWorld(-1, -1), Quaternion.identity, transform);
-            Instantiate(_fenceCorner, GridToWorld(_width, -1), Quaternion.identity, transform);
-            Instantiate(_fenceCorner, GridToWorld(-1, _height), Quaternion.identity, transform);
-            Instantiate(_fenceCorner, GridToWorld(_width, _height), Quaternion.identity, transform);
         }
 
         private Vector3 GridToWorld(int x, int y)
@@ -66,9 +63,19 @@ namespace _Game._Scripts
         private GameObject GetRandomGround()
         {
             if (_groundVariants == null || _groundVariants.Length == 0)
-                return _groundPrefab;
+            {
+                Debug.LogError("No ground variants assigned in GridMapBuilder.");
+                return null;
+            }
+            
+            int totalWeight = _baseGroundWeight + (_groundVariants.Length - 1);
+            int random = Random.Range(0, totalWeight);
 
-            return _groundVariants[Random.Range(0, _groundVariants.Length)];
+            if (random < _baseGroundWeight)
+                return _groundVariants[0];
+
+            int index = random - _baseGroundWeight + 1;
+            return _groundVariants[index];
         }
     }
 }
