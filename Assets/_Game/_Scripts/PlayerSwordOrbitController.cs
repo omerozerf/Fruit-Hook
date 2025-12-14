@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -12,6 +14,12 @@ namespace LoopGames.Combat
         [SerializeField] private float _smoothTime;
         [SerializeField] private float _spawnGrowDuration;
 
+        [Header("Despawn Settings")]
+        [SerializeField] private float _despawnDuration = 0.35f;
+        [SerializeField] private float _despawnSpinSpeed = 1080f;
+        [SerializeField] private float _despawnOffscreenMargin = 1.5f;
+        [SerializeField] private float _removeInterval = 5f;
+
         [Header("References")]
         [SerializeField] private Transform _center;
         [SerializeField] private Transform _swordPrefab;
@@ -20,13 +28,31 @@ namespace LoopGames.Combat
         private readonly List<SwordData> m_Swords = new ();
         
         private float m_SpawnTimer;
-
+        private float m_RemoveTimer;
         
+
         private void Update()
         {
-            // HandleTestSpawning();
+            HandleTestRemoval();
             UpdateSwordLocalPositions();
             RotateController();
+        }
+        
+        private void HandleTestRemoval()
+        {
+            if (m_Swords.Count == 0)
+                return;
+
+            m_RemoveTimer += Time.deltaTime;
+            if (m_RemoveTimer >= _removeInterval)
+            {
+                m_RemoveTimer = 0f;
+
+                // Remove the last sword for test purposes
+                Transform swordToRemove = m_Swords[m_Swords.Count - 1].transform;
+                if (swordToRemove != null)
+                    RemoveSwordAnimated(swordToRemove);
+            }
         }
 
         private void HandleTestSpawning()
@@ -73,8 +99,23 @@ namespace LoopGames.Combat
 
         public void RemoveSword(Transform sword)
         {
-            m_Swords.RemoveAll(s => s.transform == sword);
+            RemoveSwordAnimated(sword);
+        }
+
+        public void RemoveSwordAnimated(Transform sword)
+        {
+            int index = FindSwordIndex(sword);
+            if (index < 0)
+                return;
+
+            // Remove from orbit list first so spacing updates immediately.
+            m_Swords.RemoveAt(index);
             RecalculateTargetAngles();
+
+            // Detach so controller rotation/orbit updates do not affect the despawn motion.
+            sword.SetParent(null, true);
+
+            StartCoroutine(DespawnRoutine(sword));
         }
 
 
@@ -83,6 +124,9 @@ namespace LoopGames.Combat
             for (int i = 0; i < m_Swords.Count; i++)
             {
                 SwordData s = m_Swords[i];
+
+                if (s.transform == null)
+                    continue;
 
                 s.currentAngle = Mathf.SmoothDampAngle(
                     s.currentAngle,
@@ -131,6 +175,98 @@ namespace LoopGames.Combat
             {
                 m_Swords[i].targetAngle = i * angleStep;
             }
+        }
+
+
+        private int FindSwordIndex(Transform sword)
+        {
+            for (int i = 0; i < m_Swords.Count; i++)
+            {
+                if (m_Swords[i].transform == sword)
+                    return i;
+            }
+
+            return -1;
+        }
+
+        private IEnumerator DespawnRoutine(Transform sword)
+        {
+            if (sword == null)
+                yield break;
+
+            Camera cam = Camera.main;
+            Vector3 startPos = sword.position;
+            Vector3 targetPos = GetOffscreenTargetPosition(cam, startPos);
+
+            float duration = Mathf.Max(0.01f, _despawnDuration);
+            float elapsed = 0f;
+
+            // Keep the current z rotation as a base, then add extra spinning.
+            float baseZ = sword.eulerAngles.z;
+
+            while (elapsed < duration)
+            {
+                if (sword == null)
+                    yield break;
+
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                float eased = t * t * (3f - 2f * t); // smoothstep
+
+                sword.position = Vector3.Lerp(startPos, targetPos, eased);
+
+                float z = baseZ + (_despawnSpinSpeed * elapsed);
+                sword.rotation = Quaternion.Euler(0f, 0f, z);
+
+                yield return null;
+            }
+
+            if (sword != null)
+                Destroy(sword.gameObject);
+        }
+
+        private Vector3 GetOffscreenTargetPosition(Camera cam, Vector3 fromWorldPos)
+        {
+            // Fallback if there's no camera.
+            if (cam == null)
+            {
+                Vector3 dirFallback = (fromWorldPos - transform.position);
+                if (dirFallback.sqrMagnitude < 0.0001f)
+                    dirFallback = Vector3.right;
+                dirFallback.Normalize();
+
+                return fromWorldPos + dirFallback * (_radius + _despawnOffscreenMargin + 5f);
+            }
+
+            // Compute a direction away from the controller center.
+            Vector3 centerWorld = transform.position;
+            Vector3 dir = (fromWorldPos - centerWorld);
+            if (dir.sqrMagnitude < 0.0001f)
+                dir = Vector3.right;
+            dir.Normalize();
+
+            // Compute camera world bounds at the sword's depth.
+            float zDistance = Mathf.Abs(fromWorldPos.z - cam.transform.position.z);
+            float halfHeight = cam.orthographicSize;
+            float halfWidth = halfHeight * cam.aspect;
+
+            Vector3 camCenter = cam.transform.position;
+            camCenter.z = fromWorldPos.z;
+
+            // Move far enough so the point is outside bounds along the chosen direction.
+            float needX = halfWidth + _despawnOffscreenMargin;
+            float needY = halfHeight + _despawnOffscreenMargin;
+
+            float tx = (Mathf.Abs(dir.x) < 0.0001f) ? float.PositiveInfinity : (needX / Mathf.Abs(dir.x));
+            float ty = (Mathf.Abs(dir.y) < 0.0001f) ? float.PositiveInfinity : (needY / Mathf.Abs(dir.y));
+            float t = Mathf.Min(tx, ty);
+
+            // If direction is diagonal, Min() ensures we cross at least one boundary.
+            Vector3 edgeOffset = dir * t;
+            Vector3 edgePos = camCenter + edgeOffset;
+
+            // Push a bit further to guarantee off-screen.
+            return edgePos + dir * _despawnOffscreenMargin;
         }
 
 
