@@ -25,6 +25,7 @@ namespace _Game._Scripts.SwordOrbitSystem
         private float m_SpawnTimer;
         private float m_RemoveTimer;
 
+        
         private void Awake()
         {
             m_DespawnAnimator = new SwordDespawnAnimator(this, _despawn);
@@ -41,14 +42,14 @@ namespace _Game._Scripts.SwordOrbitSystem
             TickOrbit();
             TickRotation();
         }
-        
+
 
         public void SpawnSword()
         {
             if (_references._swordPrefab == null)
                 return;
 
-            Transform swordInstance = Instantiate(_references._swordPrefab, transform);
+            var swordInstance = Instantiate(_references._swordPrefab, transform);
             swordInstance.localPosition = Vector3.zero;
             swordInstance.localRotation = Quaternion.identity;
             swordInstance.localScale = Vector3.zero;
@@ -64,10 +65,8 @@ namespace _Game._Scripts.SwordOrbitSystem
             if (!m_OrbitList.TryRemove(sword, out _))
                 return;
 
-            // Spacing updates immediately.
             m_OrbitList.RecalculateTargetAngles();
 
-            // Detach so orbit/rotation updates no longer affect despawn motion.
             sword.SetParent(null, true);
 
             m_DespawnAnimator.StartDespawn(sword, transform.position, _orbit._radius);
@@ -103,7 +102,7 @@ namespace _Game._Scripts.SwordOrbitSystem
 
             m_RemoveTimer = 0f;
 
-            Transform lastSword = m_OrbitList.GetLastTransform();
+            var lastSword = m_OrbitList.GetLastTransform();
             if (lastSword != null)
                 RemoveSword(lastSword);
         }
@@ -129,9 +128,14 @@ namespace _Game._Scripts.SwordOrbitSystem
         private struct OrbitSettings
         {
             [FormerlySerializedAs("radius")] public float _radius;
-            [FormerlySerializedAs("rotationSpeed")] public float _rotationSpeed;
+
+            [FormerlySerializedAs("rotationSpeed")]
+            public float _rotationSpeed;
+
             [FormerlySerializedAs("smoothTime")] public float _smoothTime;
-            [FormerlySerializedAs("spawnGrowDuration")] public float _spawnGrowDuration;
+
+            [FormerlySerializedAs("spawnGrowDuration")]
+            public float _spawnGrowDuration;
 
             public static OrbitSettings Default => new OrbitSettings
             {
@@ -147,7 +151,9 @@ namespace _Game._Scripts.SwordOrbitSystem
         {
             [FormerlySerializedAs("duration")] public float _duration;
             [FormerlySerializedAs("spinSpeed")] public float _spinSpeed;
-            [FormerlySerializedAs("offscreenMargin")] public float _offscreenMargin;
+
+            [FormerlySerializedAs("offscreenMargin")]
+            public float _offscreenMargin;
 
             public static DespawnSettings Default => new DespawnSettings
             {
@@ -173,11 +179,17 @@ namespace _Game._Scripts.SwordOrbitSystem
         [Serializable]
         private struct TestSettings
         {
-            [FormerlySerializedAs("enableTestSpawning")] public bool _enableTestSpawning;
-            [FormerlySerializedAs("spawnInterval")] public float _spawnInterval;
+            [FormerlySerializedAs("enableTestSpawning")]
+            public bool _enableTestSpawning;
 
-            [FormerlySerializedAs("enableTestRemoval")] public bool _enableTestRemoval;
-            [FormerlySerializedAs("removeInterval")] public float _removeInterval;
+            [FormerlySerializedAs("spawnInterval")]
+            public float _spawnInterval;
+
+            [FormerlySerializedAs("enableTestRemoval")]
+            public bool _enableTestRemoval;
+
+            [FormerlySerializedAs("removeInterval")]
+            public float _removeInterval;
 
             public static TestSettings Default => new TestSettings
             {

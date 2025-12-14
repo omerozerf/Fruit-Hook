@@ -8,6 +8,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
         private readonly MonoBehaviour m_Host;
         private readonly SwordOrbitController.DespawnSettings m_Settings;
 
+        
         public SwordDespawnAnimator(MonoBehaviour host, SwordOrbitController.DespawnSettings settings)
         {
             m_Host = host;
@@ -24,10 +25,10 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
 
         private IEnumerator DespawnRoutine(Transform sword, Vector3 centerWorld, float orbitRadius)
         {
-            Camera cam = Camera.main;
+            var cam = Camera.main;
 
-            Vector3 startPos = sword.position;
-            Vector3 targetPos = OrbitMath.GetOffscreenTargetPosition(
+            var startPos = sword.position;
+            var targetPos = OrbitMath.GetOffscreenTargetPosition(
                 cam,
                 fromWorldPos: startPos,
                 centerWorld: centerWorld,
@@ -35,9 +36,9 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
                 offscreenMargin: m_Settings._offscreenMargin
             );
 
-            float duration = Mathf.Max(0.01f, m_Settings._duration);
-            float elapsed = 0f;
-            float baseZ = sword.eulerAngles.z;
+            var duration = Mathf.Max(0.01f, m_Settings._duration);
+            var elapsed = 0f;
+            var baseZ = sword.eulerAngles.z;
 
             while (elapsed < duration)
             {
@@ -45,12 +46,12 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
                     yield break;
 
                 elapsed += Time.deltaTime;
-                float t = Mathf.Clamp01(elapsed / duration);
-                float eased = OrbitMath.Smoothstep01(t);
+                var t = Mathf.Clamp01(elapsed / duration);
+                var eased = OrbitMath.Smoothstep01(t);
 
                 sword.position = Vector3.Lerp(startPos, targetPos, eased);
 
-                float z = baseZ + (m_Settings._spinSpeed * elapsed);
+                var z = baseZ + (m_Settings._spinSpeed * elapsed);
                 sword.rotation = Quaternion.Euler(0f, 0f, z);
 
                 yield return null;

@@ -1,6 +1,6 @@
 using System;
+using _Game._Scripts.ObjectPoolSystem;
 using DG.Tweening;
-using LoopGames;
 using UnityEngine;
 
 namespace _Game._Scripts.SwordBubbleSystem
@@ -10,38 +10,22 @@ namespace _Game._Scripts.SwordBubbleSystem
         [Header("Sword Visual")]
         [SerializeField] private Transform _swordTransform;
         [SerializeField] private float _rotationSpeed = 180f;
-
         [Header("Pickup Animation")]
         [SerializeField] private Collider2D _triggerCollider;
         [SerializeField] private Transform _scaleTarget;
-
-        [Tooltip("Default outward push distance when pickup starts.")]
         [SerializeField] private float _defaultPushDistance = 0.35f;
-
-        [Tooltip("Default duration for outward push.")]
         [SerializeField] private float _defaultPushDuration = 0.15f;
-
-        [Tooltip("Default small pause after push.")]
         [SerializeField] private float _defaultHoldDuration = 0.06f;
-
-        [Tooltip("Default duration to move to center.")]
         [SerializeField] private float _defaultPullDuration = 0.28f;
-
-        [Tooltip("Scale factor at the end of the pull (shrinks while approaching).")]
         [SerializeField] private float _defaultEndScaleMultiplier = 0.15f;
-
-        [Tooltip("If true, disables collider immediately when pickup starts.")]
         [SerializeField] private bool _disableColliderOnPickup = true;
-
-        [Tooltip("Movement easing (0..1). If empty, linear.")]
         [SerializeField] private AnimationCurve _moveEase;
-
-        [Tooltip("Scale easing (0..1). If empty, linear.")]
         [SerializeField] private AnimationCurve _scaleEase;
 
         private Sequence m_PickupSequence;
         private Vector3 m_InitialScale;
 
+        
         private void Awake()
         {
             m_InitialScale = GetScaleTarget().localScale;
@@ -91,30 +75,29 @@ namespace _Game._Scripts.SwordBubbleSystem
 
             KillPickupSequence();
 
-            float finalPushDistance = pushDistance ?? _defaultPushDistance;
-            float finalPushDuration = pushDuration ?? _defaultPushDuration;
-            float finalHoldDuration = holdDuration ?? _defaultHoldDuration;
-            float finalPullDuration = pullDuration ?? _defaultPullDuration;
-            float finalEndScaleMultiplier = endScaleMultiplier ?? _defaultEndScaleMultiplier;
+            var finalPushDistance = pushDistance ?? _defaultPushDistance;
+            var finalPushDuration = pushDuration ?? _defaultPushDuration;
+            var finalHoldDuration = holdDuration ?? _defaultHoldDuration;
+            var finalPullDuration = pullDuration ?? _defaultPullDuration;
+            var finalEndScaleMultiplier = endScaleMultiplier ?? _defaultEndScaleMultiplier;
 
-            Transform scaleTarget = GetScaleTarget();
+            var scaleTarget = GetScaleTarget();
 
-            // Compute initial outward push using the target's current position at the moment of pickup.
-            Vector3 startPos = transform.position;
-            Vector3 centerPosAtStart = targetCenter.position;
+            var startPos = transform.position;
+            var centerPosAtStart = targetCenter.position;
 
-            Vector3 dir = (startPos - centerPosAtStart);
+            var dir = (startPos - centerPosAtStart);
             if (dir.sqrMagnitude < 0.0001f)
                 dir = Vector3.right;
             dir.Normalize();
 
-            Vector3 pushedPos = startPos + dir * finalPushDistance;
+            var pushedPos = startPos + dir * finalPushDistance;
 
-            Vector3 startScale = scaleTarget.localScale;
-            Vector3 endScale = m_InitialScale * Mathf.Max(0.001f, finalEndScaleMultiplier);
+            var startScale = scaleTarget.localScale;
+            var endScale = m_InitialScale * Mathf.Max(0.001f, finalEndScaleMultiplier);
 
-            Vector3 pullStartPos = Vector3.zero;
-            Vector3 pullStartScale = Vector3.zero;
+            var pullStartPos = Vector3.zero;
+            var pullStartScale = Vector3.zero;
 
             m_PickupSequence = DOTween.Sequence();
 
@@ -148,8 +131,7 @@ namespace _Game._Scripts.SwordBubbleSystem
                     () => 0f,
                     t =>
                     {
-                        // t is eased by DOTween; we still re-read targetCenter.position every update to follow.
-                        Vector3 currentTarget = targetCenter != null ? targetCenter.position : pullStartPos;
+                        var currentTarget = targetCenter != null ? targetCenter.position : pullStartPos;
                         transform.position = Vector3.LerpUnclamped(pullStartPos, currentTarget, t);
                     },
                     1f,
@@ -158,10 +140,7 @@ namespace _Game._Scripts.SwordBubbleSystem
 
                 Tween pullScaleTween = DOTween.To(
                     () => 0f,
-                    t =>
-                    {
-                        scaleTarget.localScale = Vector3.LerpUnclamped(pullStartScale, endScale, t);
-                    },
+                    t => { scaleTarget.localScale = Vector3.LerpUnclamped(pullStartScale, endScale, t); },
                     1f,
                     finalPullDuration);
                 ApplyEase(pullScaleTween, _scaleEase, Ease.InQuad);
@@ -177,7 +156,6 @@ namespace _Game._Scripts.SwordBubbleSystem
 
             m_PickupSequence.OnComplete(() =>
             {
-                // Ensure final snap to the latest target position.
                 if (targetCenter != null)
                     transform.position = targetCenter.position;
 
@@ -215,7 +193,7 @@ namespace _Game._Scripts.SwordBubbleSystem
             if (tween == null)
                 return;
 
-            if (curve != null && curve.length > 0)
+            if (curve is { length: > 0 })
                 tween.SetEase(curve);
             else
                 tween.SetEase(fallback);
@@ -235,7 +213,6 @@ namespace _Game._Scripts.SwordBubbleSystem
             if (_scaleTarget != null)
                 return _scaleTarget;
 
-            // Default: scale the whole bubble if not specified.
             _scaleTarget = transform;
             return _scaleTarget;
         }

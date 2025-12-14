@@ -50,7 +50,7 @@ namespace _Game._Scripts.PlayerSystem
 
         private void Move()
         {
-            Vector2 targetVelocity = m_MovementInput * _moveSpeed;
+            var targetVelocity = m_MovementInput * _moveSpeed;
             _rigidbody2D.velocity = targetVelocity;
         }
 
@@ -59,9 +59,9 @@ namespace _Game._Scripts.PlayerSystem
             if (Mathf.Abs(m_MovementInput.x) < 0.01f)
                 return;
 
-            Vector3 localScale = _visualsTransform.localScale;
-            localScale.x = m_MovementInput.x > 0 
-                ? Mathf.Abs(localScale.x) 
+            var localScale = _visualsTransform.localScale;
+            localScale.x = m_MovementInput.x > 0
+                ? Mathf.Abs(localScale.x)
                 : -Mathf.Abs(localScale.x);
             _visualsTransform.localScale = localScale;
         }

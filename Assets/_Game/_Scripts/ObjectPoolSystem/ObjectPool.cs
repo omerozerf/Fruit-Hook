@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LoopGames
+namespace _Game._Scripts.ObjectPoolSystem
 {
     /// <summary>
     /// General purpose object pool (Queue-based).
@@ -12,17 +12,17 @@ namespace LoopGames
     /// </summary>
     public sealed class ObjectPool<T> where T : Component
     {
-        private readonly T _prefab;
-        private readonly Transform _parent;
-        private readonly bool _keepWorldPositionWhenParenting;
+        private readonly T m_Prefab;
+        private readonly Transform m_Parent;
+        private readonly bool m_KeepWorldPositionWhenParenting;
 
-        private readonly Queue<T> _inactiveQueue = new Queue<T>(64);
-        private readonly HashSet<int> _inactiveInstanceIds = new HashSet<int>();
-        private readonly HashSet<int> _activeInstanceIds = new HashSet<int>();
+        private readonly Queue<T> m_InactiveQueue = new Queue<T>(64);
+        private readonly HashSet<int> m_InactiveInstanceIds = new HashSet<int>();
+        private readonly HashSet<int> m_ActiveInstanceIds = new HashSet<int>();
 
         public int TotalCreated { get; private set; }
-        public int ActiveCount => _activeInstanceIds.Count;
-        public int InactiveCount => _inactiveQueue.Count;
+        public int ActiveCount => m_ActiveInstanceIds.Count;
+        public int InactiveCount => m_InactiveQueue.Count;
 
         public ObjectPool(
             T prefab,
@@ -32,9 +32,9 @@ namespace LoopGames
         {
             if (prefab == null) throw new ArgumentNullException(nameof(prefab));
 
-            _prefab = prefab;
-            _parent = parent;
-            _keepWorldPositionWhenParenting = keepWorldPositionWhenParenting;
+            m_Prefab = prefab;
+            m_Parent = parent;
+            m_KeepWorldPositionWhenParenting = keepWorldPositionWhenParenting;
 
             if (prewarmCount > 0)
                 Prewarm(prewarmCount);
@@ -44,7 +44,7 @@ namespace LoopGames
         {
             if (count <= 0) return;
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var instance = CreateNewInstance();
                 DeactivateAndEnqueue(instance);
@@ -83,17 +83,17 @@ namespace LoopGames
         {
             if (instance == null) return;
 
-            int id = instance.gameObject.GetInstanceID();
+            var id = instance.gameObject.GetInstanceID();
 
             // If it wasn't active (or already released), ignore to prevent double enqueue bugs.
-            if (!_activeInstanceIds.Remove(id))
+            if (!m_ActiveInstanceIds.Remove(id))
                 return;
 
             CallPoolableDespawned(instance);
 
             // Optional: reset parent back to pool parent.
-            if (_parent != null)
-                instance.transform.SetParent(_parent, _keepWorldPositionWhenParenting);
+            if (m_Parent != null)
+                instance.transform.SetParent(m_Parent, m_KeepWorldPositionWhenParenting);
 
             DeactivateAndEnqueue(instance);
         }
@@ -101,24 +101,24 @@ namespace LoopGames
         public void ReleaseAllActive(List<T> activeListSnapshot)
         {
             if (activeListSnapshot == null) return;
-            for (int i = 0; i < activeListSnapshot.Count; i++)
+            for (var i = 0; i < activeListSnapshot.Count; i++)
                 Release(activeListSnapshot[i]);
         }
 
         private T TryDequeueInactive()
         {
-            while (_inactiveQueue.Count > 0)
+            while (m_InactiveQueue.Count > 0)
             {
-                var instance = _inactiveQueue.Dequeue();
+                var instance = m_InactiveQueue.Dequeue();
                 if (instance == null) continue;
 
-                int id = instance.gameObject.GetInstanceID();
-                _inactiveInstanceIds.Remove(id);
+                var id = instance.gameObject.GetInstanceID();
+                m_InactiveInstanceIds.Remove(id);
 
                 // If someone activated it externally, skip it.
                 if (instance.gameObject.activeSelf)
                 {
-                    _activeInstanceIds.Add(id);
+                    m_ActiveInstanceIds.Add(id);
                     continue;
                 }
 
@@ -130,7 +130,7 @@ namespace LoopGames
 
         private T CreateNewInstance()
         {
-            var instance = UnityEngine.Object.Instantiate(_prefab, _parent);
+            var instance = UnityEngine.Object.Instantiate(m_Prefab, m_Parent);
             TotalCreated++;
 
             instance.gameObject.SetActive(false);
@@ -144,8 +144,8 @@ namespace LoopGames
             tr.SetPositionAndRotation(position, rotation);
 
             // Parent it to pool parent (optional) without breaking world transform if requested.
-            if (_parent != null)
-                tr.SetParent(_parent, _keepWorldPositionWhenParenting);
+            if (m_Parent != null)
+                tr.SetParent(m_Parent, m_KeepWorldPositionWhenParenting);
 
             instance.gameObject.SetActive(true);
 
@@ -157,15 +157,15 @@ namespace LoopGames
         {
             instance.gameObject.SetActive(false);
 
-            int id = instance.gameObject.GetInstanceID();
-            if (_inactiveInstanceIds.Add(id))
-                _inactiveQueue.Enqueue(instance);
+            var id = instance.gameObject.GetInstanceID();
+            if (m_InactiveInstanceIds.Add(id))
+                m_InactiveQueue.Enqueue(instance);
         }
 
         private void MarkActive(T instance)
         {
-            int id = instance.gameObject.GetInstanceID();
-            _activeInstanceIds.Add(id);
+            var id = instance.gameObject.GetInstanceID();
+            m_ActiveInstanceIds.Add(id);
         }
 
         private static void CallPoolableSpawned(T instance)

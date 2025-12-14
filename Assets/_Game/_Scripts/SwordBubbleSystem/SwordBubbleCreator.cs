@@ -1,10 +1,9 @@
 using System.Collections;
+using _Game._Scripts.ObjectPoolSystem;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace LoopGames
+namespace _Game._Scripts.SwordBubbleSystem
 {
-    
     public sealed class SwordBubbleCreator : MonoBehaviour
     {
         [Header("Prefab & Pool")]
@@ -19,7 +18,6 @@ namespace LoopGames
 
         [Header("Spawn Area")]
         [SerializeField] private Collider2D _spawnArea2D;
-
         [SerializeField] private Vector2 _fallbackMin = new Vector2(-8f, -4f);
         [SerializeField] private Vector2 _fallbackMax = new Vector2(8f, 4f);
 
@@ -32,7 +30,7 @@ namespace LoopGames
         private Coroutine m_SpawnRoutine;
         private bool m_IsRunning;
 
-        
+
         private void Awake()
         {
             if (_swordBubblePrefab == null)
@@ -86,7 +84,7 @@ namespace LoopGames
 
         public Transform SpawnOne()
         {
-            Vector3 pos = GetRandomSpawnPosition();
+            var pos = GetRandomSpawnPosition();
             return m_Pool.Get(pos, Quaternion.identity);
         }
 
@@ -102,7 +100,7 @@ namespace LoopGames
         {
             while (m_IsRunning)
             {
-                float wait = GetNextSpawnDelay();
+                var wait = GetNextSpawnDelay();
                 yield return new WaitForSeconds(wait);
 
                 SpawnOne();
@@ -111,22 +109,21 @@ namespace LoopGames
 
         private float GetNextSpawnDelay()
         {
-            float v = _intervalVariation;
-            float delay = _baseSpawnInterval + Random.Range(-v, v);
+            var v = _intervalVariation;
+            var delay = _baseSpawnInterval + Random.Range(-v, v);
             return Mathf.Max(0.05f, delay);
         }
 
         private Vector3 GetRandomSpawnPosition()
         {
-            // Try multiple times to satisfy min distance rule.
-            for (int i = 0; i < Mathf.Max(1, _positionTryCount); i++)
+            for (var i = 0; i < Mathf.Max(1, _positionTryCount); i++)
             {
-                Vector3 candidate = GetRandomPointInsideArea();
+                var candidate = GetRandomPointInsideArea();
 
                 if (_player == null || _minDistanceFromPlayer <= 0f)
                     return candidate;
 
-                float dist = Vector2.Distance(candidate, _player.position);
+                var dist = Vector2.Distance(candidate, _player.position);
                 if (dist >= _minDistanceFromPlayer)
                     return candidate;
             }
@@ -139,14 +136,14 @@ namespace LoopGames
         {
             if (_spawnArea2D != null)
             {
-                Bounds b = _spawnArea2D.bounds;
-                float x = Random.Range(b.min.x, b.max.x);
-                float y = Random.Range(b.min.y, b.max.y);
+                var b = _spawnArea2D.bounds;
+                var x = Random.Range(b.min.x, b.max.x);
+                var y = Random.Range(b.min.y, b.max.y);
                 return new Vector3(x, y, 0f);
             }
 
-            float rx = Random.Range(_fallbackMin.x, _fallbackMax.x);
-            float ry = Random.Range(_fallbackMin.y, _fallbackMax.y);
+            var rx = Random.Range(_fallbackMin.x, _fallbackMax.x);
+            var ry = Random.Range(_fallbackMin.y, _fallbackMax.y);
             return new Vector3(rx, ry, 0f);
         }
     }

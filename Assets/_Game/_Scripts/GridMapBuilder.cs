@@ -17,22 +17,22 @@ namespace _Game._Scripts
         [SerializeField] private GameObject _fenceVertical;
         [SerializeField] private GameObject _fenceCorner;
 
-        
+
         private void Start()
         {
             BuildGround();
             BuildFence();
         }
 
-        
+
         private void BuildGround()
         {
-            for (int x = 0; x < _width; x++)
+            for (var x = 0; x < _width; x++)
             {
-                for (int y = 0; y < _height; y++)
+                for (var y = 0; y < _height; y++)
                 {
-                    Vector3 pos = GridToWorld(x, y);
-                    GameObject prefab = GetRandomGround();
+                    var pos = GridToWorld(x, y);
+                    var prefab = GetRandomGround();
                     Instantiate(prefab, pos, Quaternion.identity, transform);
                 }
             }
@@ -40,13 +40,13 @@ namespace _Game._Scripts
 
         private void BuildFence()
         {
-            for (int x = -1; x <= _width; x++)
+            for (var x = -1; x <= _width; x++)
             {
                 Instantiate(_fenceHorizontal, GridToWorld(x, -1), Quaternion.identity, transform);
                 Instantiate(_fenceHorizontal, GridToWorld(x, _height), Quaternion.identity, transform);
             }
 
-            for (int y = 0; y < _height; y++)
+            for (var y = 0; y < _height; y++)
             {
                 Instantiate(_fenceVertical, GridToWorld(-1, y), Quaternion.identity, transform);
                 Instantiate(_fenceVertical, GridToWorld(_width, y), Quaternion.identity, transform);

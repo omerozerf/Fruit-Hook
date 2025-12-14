@@ -41,13 +41,13 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
                 smoothTime
             );
 
-            float radiusForThisSword = radius;
+            var radiusForThisSword = radius;
 
             if (isSpawning)
             {
                 spawnElapsed += deltaTime;
-                float t = Mathf.Clamp01(spawnElapsed / spawnDuration);
-                float eased = OrbitMath.Smoothstep01(t);
+                var t = Mathf.Clamp01(spawnElapsed / spawnDuration);
+                var eased = OrbitMath.Smoothstep01(t);
 
                 radiusForThisSword = Mathf.Lerp(0f, radius, eased);
                 transform.localScale = Vector3.Lerp(Vector3.zero, targetLocalScale, eased);
@@ -59,10 +59,8 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
                 }
             }
 
-            Vector2 localOffset = OrbitMath.AngleToVector(currentAngle) * radiusForThisSword;
+            var localOffset = OrbitMath.AngleToVector(currentAngle) * radiusForThisSword;
             transform.localPosition = localOffset;
-
-            // Sword is always perpendicular to the orbit direction.
             transform.localRotation = Quaternion.Euler(0f, 0f, currentAngle);
         }
     }

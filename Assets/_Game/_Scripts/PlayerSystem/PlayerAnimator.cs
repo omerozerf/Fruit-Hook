@@ -63,7 +63,7 @@ namespace _Game._Scripts.PlayerSystem
             if (!_rigidbody2D)
                 return;
 
-            bool isMovingNow = _rigidbody2D.velocity.sqrMagnitude > 0.01f;
+            var isMovingNow = _rigidbody2D.velocity.sqrMagnitude > 0.01f;
 
             if (isMovingNow == m_IsMoving)
                 return;
@@ -146,7 +146,6 @@ namespace _Game._Scripts.PlayerSystem
                 m_FeetStepSequence = null;
             }
 
-            // Reset to cached defaults when stopping.
             if (_leftFootTransform)
             {
                 _leftFootTransform.localPosition = m_LeftFootStartLocalPos;
@@ -165,7 +164,7 @@ namespace _Game._Scripts.PlayerSystem
             if (m_IdleTween == null || !_rigidbody2D)
                 return;
 
-            float speed = _rigidbody2D.velocity.sqrMagnitude > 0.01f
+            var speed = _rigidbody2D.velocity.sqrMagnitude > 0.01f
                 ? _movingIdleSpeedMultiplier
                 : 1f;
 

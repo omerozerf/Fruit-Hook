@@ -19,7 +19,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
 
         public bool TryRemove(Transform sword, out SwordOrbitEntry removed)
         {
-            for (int i = 0; i < m_Swords.Count; i++)
+            for (var i = 0; i < m_Swords.Count; i++)
             {
                 if (m_Swords[i].transform != sword)
                     continue;
@@ -35,14 +35,14 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
 
         public void RecalculateTargetAngles()
         {
-            int count = m_Swords.Count;
+            var count = m_Swords.Count;
             if (count == 0)
                 return;
 
-            float angleStep = 360f / count;
-            for (int i = 0; i < count; i++)
+            var angleStep = 360f / count;
+            for (var i = 0; i < count; i++)
             {
-                SwordOrbitEntry entry = m_Swords[i];
+                var entry = m_Swords[i];
                 entry.targetAngle = i * angleStep;
                 m_Swords[i] = entry;
             }
@@ -50,9 +50,9 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
 
         public void TickOrbit(float deltaTime, float radius, float smoothTime)
         {
-            for (int i = 0; i < m_Swords.Count; i++)
+            for (var i = 0; i < m_Swords.Count; i++)
             {
-                SwordOrbitEntry entry = m_Swords[i];
+                var entry = m_Swords[i];
                 if (entry.transform == null)
                     continue;
 
@@ -66,7 +66,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
             if (m_Swords.Count == 0)
                 return null;
 
-            return m_Swords[m_Swords.Count - 1].transform;
+            return m_Swords[^1].transform;
         }
     }
 }

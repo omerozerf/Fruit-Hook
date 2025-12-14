@@ -1,6 +1,5 @@
 using _Game._Scripts.SwordBubbleSystem;
 using _Game._Scripts.SwordOrbitSystem;
-using LoopGames;
 using UnityEngine;
 
 namespace _Game._Scripts.PlayerSystem
@@ -17,12 +16,12 @@ namespace _Game._Scripts.PlayerSystem
             HandleSwordBubbleCollision(other);
         }
 
-    
+
         private void HandleSwordBubbleCollision(Collider2D other)
         {
             if (!IsInLayerMask(other.gameObject, _bubbleSwordLayerMask)) return;
             if (!other.TryGetComponent(out SwordBubbleCollision swordBubbleCollision)) return;
-        
+
             swordBubbleCollision.GetSwordBubble().PlayPickupToCenter(transform, () =>
             {
                 _swordOrbitController.SpawnSword();
@@ -30,13 +29,12 @@ namespace _Game._Scripts.PlayerSystem
             });
         }
 
-
         private bool IsInLayerMask(GameObject obj, LayerMask mask)
         {
             return (mask.value & (1 << obj.layer)) != 0;
         }
-    
-    
+
+
         public SwordOrbitController GetSwordOrbitController()
         {
             return _swordOrbitController;
