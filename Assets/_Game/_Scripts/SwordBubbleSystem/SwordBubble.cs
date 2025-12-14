@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _Game._Scripts
+namespace _Game._Scripts.SwordBubbleSystem
 {
     public class SwordBubble : MonoBehaviour
     {

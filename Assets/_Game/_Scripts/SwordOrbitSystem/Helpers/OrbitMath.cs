@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LoopGames.Combat
+namespace _Game._Scripts.SwordOrbitSystem.Helpers
 {
     internal static class OrbitMath
     {

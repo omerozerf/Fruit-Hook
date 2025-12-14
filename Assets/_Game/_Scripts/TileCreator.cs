@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _Game
+namespace _Game._Scripts
 {
     public class TileCreator : MonoBehaviour
     {

@@ -1,31 +1,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LoopGames.Combat
+namespace _Game._Scripts.SwordOrbitSystem.Helpers
 {
     internal sealed class SwordOrbitList
     {
-        private readonly List<SwordOrbitEntry> _swords = new();
+        private readonly List<SwordOrbitEntry> m_Swords = new();
 
-        public int Count => _swords.Count;
+        public int Count => m_Swords.Count;
 
         public void Add(Transform sword, float spawnGrowDuration)
         {
             if (sword == null)
                 return;
 
-            _swords.Add(SwordOrbitEntry.CreateForSpawn(sword, spawnGrowDuration));
+            m_Swords.Add(SwordOrbitEntry.CreateForSpawn(sword, spawnGrowDuration));
         }
 
         public bool TryRemove(Transform sword, out SwordOrbitEntry removed)
         {
-            for (int i = 0; i < _swords.Count; i++)
+            for (int i = 0; i < m_Swords.Count; i++)
             {
-                if (_swords[i].Transform != sword)
+                if (m_Swords[i].transform != sword)
                     continue;
 
-                removed = _swords[i];
-                _swords.RemoveAt(i);
+                removed = m_Swords[i];
+                m_Swords.RemoveAt(i);
                 return true;
             }
 
@@ -35,38 +35,38 @@ namespace LoopGames.Combat
 
         public void RecalculateTargetAngles()
         {
-            int count = _swords.Count;
+            int count = m_Swords.Count;
             if (count == 0)
                 return;
 
             float angleStep = 360f / count;
             for (int i = 0; i < count; i++)
             {
-                SwordOrbitEntry entry = _swords[i];
-                entry.TargetAngle = i * angleStep;
-                _swords[i] = entry;
+                SwordOrbitEntry entry = m_Swords[i];
+                entry.targetAngle = i * angleStep;
+                m_Swords[i] = entry;
             }
         }
 
         public void TickOrbit(float deltaTime, float radius, float smoothTime)
         {
-            for (int i = 0; i < _swords.Count; i++)
+            for (int i = 0; i < m_Swords.Count; i++)
             {
-                SwordOrbitEntry entry = _swords[i];
-                if (entry.Transform == null)
+                SwordOrbitEntry entry = m_Swords[i];
+                if (entry.transform == null)
                     continue;
 
                 entry.Tick(deltaTime, radius, smoothTime);
-                _swords[i] = entry;
+                m_Swords[i] = entry;
             }
         }
 
         public Transform GetLastTransform()
         {
-            if (_swords.Count == 0)
+            if (m_Swords.Count == 0)
                 return null;
 
-            return _swords[_swords.Count - 1].Transform;
+            return m_Swords[m_Swords.Count - 1].transform;
         }
     }
 }

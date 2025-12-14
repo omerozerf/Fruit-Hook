@@ -1,8 +1,7 @@
-using System;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
-namespace _Game._Scripts
+namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerAnimator : MonoBehaviour
     {

@@ -1,10 +1,11 @@
 using System;
+using _Game._Scripts.SwordOrbitSystem.Helpers;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace LoopGames.Combat
+namespace _Game._Scripts.SwordOrbitSystem
 {
-    public sealed class PlayerSwordOrbitController : MonoBehaviour
+    public sealed class SwordOrbitController : MonoBehaviour
     {
         [Header("Orbit Settings")]
         [SerializeField] private OrbitSettings _orbit = OrbitSettings.Default;

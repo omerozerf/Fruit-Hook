@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace _Game._Scripts
+namespace _Game._Scripts.SwordBubbleSystem
 {
     public class SwordBubbleCollision : MonoBehaviour
     {
@@ -11,11 +10,6 @@ namespace _Game._Scripts
         private void OnValidate()
         {
             if (!_swordBubble) _swordBubble = GetComponentInParent<SwordBubble>();
-        }
-
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            
         }
 
         public SwordBubble GetSwordBubble()

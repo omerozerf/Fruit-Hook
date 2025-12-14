@@ -1,21 +1,21 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile : MonoBehaviour
+namespace _Game._Scripts
 {
-    [SerializeField] private SpriteRenderer _spriteRenderer;
-
-
-    private void OnValidate()
+    public class Tile : MonoBehaviour
     {
-        if (!_spriteRenderer) _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-    }
+        [SerializeField] private SpriteRenderer _spriteRenderer;
 
 
-    private void SetSprite(Sprite sprite)
-    {
-        _spriteRenderer.sprite = sprite;
+        private void OnValidate()
+        {
+            if (!_spriteRenderer) _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+
+
+        private void SetSprite(Sprite sprite)
+        {
+            _spriteRenderer.sprite = sprite;
+        }
     }
 }
