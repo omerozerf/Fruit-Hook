@@ -1,11 +1,13 @@
 using _Game._Scripts.SwordBubbleSystem;
 using _Game._Scripts.SwordOrbitSystem;
+using LoopGames;
 using UnityEngine;
 
 namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerCollisionController : MonoBehaviour
     {
+        [SerializeField] private SwordBubbleCreator _swordBubbleCreator;
         [SerializeField] private SwordOrbitController _swordOrbitController;
         [SerializeField] private LayerMask _bubbleSwordLayerMask;
 
@@ -24,7 +26,7 @@ namespace _Game._Scripts.PlayerSystem
             swordBubbleCollision.GetSwordBubble().PlayPickupToCenter(transform, () =>
             {
                 _swordOrbitController.SpawnSword();
-                swordBubbleCollision.GetSwordBubble().gameObject.SetActive(false);
+                _swordBubbleCreator.Release(swordBubbleCollision.GetSwordBubble().transform);
             });
         }
 

@@ -1,10 +1,11 @@
 using System;
 using DG.Tweening;
+using LoopGames;
 using UnityEngine;
 
 namespace _Game._Scripts.SwordBubbleSystem
 {
-    public class SwordBubble : MonoBehaviour
+    public class SwordBubble : MonoBehaviour, IPoolable
     {
         [Header("Sword Visual")]
         [SerializeField] private Transform _swordTransform;
@@ -237,6 +238,16 @@ namespace _Game._Scripts.SwordBubbleSystem
             // Default: scale the whole bubble if not specified.
             _scaleTarget = transform;
             return _scaleTarget;
+        }
+
+        public void OnSpawnedFromPool()
+        {
+            ResetPickupVisuals();
+        }
+
+        public void OnDespawnedToPool()
+        {
+            ResetPickupVisuals();
         }
     }
 }
