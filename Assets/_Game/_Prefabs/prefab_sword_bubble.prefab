@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 2133267946360404422}
   - component: {fileID: 5372451045390249783}
   m_Layer: 6
-  m_Name: Sword Bubble Prefab
+  m_Name: prefab_sword_bubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

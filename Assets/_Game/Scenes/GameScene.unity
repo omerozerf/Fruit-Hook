@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 25640709}
   - component: {fileID: 25640708}
   m_Layer: 5
-  m_Name: ui_joystick_canvas
+  m_Name: ui_canvas_joystick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 511877017}
   - component: {fileID: 511877018}
   m_Layer: 0
-  m_Name: Left Leg
+  m_Name: leg_left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -449,7 +449,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: camera_main
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -596,7 +596,7 @@ GameObject:
   - component: {fileID: 545383065}
   - component: {fileID: 545383066}
   m_Layer: 0
-  m_Name: Right Leg
+  m_Name: leg_right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -679,7 +679,7 @@ GameObject:
   m_Component:
   - component: {fileID: 684711428}
   m_Layer: 0
-  m_Name: Visuals
+  m_Name: visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -745,7 +745,7 @@ GameObject:
   - component: {fileID: 997336167}
   - component: {fileID: 997336168}
   m_Layer: 0
-  m_Name: Sword Orbit Controller
+  m_Name: controller_sword_orbit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -779,7 +779,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _orbit:
-    _radius: 2.42
+    _radius: 2.3
     _rotationSpeed: 90
     _smoothTime: 0.08
     _spawnGrowDuration: 0.25
@@ -792,7 +792,7 @@ MonoBehaviour:
     _swordPrefab: {fileID: 5994103736001037649, guid: d0df00ece857e45948a962b1967c774c, type: 3}
   _test:
     _enableTestSpawning: 0
-    _spawnInterval: 0.1
+    _spawnInterval: 1
     _enableTestRemoval: 0
     _removeInterval: 3
 --- !u!1 &1102136833
@@ -836,7 +836,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1168077893}
   m_Layer: 0
-  m_Name: Main Transform
+  m_Name: transform_main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -901,7 +901,7 @@ GameObject:
   - component: {fileID: 1412081201}
   - component: {fileID: 1412081200}
   m_Layer: 0
-  m_Name: EventSystem
+  m_Name: system_event
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -970,7 +970,7 @@ GameObject:
   - component: {fileID: 1618810751}
   - component: {fileID: 1618810750}
   m_Layer: 0
-  m_Name: Player
+  m_Name: player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1071,7 +1071,7 @@ GameObject:
   - component: {fileID: 1627529937}
   - component: {fileID: 1627529938}
   m_Layer: 0
-  m_Name: Body
+  m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1187,7 +1187,7 @@ GameObject:
   - component: {fileID: 1999706571}
   - component: {fileID: 1999706572}
   m_Layer: 0
-  m_Name: Collider
+  m_Name: collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1311,7 +1311,7 @@ GameObject:
   - component: {fileID: 8170153791592018721}
   - component: {fileID: 8170153791592018720}
   m_Layer: 5
-  m_Name: Handle
+  m_Name: handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1387,7 +1387,7 @@ GameObject:
   - component: {fileID: 8170153792438848676}
   - component: {fileID: 8170153792438848680}
   m_Layer: 5
-  m_Name: Floating Joystick
+  m_Name: joystick_floating
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1482,7 +1482,7 @@ GameObject:
   - component: {fileID: 8170153793458276660}
   - component: {fileID: 8170153793458276663}
   m_Layer: 5
-  m_Name: Background
+  m_Name: background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
