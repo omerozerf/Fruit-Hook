@@ -1,6 +1,7 @@
 using System;
 using _Game._Scripts.ObjectPoolSystem;
 using _Game._Scripts.SwordOrbitSystem.Helpers;
+using _Game._Scripts.SwordSystem;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -63,7 +64,6 @@ namespace _Game._Scripts.SwordOrbitSystem
             if (_references._swordPrefab == null)
                 return;
 
-            // Prefab sonradan atanırsa diye lazy init.
             if (m_SwordPool == null)
             {
                 m_SwordPool = new ObjectPool<Transform>(
@@ -82,23 +82,26 @@ namespace _Game._Scripts.SwordOrbitSystem
             AddSwordToOrbit(swordInstance);
         }
 
-        public void RemoveSword(Transform sword)
+        public void RemoveSword(Transform swordTransform)
         {
-            if (sword == null)
+            if (!swordTransform)
                 return;
 
-            if (!m_OrbitList.TryRemove(sword, out _))
+            if (!m_OrbitList.TryRemove(swordTransform, out _))
                 return;
 
             m_OrbitList.RecalculateTargetAngles();
-
-            sword.SetParent(null, true);
-            m_DespawnAnimator.StartDespawn(sword, transform.position, _orbit._radius);
+            
+            swordTransform.SetParent(null, true);
+            var sword = swordTransform.GetComponent<Sword>();
+            sword.SetSwordOrbitController(null);
+            sword.SetColliderEnabled(false);
+            m_DespawnAnimator.StartDespawn(swordTransform, transform.position, _orbit._radius);
         }
 
         private void OnSwordDespawnCompleted(Transform sword)
         {
-            if (sword == null)
+            if (!sword)
                 return;
 
             if (m_SwordPool != null)
@@ -109,13 +112,14 @@ namespace _Game._Scripts.SwordOrbitSystem
 
         private void AddSwordToOrbit(Transform sword)
         {
+            sword.GetComponent<Sword>().SetSwordOrbitController(this);
             m_OrbitList.Add(sword, _orbit._spawnGrowDuration);
             m_OrbitList.RecalculateTargetAngles();
         }
 
         private void TickTestSpawning()
         {
-            if (_references._center == null || _references._swordPrefab == null)
+            if (!_references._center || !_references._swordPrefab)
                 return;
 
             m_SpawnTimer += Time.deltaTime;
@@ -138,7 +142,7 @@ namespace _Game._Scripts.SwordOrbitSystem
             m_RemoveTimer = 0f;
 
             var lastSword = m_OrbitList.GetLastTransform();
-            if (lastSword != null)
+            if (lastSword)
                 RemoveSword(lastSword);
         }
 

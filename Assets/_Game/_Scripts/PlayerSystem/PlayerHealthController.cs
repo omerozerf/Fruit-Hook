@@ -102,18 +102,12 @@ namespace _Game._Scripts.PlayerSystem
 
         private void UpdateHealthColor()
         {
-            if (m_CurrentHealth >= 3)
+            _healthBar.color = m_CurrentHealth switch
             {
-                _healthBar.color = _fullHealthColor;
-            }
-            else if (m_CurrentHealth == 2)
-            {
-                _healthBar.color = _midHealthColor;
-            }
-            else
-            {
-                _healthBar.color = _lowHealthColor;
-            }
+                >= 3 => _fullHealthColor,
+                2 => _midHealthColor,
+                _ => _lowHealthColor
+            };
         }
     }
 }

@@ -29,7 +29,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
         
         public void StartDespawn(Transform sword, Vector3 centerWorld, float orbitRadius)
         {
-            if (sword == null || m_Host == null)
+            if (!sword || !m_Host)
                 return;
 
             m_Host.StartCoroutine(DespawnRoutine(sword, centerWorld, orbitRadius));
@@ -52,7 +52,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
 
             while (elapsed < duration)
             {
-                if (sword == null)
+                if (!sword)
                     yield break;
 
                 elapsed += Time.deltaTime;
@@ -67,7 +67,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
                 yield return null;
             }
 
-            if (sword != null)
+            if (sword)
                 m_OnDespawnCompleted?.Invoke(sword);
         }
     }
