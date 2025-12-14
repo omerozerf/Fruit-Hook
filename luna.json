@@ -8779,7 +8779,7 @@
                 "excluded": true
             },
             {
-                "name": "LoopGames.IPoolable",
+                "name": "_Game._Scripts.ObjectPoolSystem.IPoolable",
                 "excluded": false
             }
         ],
@@ -28311,130 +28311,6 @@
                 ]
             },
             {
-                "className": "LoopGames.ObjectPool$1",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "CallPoolableSpawned",
-                        "excluded": false
-                    },
-                    {
-                        "name": "CallPoolableDespawned",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ActiveCount#get",
-                        "excluded": true
-                    },
-                    {
-                        "name": "InactiveCount#get",
-                        "excluded": true
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ctor",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Prewarm",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Get$1",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Get",
-                        "excluded": true
-                    },
-                    {
-                        "name": "Release",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ReleaseAllActive",
-                        "excluded": true
-                    },
-                    {
-                        "name": "TryDequeueInactive",
-                        "excluded": false
-                    },
-                    {
-                        "name": "CreateNewInstance",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ActivateInstance",
-                        "excluded": false
-                    },
-                    {
-                        "name": "DeactivateAndEnqueue",
-                        "excluded": false
-                    },
-                    {
-                        "name": "MarkActive",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "LoopGames.SwordBubbleCreator",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Start",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDisable",
-                        "excluded": true
-                    },
-                    {
-                        "name": "StartSpawning",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StopSpawning",
-                        "excluded": true
-                    },
-                    {
-                        "name": "SpawnOne",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Release",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SpawnLoop",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetNextSpawnDelay",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetRandomSpawnPosition",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetRandomPointInsideArea",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
                 "className": "_Game._Scripts.SwordBubbleSystem.SwordBubble",
                 "staticMethods": [],
                 "instanceMethods": [
@@ -28559,6 +28435,130 @@
                     {
                         "name": "GetOffscreenTargetPosition",
                         "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.ObjectPoolSystem.ObjectPool$1",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "CallPoolableSpawned",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CallPoolableDespawned",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ActiveCount#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "InactiveCount#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Prewarm",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Get$1",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Release",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ReleaseAllActive",
+                        "excluded": true
+                    },
+                    {
+                        "name": "TryDequeueInactive",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CreateNewInstance",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ActivateInstance",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DeactivateAndEnqueue",
+                        "excluded": false
+                    },
+                    {
+                        "name": "MarkActive",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.SwordBubbleSystem.SwordBubbleCreator",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Start",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDisable",
+                        "excluded": true
+                    },
+                    {
+                        "name": "StartSpawning",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StopSpawning",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SpawnOne",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Release",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SpawnLoop",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetNextSpawnDelay",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetRandomSpawnPosition",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetRandomPointInsideArea",
+                        "excluded": false
                     }
                 ]
             }
