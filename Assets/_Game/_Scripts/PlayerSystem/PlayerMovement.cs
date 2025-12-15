@@ -4,26 +4,23 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [SerializeField] private bool _isPlayer;
-        [SerializeField] private FloatingJoystick _floatingJoystick;
-        [SerializeField] private float _moveSpeed;
+        [Header("Movement")]
+        [SerializeField] private float _moveSpeed = 5f;
         [SerializeField] private Rigidbody2D _rigidbody2D;
+
+        [Header("Visuals")]
         [SerializeField] private Transform _visualsTransform;
 
-        private Vector2 m_MovementInput;
-
+        [Header("Knockback")]
         [SerializeField] private float _knockbackDisableDuration = 0.15f;
+
+        private Vector2 m_MovementInput;
         private bool m_MovementLocked;
 
-
+        
         private void Awake()
         {
             InitializeRigidbody();
-        }
-
-        private void Update()
-        {
-            if (_isPlayer) ReadInput();
         }
 
         private void FixedUpdate()
@@ -31,41 +28,32 @@ namespace _Game._Scripts.PlayerSystem
             if (m_MovementLocked)
                 return;
 
-            Move();
+            ApplyMove();
             HandleFacingDirection();
         }
 
-
         private void InitializeRigidbody()
         {
-            _rigidbody2D = GetComponent<Rigidbody2D>();
+            if (!_rigidbody2D)
+                _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
-        private void ReadInput()
+        public void SetMoveInput(Vector2 input)
         {
-            if (!_floatingJoystick)
-            {
-                m_MovementInput = Vector2.zero;
-                return;
-            }
-
-            m_MovementInput = new Vector2(
-                _floatingJoystick.Horizontal,
-                _floatingJoystick.Vertical
-            );
+            m_MovementInput = Vector2.ClampMagnitude(input, 1f);
         }
 
-        private void Move()
+        private void ApplyMove()
         {
             Vector2 targetVelocity = m_MovementInput * _moveSpeed;
-            _rigidbody2D.velocity = new Vector2(
-                targetVelocity.x,
-                targetVelocity.y
-            );
+            _rigidbody2D.velocity = targetVelocity;
         }
 
         private void HandleFacingDirection()
         {
+            if (!_visualsTransform)
+                return;
+
             if (Mathf.Abs(m_MovementInput.x) < 0.01f)
                 return;
 
@@ -75,7 +63,6 @@ namespace _Game._Scripts.PlayerSystem
                 : -Mathf.Abs(localScale.x);
             _visualsTransform.localScale = localScale;
         }
-
 
         public void LockMovementTemporarily()
         {

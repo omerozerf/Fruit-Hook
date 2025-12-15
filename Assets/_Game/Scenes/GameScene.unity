@@ -4949,7 +4949,7 @@ MonoBehaviour:
   _orbit:
     _radius: 2.3
     _rotationSpeed: 200
-    _smoothTime: 0.08
+    _smoothSpeed: 8
     _spawnGrowDuration: 0.45
   _despawn:
     _duration: 1
@@ -22763,7 +22763,7 @@ MonoBehaviour:
   _orbit:
     _radius: 2.3
     _rotationSpeed: 200
-    _smoothTime: 0.08
+    _smoothSpeed: 8
     _spawnGrowDuration: 0.45
   _despawn:
     _duration: 1
@@ -25633,7 +25633,7 @@ GameObject:
   - component: {fileID: 1113936021}
   - component: {fileID: 1113936020}
   m_Layer: 0
-  m_Name: grid_map_builder (1)
+  m_Name: grid_map_builder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35790,6 +35790,7 @@ GameObject:
   - component: {fileID: 1618810750}
   - component: {fileID: 1618810754}
   - component: {fileID: 1618810755}
+  - component: {fileID: 1618810756}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -35832,8 +35833,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ea7b48110ae4e34a789eb74b0f30761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isPlayer: 1
-  _floatingJoystick: {fileID: 8170153792438848680}
   _moveSpeed: 5
   _rigidbody2D: {fileID: 1618810752}
   _visualsTransform: {fileID: 684711428}
@@ -35921,6 +35920,21 @@ MonoBehaviour:
   - {fileID: 1627529938}
   - {fileID: 511877018}
   - {fileID: 545383066}
+--- !u!114 &1618810756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618810749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 592e5bb99c7b44029e69dd0171414b9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _movement: {fileID: 1618810751}
+  _floatingJoystick: {fileID: 8170153792438848680}
+  _isEnabled: 1
 --- !u!1 &1620426610
 GameObject:
   m_ObjectHideFlags: 0
