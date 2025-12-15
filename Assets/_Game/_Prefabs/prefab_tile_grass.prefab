@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6743821381425734164}
-  - component: {fileID: 5583577167178357862}
   m_Layer: 0
   m_Name: prefab_tile_grass
   m_TagString: Untagged
@@ -33,19 +32,6 @@ Transform:
   - {fileID: 1208867113068362414}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5583577167178357862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3571930598960314785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19de553e2396746819634c9409f1e62e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 7111936449374176706}
 --- !u!1 &5960213801560143519
 GameObject:
   m_ObjectHideFlags: 0
