@@ -193,6 +193,11 @@ namespace _Game._Scripts.SwordOrbitSystem
 
             transform.Rotate(0f, 0f, -_orbit._rotationSpeed * Time.deltaTime);
         }
+        
+        public int GetSwordCount()
+        {
+            return m_OrbitList.Count;
+        }
 
         [Serializable]
         private struct OrbitSettings

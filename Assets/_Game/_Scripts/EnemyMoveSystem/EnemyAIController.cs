@@ -1,3 +1,5 @@
+using _Game._Scripts.PlayerSystem;
+using _Game._Scripts.SwordOrbitSystem;
 using UnityEngine;
 
 namespace _Game._Scripts.EnemyMoveSystem
@@ -22,6 +24,7 @@ namespace _Game._Scripts.EnemyMoveSystem
 
         [Header("References")]
         [SerializeField] private ExternalMoveInputSource _externalMoveInputSource;
+        [SerializeField] private SwordOrbitController _swordOrbitController;
 
         [Header("Scan")]
         [SerializeField] private float _scanInterval = 0.12f;
@@ -46,25 +49,26 @@ namespace _Game._Scripts.EnemyMoveSystem
         [Header("Debug / Gizmos")]
         [SerializeField] private bool _drawGizmos = true;
 
-        private float _scanTimer;
-        private float _wanderTimer;
+        private float m_ScanTimer;
+        private float m_WanderTimer;
 
-        private Collider2D[] _enemyHits;
-        private Collider2D[] _swordHits;
+        private Collider2D[] m_EnemyHits;
+        private Collider2D[] m_SwordHits;
 
-        private Transform _closestEnemy;
-        private Transform _closestSword;
+        private Transform m_ClosestEnemy;
+        private Transform m_ClosestSword;
 
-        private Vector2 _avoidVector;
-        private Vector2 _wanderVector;
-        private Vector2 _finalMoveInput;
+        private Vector2 m_AvoidVector;
+        private Vector2 m_WanderVector;
+        private Vector2 m_FinalMoveInput;
 
-        private AIState _state;
+        private AIState m_State;
 
+        
         private void Awake()
         {
-            _enemyHits = new Collider2D[Mathf.Max(4, _maxScanHits)];
-            _swordHits = new Collider2D[Mathf.Max(4, _maxScanHits)];
+            m_EnemyHits = new Collider2D[Mathf.Max(4, _maxScanHits)];
+            m_SwordHits = new Collider2D[Mathf.Max(4, _maxScanHits)];
         }
 
         private void Update()
@@ -76,39 +80,39 @@ namespace _Game._Scripts.EnemyMoveSystem
             if (ShouldScanNow())
             {
                 ScanEnvironment();
-                _scanTimer = 0f;
+                m_ScanTimer = 0f;
             }
 
             // 2) Decision (karar)
-            _state = DecideState();
+            m_State = DecideState();
 
             // 3) Action (input üretimi)
-            _finalMoveInput = ComputeMoveInput(_state);
+            m_FinalMoveInput = ComputeMoveInput(m_State);
 
             // 4) En sonda input bas (kural)
             if (_externalMoveInputSource)
-                _externalMoveInputSource.PushInput(_finalMoveInput);
+                _externalMoveInputSource.PushInput(m_FinalMoveInput);
         }
 
         #region Timers
 
         private void TickScanTimer()
         {
-            _scanTimer += Time.deltaTime;
+            m_ScanTimer += Time.deltaTime;
         }
 
         private bool ShouldScanNow()
         {
-            return _scanTimer >= _scanInterval;
+            return m_ScanTimer >= _scanInterval;
         }
 
         private void TickWanderTimer()
         {
-            _wanderTimer += Time.deltaTime;
-            if (_wanderTimer >= _wanderChangeInterval)
+            m_WanderTimer += Time.deltaTime;
+            if (m_WanderTimer >= _wanderChangeInterval)
             {
-                _wanderTimer = 0f;
-                _wanderVector = Random.insideUnitCircle.normalized * _wanderStrength;
+                m_WanderTimer = 0f;
+                m_WanderVector = Random.insideUnitCircle.normalized * _wanderStrength;
             }
         }
 
@@ -120,10 +124,10 @@ namespace _Game._Scripts.EnemyMoveSystem
         {
             Vector2 pos = transform.position;
 
-            _closestEnemy = ScanClosestByLayer(pos, _enemyScanRadius, _enemyLayer, _enemyHits, out var _);
-            _closestSword = ScanClosestByLayer(pos, _swordScanRadius, _swordLayer, _swordHits, out var _);
+            m_ClosestEnemy = ScanClosestByLayer(pos, _enemyScanRadius, _enemyLayer, m_EnemyHits, out var _);
+            m_ClosestSword = ScanClosestByLayer(pos, _swordScanRadius, _swordLayer, m_SwordHits, out var _);
 
-            _avoidVector = ComputeAvoidVector(pos, _closestEnemy);
+            m_AvoidVector = ComputeAvoidVector(pos, m_ClosestEnemy);
         }
 
         private Transform ScanClosestByLayer(
@@ -185,14 +189,14 @@ namespace _Game._Scripts.EnemyMoveSystem
         {
             Vector2 myPos = transform.position;
 
-            bool hasEnemy = _closestEnemy != null;
-            bool hasSword = _closestSword != null;
+            bool hasEnemy = m_ClosestEnemy != null;
+            bool hasSword = m_ClosestSword != null;
 
             int mySwords = GetMySwordCount();
-            int enemySwords = hasEnemy ? GetEnemySwordCount(_closestEnemy) : 0;
+            int enemySwords = hasEnemy ? GetEnemySwordCount(m_ClosestEnemy) : 0;
 
-            bool enemyInAttackRange = hasEnemy && Vector2.Distance(myPos, _closestEnemy.position) <= _attackRange;
-            bool enemyIsThreatClose = hasEnemy && Vector2.Distance(myPos, _closestEnemy.position) <= _threatRange;
+            bool enemyInAttackRange = hasEnemy && Vector2.Distance(myPos, m_ClosestEnemy.position) <= _attackRange;
+            bool enemyIsThreatClose = hasEnemy && Vector2.Distance(myPos, m_ClosestEnemy.position) <= _threatRange;
 
             // 1) Kaçınma (bariz tehdit)
             if (enemyIsThreatClose && enemySwords > mySwords)
@@ -229,21 +233,21 @@ namespace _Game._Scripts.EnemyMoveSystem
             switch (state)
             {
                 case AIState.Flee:
-                    return ComposeSteering(Vector2.zero, _avoidVector);
+                    return ComposeSteering(Vector2.zero, m_AvoidVector);
 
                 case AIState.AttackEnemy:
                     // Saldırı anında durup attack tetikleyebilirsin (sen dolduracaksın)
-                    RequestAttack(_closestEnemy);
+                    RequestAttack(m_ClosestEnemy);
                     return Vector2.zero;
 
                 case AIState.SeekSword:
-                    return ComposeSteering(GetDirTo(myPos, _closestSword), _avoidVector);
+                    return ComposeSteering(GetDirTo(myPos, m_ClosestSword), m_AvoidVector);
 
                 case AIState.ChaseEnemy:
-                    return ComposeSteering(GetDirTo(myPos, _closestEnemy), _avoidVector);
+                    return ComposeSteering(GetDirTo(myPos, m_ClosestEnemy), m_AvoidVector);
 
                 case AIState.Wander:
-                    return ComposeSteering(_wanderVector, _avoidVector);
+                    return ComposeSteering(m_WanderVector, m_AvoidVector);
 
                 default:
                     return Vector2.zero;
@@ -274,9 +278,7 @@ namespace _Game._Scripts.EnemyMoveSystem
         /// </summary>
         private int GetMySwordCount()
         {
-            // TODO: Burayı sen doldur.
-            // Örn: return _weaponHolder.SwordCount;
-            return 0;
+            return _swordOrbitController.GetSwordCount();
         }
 
         /// <summary>
@@ -284,9 +286,9 @@ namespace _Game._Scripts.EnemyMoveSystem
         /// </summary>
         private int GetEnemySwordCount(Transform enemy)
         {
-            // TODO: Burayı sen doldur.
-            // Örn: enemy.GetComponent<WeaponHolderHandler>().SwordCount;
-            return 0;
+            var playerCollisionController = enemy.GetComponent<PlayerCollisionController>();
+            var orbitController = playerCollisionController.GetSwordOrbitController();
+            return orbitController.GetSwordCount();
         }
 
         /// <summary>
@@ -326,32 +328,32 @@ namespace _Game._Scripts.EnemyMoveSystem
             Gizmos.DrawWireSphere(p, _threatRange);
 
             // Targets
-            if (_closestEnemy)
+            if (m_ClosestEnemy)
             {
                 Gizmos.color = Color.red;
-                Gizmos.DrawLine(p, _closestEnemy.position);
-                Gizmos.DrawSphere(_closestEnemy.position, 0.12f);
+                Gizmos.DrawLine(p, m_ClosestEnemy.position);
+                Gizmos.DrawSphere(m_ClosestEnemy.position, 0.12f);
             }
 
-            if (_closestSword)
+            if (m_ClosestSword)
             {
                 Gizmos.color = Color.cyan;
-                Gizmos.DrawLine(p, _closestSword.position);
-                Gizmos.DrawSphere(_closestSword.position, 0.10f);
+                Gizmos.DrawLine(p, m_ClosestSword.position);
+                Gizmos.DrawSphere(m_ClosestSword.position, 0.10f);
             }
 
             // Vectors
             Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(p, p + (Vector3)_avoidVector);
+            Gizmos.DrawLine(p, p + (Vector3)m_AvoidVector);
 
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(p, p + (Vector3)_finalMoveInput);
+            Gizmos.DrawLine(p, p + (Vector3)m_FinalMoveInput);
 
             // Perpendicular (dikey) line at movement direction
-            if (_finalMoveInput.sqrMagnitude > 0.0001f)
+            if (m_FinalMoveInput.sqrMagnitude > 0.0001f)
             {
-                Vector3 start = p + (Vector3)_finalMoveInput.normalized * 0.8f;
-                Vector3 perp = Vector3.Cross(_finalMoveInput.normalized, Vector3.forward).normalized;
+                Vector3 start = p + (Vector3)m_FinalMoveInput.normalized * 0.8f;
+                Vector3 perp = Vector3.Cross(m_FinalMoveInput.normalized, Vector3.forward).normalized;
 
                 float perpLength = 0.4f;
                 Gizmos.color = Color.magenta;
