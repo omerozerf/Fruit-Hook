@@ -48,7 +48,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
             }
         }
 
-        public void TickOrbit(float deltaTime, float radius, float smoothTime)
+        public void TickOrbit(float deltaTime, float radius, float smoothSpeed)
         {
             for (var i = 0; i < m_Swords.Count; i++)
             {
@@ -56,7 +56,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
                 if (entry.transform == null)
                     continue;
 
-                entry.Tick(deltaTime, radius, smoothTime);
+                entry.Tick(deltaTime, radius, smoothSpeed);
                 m_Swords[i] = entry;
             }
         }

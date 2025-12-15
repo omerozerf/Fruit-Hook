@@ -8,7 +8,6 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
 
         public float currentAngle;
         public float targetAngle;
-        public float angularVelocity;
 
         public Vector3 targetLocalScale;
 
@@ -24,7 +23,6 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
                 transform = transform,
                 currentAngle = 0f,
                 targetAngle = 0f,
-                angularVelocity = 0f,
                 targetLocalScale = Vector3.one,
                 spawnElapsed = 0f,
                 spawnDuration = Mathf.Max(0.01f, spawnGrowDuration),
@@ -32,15 +30,8 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
             };
         }
 
-        public void Tick(float deltaTime, float radius, float smoothTime)
+        public void Tick(float deltaTime, float radius, float smoothSpeed)
         {
-            currentAngle = Mathf.SmoothDampAngle(
-                currentAngle,
-                targetAngle,
-                ref angularVelocity,
-                smoothTime
-            );
-
             var radiusForThisSword = radius;
 
             if (isSpawning)
@@ -59,9 +50,15 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
                 }
             }
 
-            var localOffset = OrbitMath.AngleToVector(currentAngle) * radiusForThisSword;
-            transform.localPosition = localOffset;
-            transform.localRotation = Quaternion.Euler(0f, 0f, currentAngle);
+            var targetOffset = OrbitMath.AngleToVector(targetAngle) * radiusForThisSword;
+
+            var lerpT = deltaTime * smoothSpeed;
+            transform.localPosition = Vector3.Lerp(transform.localPosition, targetOffset, lerpT);
+
+            var currentPos = (Vector2)transform.localPosition;
+            var currentAngleDeg = Mathf.Atan2(currentPos.y, currentPos.x) * Mathf.Rad2Deg;
+            currentAngle = currentAngleDeg;
+            transform.localRotation = Quaternion.Euler(0f, 0f, currentAngleDeg);
         }
     }
 }

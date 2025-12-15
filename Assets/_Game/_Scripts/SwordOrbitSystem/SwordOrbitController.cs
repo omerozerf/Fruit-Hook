@@ -39,9 +39,11 @@ namespace _Game._Scripts.SwordOrbitSystem
 
         private float m_SpawnTimer;
         private float m_RemoveTimer;
+        private Camera m_Cam;
 
         private void Awake()
         {
+            m_Cam = Camera.main;
             if (_references._swordPrefab != null)
             {
                 m_SwordPool = new ObjectPool<Transform>(
@@ -111,10 +113,9 @@ namespace _Game._Scripts.SwordOrbitSystem
         
         private void PlayCameraShake()
         {
-            Camera cam = Camera.main;
-            if (!cam) return;
+            if (!m_Cam) return;
 
-            Transform camTransform = cam.transform;
+            Transform camTransform = m_Cam.transform;
 
             m_CameraShakeTween?.Kill();
 
@@ -181,7 +182,7 @@ namespace _Game._Scripts.SwordOrbitSystem
             m_OrbitList.TickOrbit(
                 deltaTime: Time.deltaTime,
                 radius: _orbit._radius,
-                smoothTime: _orbit._smoothTime
+                smoothSpeed: _orbit._smoothSpeed
             );
         }
 
@@ -198,14 +199,14 @@ namespace _Game._Scripts.SwordOrbitSystem
         {
             public float _radius;
             public float _rotationSpeed;
-            public float _smoothTime;
+            public float _smoothSpeed;
             public float _spawnGrowDuration;
 
             public static OrbitSettings Default => new OrbitSettings
             {
                 _radius = 1.5f,
                 _rotationSpeed = 90f,
-                _smoothTime = 0.08f,
+                _smoothSpeed = 8f,
                 _spawnGrowDuration = 0.25f
             };
         }
