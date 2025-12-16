@@ -17509,7 +17509,7 @@
                     },
                     {
                         "name": "IsChildOf",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "InverseTransformPoint",
@@ -27757,7 +27757,7 @@
                     },
                     {
                         "name": "GetSwordOrbitController",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "OnValidate",
@@ -27903,7 +27903,7 @@
                 "instanceMethods": [
                     {
                         "name": "Count#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "init",
@@ -27981,6 +27981,10 @@
                     },
                     {
                         "name": "PlayCameraShake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetSwordCount",
                         "excluded": false
                     }
                 ]
@@ -31822,6 +31826,10 @@
                     {
                         "name": "OnDrawGizmos",
                         "excluded": true
+                    },
+                    {
+                        "name": "IsSelfCollider",
+                        "excluded": false
                     }
                 ]
             },

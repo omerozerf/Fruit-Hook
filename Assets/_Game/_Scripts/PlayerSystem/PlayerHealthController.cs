@@ -27,12 +27,12 @@ namespace _Game._Scripts.PlayerSystem
         private Tween m_WhiteBarTween;
 
         
+        
         private void Awake()
         {
             InitializeHealth();
         }
         
-
         private void InitializeHealth()
         {
             m_CurrentHealth = _maxHealth;
@@ -40,6 +40,7 @@ namespace _Game._Scripts.PlayerSystem
             float fill = CalculateFillAmount();
             SetHealthBarImmediate(fill);
             SetWhiteBarImmediate(fill);
+
             UpdateHealthColor();
         }
 
@@ -65,6 +66,8 @@ namespace _Game._Scripts.PlayerSystem
             SetHealthBarImmediate(targetFill);
             AnimateWhiteIndicatorTo(targetFill);
             UpdateHealthColor();
+            
+            
         }
 
         private float CalculateFillAmount()
@@ -74,28 +77,45 @@ namespace _Game._Scripts.PlayerSystem
 
         private void SetHealthBarImmediate(float fill)
         {
-            _healthBar.fillAmount = fill;
+            fill = Mathf.Clamp01(fill);
+
+            if (_healthBar)
+            {
+                Vector3 scale = _healthBar.transform.localScale;
+                scale.x = fill;
+                _healthBar.transform.localScale = scale;
+            }
         }
 
         private void SetWhiteBarImmediate(float fill)
         {
-            _healthWhiteIndicatorBar.fillAmount = fill;
+            fill = Mathf.Clamp01(fill);
+
+            if (_healthWhiteIndicatorBar)
+            {
+                Vector3 scale = _healthWhiteIndicatorBar.transform.localScale;
+                scale.x = fill;
+                _healthWhiteIndicatorBar.transform.localScale = scale;
+            }
         }
 
         private void AnimateWhiteIndicatorTo(float targetFill)
         {
             m_WhiteBarTween?.Kill();
 
-            if (_healthWhiteIndicatorBar.fillAmount <= targetFill)
+            if (_healthWhiteIndicatorBar && _healthWhiteIndicatorBar.transform.localScale.x <= targetFill)
             {
-                _healthWhiteIndicatorBar.fillAmount = targetFill;
+                SetWhiteBarImmediate(targetFill);
                 return;
             }
 
             m_WhiteBarTween = DOVirtual.DelayedCall(_whiteBarDelay, () =>
             {
-                m_WhiteBarTween = _healthWhiteIndicatorBar
-                    .DOFillAmount(targetFill, _whiteBarTweenDuration)
+                m_WhiteBarTween = DOTween.To(
+                        () => _healthWhiteIndicatorBar ? _healthWhiteIndicatorBar.transform.localScale.x : targetFill,
+                        SetWhiteBarImmediate,
+                        targetFill,
+                        _whiteBarTweenDuration)
                     .SetEase(Ease.OutQuad);
             });
         }
