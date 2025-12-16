@@ -208,10 +208,6 @@
                 "excluded": true
             },
             {
-                "name": "System.Reflection.TargetSite",
-                "excluded": true
-            },
-            {
                 "name": "System.OutOfMemoryException",
                 "excluded": true
             },
@@ -8285,7 +8281,7 @@
             },
             {
                 "name": "DG.Tweening.Core.SafeModeReport.SafeModeReportType",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "DG.Tweening.Core.TargetType",
@@ -8525,6 +8521,14 @@
             },
             {
                 "name": "_Game._Scripts.AudioSystem.AudioService.SfxId",
+                "excluded": false
+            },
+            {
+                "name": "_Game._Scripts.Patterns.EventBusPattern.IEvent",
+                "excluded": false
+            },
+            {
+                "name": "_Game._Scripts.Patterns.EventBusPattern.IEventBinding$1",
                 "excluded": false
             }
         ],
@@ -8955,7 +8959,7 @@
                     },
                     {
                         "name": "toString",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "parse",
@@ -12179,7 +12183,7 @@
                     },
                     {
                         "name": "GetEnumerator",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$Collections$Generic$IEnumerable$1$GetEnumerator",
@@ -12335,7 +12339,7 @@
                     },
                     {
                         "name": "Current#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$Collections$IEnumerator$Current#get",
@@ -12343,11 +12347,11 @@
                     },
                     {
                         "name": "init",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "$ctor1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ctor",
@@ -12355,11 +12359,11 @@
                     },
                     {
                         "name": "Dispose",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "moveNext",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$Collections$IEnumerator$reset",
@@ -23821,7 +23825,7 @@
                     },
                     {
                         "name": "LogSafeModeCapturedError",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "LogReport",
@@ -23869,7 +23873,7 @@
                     },
                     {
                         "name": "ShouldLogSafeModeCapturedError",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetDebugDataMessage",
@@ -23995,7 +23999,7 @@
                     },
                     {
                         "name": "Add",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetTotErrors",
@@ -27746,6 +27750,10 @@
                     {
                         "name": "PlayCameraShake",
                         "excluded": false
+                    },
+                    {
+                        "name": "HandleSwordCollision",
+                        "excluded": false
                     }
                 ]
             },
@@ -31408,10 +31416,6 @@
                     {
                         "name": "GetSword",
                         "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
                     }
                 ]
             },
@@ -32460,40 +32464,6 @@
                 ]
             },
             {
-                "className": "_Game._Scripts.PlayableSystem.PlayableEndCardController",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Show",
-                        "excluded": true
-                    },
-                    {
-                        "name": "Hide",
-                        "excluded": true
-                    },
-                    {
-                        "name": "HideImmediate",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnCtaClicked",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnBackgroundClicked",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
                 "className": "UnityEngine.AudioClip",
                 "staticMethods": [],
                 "instanceMethods": [
@@ -32892,10 +32862,6 @@
                         "excluded": false
                     },
                     {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
                         "name": "Start",
                         "excluded": false
                     },
@@ -32945,6 +32911,220 @@
                     },
                     {
                         "name": "LoadVolumes",
+                        "excluded": false
+                    },
+                    {
+                        "name": "inherits",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake$1",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.Patterns.SingletonPattern.Singleton$1",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Instance#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnApplicationQuit",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.CameraController",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "OnEnable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDisable",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnValidate",
+                        "excluded": true
+                    },
+                    {
+                        "name": "HandlePlayerDied",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.PlayableEndCardController",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnEnable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDisable",
+                        "excluded": true
+                    },
+                    {
+                        "name": "HandlePlayerDied",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Show",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Hide",
+                        "excluded": true
+                    },
+                    {
+                        "name": "HideImmediate",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnCtaClicked",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnBackgroundClicked",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.GameEvents.PlayerDiedEvent",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "getDefaultValue",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getHashCode",
+                        "excluded": true
+                    },
+                    {
+                        "name": "equals",
+                        "excluded": true
+                    },
+                    {
+                        "name": "$clone",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.Patterns.EventBusPattern.EventBinding$1",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "_Game$_Scripts$Patterns$EventBusPattern$IEventBinding$1$OnEvent#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "_Game$_Scripts$Patterns$EventBusPattern$IEventBinding$1$OnEvent#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "_Game$_Scripts$Patterns$EventBusPattern$IEventBinding$1$OnEventNoArgs#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "_Game$_Scripts$Patterns$EventBusPattern$IEventBinding$1$OnEventNoArgs#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "$ctor1",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Add$1",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Add",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Remove$1",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Remove",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.Patterns.EventBusPattern.EventBus$1",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Subscribe",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Unsubscribe",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Publish",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Clear",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "System.Reflection.TargetSite",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "toString",
                         "excluded": false
                     }
                 ]

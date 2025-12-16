@@ -380,6 +380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
+  - component: {fileID: 519420033}
   m_Layer: 8
   m_Name: camera_main
   m_TagString: MainCamera
@@ -453,6 +454,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1618810753}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dcebd25a3a649139c3a11aa2af4d521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &527803441
 GameObject:
   m_ObjectHideFlags: 0
@@ -1237,7 +1250,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1041625306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1250,10 +1263,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0cbd9ed0f884b18af9cf799f009ad99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _root: {fileID: 1960536400}
+  _canvas: {fileID: 1041625309}
   _ctaButton: {fileID: 1844341130}
   _backgroundButton: {fileID: 0}
-  _floatingJoystickCanvas: {fileID: 0}
+  _floatingJoystickCanvas: {fileID: 25640710}
   _backgroundAlsoClicksCta: 0
   _editorFallbackUrl: https://loopgames.net/games
 --- !u!114 &1041625307
@@ -1303,7 +1316,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1041625305}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 519420031}
@@ -2093,6 +2106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e8416f01e094b2f9699dce22263c4cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isPlayer: 1
   _healthBar: {fileID: 1400139209}
   _healthWhiteIndicatorBar: {fileID: 1658980071}
   _maxHealth: 3
@@ -2660,7 +2674,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8be4473f997463fa2f4292f7396752e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioService: {fileID: 1252327400}
   _isPlayer: 1
   _playerMovement: {fileID: 1618810751}
   _playerVisualController: {fileID: 1618810755}

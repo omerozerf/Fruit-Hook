@@ -1,4 +1,6 @@
 using System;
+using _Game._Scripts.GameEvents;
+using _Game._Scripts.Patterns.EventBusPattern;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -7,6 +9,8 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerHealthController : MonoBehaviour
     {
+        [SerializeField] private bool _isPlayer;
+        
         [Header("UI")]
         [SerializeField] private Image _healthBar;
         [SerializeField] private Image _healthWhiteIndicatorBar;
@@ -34,13 +38,12 @@ namespace _Game._Scripts.PlayerSystem
         private int m_CurrentHealth;
         private bool m_IsDead;
         private Tween m_WhiteBarTween;
+        
 
-        
-        
         private void Awake()
         {
             InitializeHealth();
-            if (_collider == null)
+            if (!_collider)
                 _collider = GetComponent<Collider2D>();
         }
         
@@ -104,9 +107,14 @@ namespace _Game._Scripts.PlayerSystem
 
         private void HandleDeath()
         {
-            if (_collider != null)
+            if (_collider)
                 _collider.enabled = false;
 
+            EventBus<PlayerDiedEvent>.Publish(new PlayerDiedEvent
+            {
+                isPlayer = _isPlayer
+            });
+            
             Vector3 startPos = transform.position;
             Vector3 targetPos = startPos + Vector3.down * _deathMoveDistance;
 
@@ -116,8 +124,7 @@ namespace _Game._Scripts.PlayerSystem
                 .Join(transform.DOScale(Vector3.zero, _deathDuration).SetEase(_deathEase))
                 .OnComplete(() =>
                 {
-                    OnDied?.Invoke();
-                    Destroy(gameObject);
+                    gameObject.SetActive(false);
                 });
         }
 

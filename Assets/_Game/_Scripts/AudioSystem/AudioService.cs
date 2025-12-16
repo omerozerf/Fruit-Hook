@@ -149,12 +149,10 @@ namespace _Game._Scripts.AudioSystem
             _sfxSource = gameObject.AddComponent<AudioSource>();
             _sfxSource.playOnAwake = false;
             _sfxSource.loop = false;
-            _sfxSource.spatialBlend = 0f;
 
             _musicSource = gameObject.AddComponent<AudioSource>();
             _musicSource.playOnAwake = false;
             _musicSource.loop = true;
-            _musicSource.spatialBlend = 0f;
         }
 
         private void LoadVolumes()

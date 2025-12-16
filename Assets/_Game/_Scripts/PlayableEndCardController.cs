@@ -1,3 +1,6 @@
+using System;
+using _Game._Scripts.GameEvents;
+using _Game._Scripts.Patterns.EventBusPattern;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,7 +9,7 @@ namespace _Game._Scripts
     public class PlayableEndCardController : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private GameObject _root;          
+        [SerializeField] private Canvas _canvas;          
         [SerializeField] private Button _ctaButton;         
         [SerializeField] private Button _backgroundButton;
         [SerializeField] private Canvas _floatingJoystickCanvas;
@@ -16,6 +19,8 @@ namespace _Game._Scripts
         [SerializeField] private string _editorFallbackUrl = "";
 
         private bool m_IsShown;
+        private EventBinding<PlayerDiedEvent> m_PlayerDiedEventBinding;
+        private int m_DeadAiCount;
 
         private void Awake()
         {
@@ -28,13 +33,45 @@ namespace _Game._Scripts
             HideImmediate();
         }
 
+        private void OnEnable()
+        {
+            m_PlayerDiedEventBinding = new EventBinding<PlayerDiedEvent>(HandlePlayerDied);
+            EventBus<PlayerDiedEvent>.Subscribe(m_PlayerDiedEventBinding);
+        }
+
+        private void OnDisable()
+        {
+            EventBus<PlayerDiedEvent>.Unsubscribe(m_PlayerDiedEventBinding);
+        }
+
+        private void HandlePlayerDied(PlayerDiedEvent playerDiedEvent)
+        {
+            var isPlayer = playerDiedEvent.isPlayer;
+
+            switch (isPlayer)
+            {
+                case true:
+                {
+                    Show();
+                    break;
+                }
+                case false:
+                {
+                    m_DeadAiCount++;
+                    if (m_DeadAiCount >= 3)
+                        Show();
+                    break;
+                }
+            }
+        }
+
         public void Show()
         {
             if (m_IsShown) return;
             m_IsShown = true;
 
             _floatingJoystickCanvas.enabled = false;
-            if (_root) _root.SetActive(true);
+            if (_canvas) _canvas.enabled = true;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
             Luna.Unity.LifeCycle.GameEnded();
@@ -44,13 +81,13 @@ namespace _Game._Scripts
         public void Hide()
         {
             m_IsShown = false;
-            if (_root) _root.SetActive(false);
+            if (_canvas) _canvas.enabled = false;
         }
 
         private void HideImmediate()
         {
             m_IsShown = false;
-            if (_root) _root.SetActive(false);
+            if (_canvas) _canvas.enabled = false;
         }
 
         public void OnCtaClicked()
