@@ -979,6 +979,34 @@ PrefabInstance:
       propertyPath: _swordBubbleCreator
       value: 
       objectReference: {fileID: 536565775}
+    - target: {fileID: 8068690803994530334, guid: ceb64674728a944de894b0db2750f80b, type: 3}
+      propertyPath: _attackRange
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8068690803994530334, guid: ceb64674728a944de894b0db2750f80b, type: 3}
+      propertyPath: _avoidWeight
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8068690803994530334, guid: ceb64674728a944de894b0db2750f80b, type: 3}
+      propertyPath: _maxScanHits
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8068690803994530334, guid: ceb64674728a944de894b0db2750f80b, type: 3}
+      propertyPath: _threatRange
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8068690803994530334, guid: ceb64674728a944de894b0db2750f80b, type: 3}
+      propertyPath: _wanderStrength
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8068690803994530334, guid: ceb64674728a944de894b0db2750f80b, type: 3}
+      propertyPath: _enemyScanRadius
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8068690803994530334, guid: ceb64674728a944de894b0db2750f80b, type: 3}
+      propertyPath: _swordScanRadius
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8497399497383382849, guid: ceb64674728a944de894b0db2750f80b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 32
@@ -1083,7 +1111,7 @@ MonoBehaviour:
     _swordPrefab: {fileID: 5994103736001037649, guid: d0df00ece857e45948a962b1967c774c, type: 3}
   _prewarmCount: 8
   _test:
-    _enableTestSpawning: 0
+    _enableTestSpawning: 1
     _spawnInterval: 0.52
     _enableTestRemoval: 0
     _removeInterval: 3
@@ -1696,7 +1724,7 @@ Transform:
   m_GameObject: {fileID: 1618810749}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.11, y: 2.17, z: 0}
+  m_LocalPosition: {x: 20.91, y: 26.62, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

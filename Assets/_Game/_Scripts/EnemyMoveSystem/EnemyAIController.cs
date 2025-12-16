@@ -284,6 +284,7 @@ namespace _Game._Scripts.EnemyMoveSystem
         {
             var playerCollisionController = enemy.GetComponent<PlayerCollisionController>();
             var orbitController = playerCollisionController.GetSwordOrbitController();
+            Debug.Log(orbitController.GetSwordCount());
             return orbitController.GetSwordCount();
         }
         
