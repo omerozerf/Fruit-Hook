@@ -9,7 +9,6 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerCollisionController : MonoBehaviour
     {
-        [SerializeField] private AudioService _audioService;
         [SerializeField] private bool _isPlayer;
         [SerializeField] private PlayerMovement _playerMovement;
         [SerializeField] private PlayerVisualController _playerVisualController;
@@ -29,16 +28,9 @@ namespace _Game._Scripts.PlayerSystem
         private void OnTriggerEnter2D(Collider2D other)
         {
             HandleSwordBubbleCollision(other);
-
-            if (!IsInLayerMask(other.gameObject, _swordLayerMask)) return;
-
-            _playerHealthController.TakeDamage(1);
-            _playerVisualController.PlayDamageFlash();
-            ApplyKnockback(other);
-            if (_isPlayer) PlayCameraShake();
-            _audioService.PlaySfx(AudioService.SfxId.DamageHit);
+            HandleSwordCollision(other);
         }
-
+        
         private void OnValidate()
         {
             if (!_playerHealthController) _playerHealthController = GetComponentInParent<PlayerHealthController>();
@@ -47,7 +39,18 @@ namespace _Game._Scripts.PlayerSystem
             if (!_playerVisualController) _playerVisualController = GetComponentInParent<PlayerVisualController>();
         }
 
+        
+        private void HandleSwordCollision(Collider2D other)
+        {
+            if (!IsInLayerMask(other.gameObject, _swordLayerMask)) return;
 
+            _playerHealthController.TakeDamage(1);
+            _playerVisualController.PlayDamageFlash();
+            ApplyKnockback(other);
+            if (_isPlayer) PlayCameraShake();
+            AudioService.Instance.PlaySfx(AudioService.SfxId.DamageHit);
+        }
+        
         private void HandleSwordBubbleCollision(Collider2D other)
         {
             if (!IsInLayerMask(other.gameObject, _bubbleSwordLayerMask)) return;
@@ -59,7 +62,7 @@ namespace _Game._Scripts.PlayerSystem
                 _swordBubbleCreator.Release(swordBubbleCollision.GetSwordBubble().transform);
             });
             
-            _audioService.PlaySfx(AudioService.SfxId.BubbleSword);
+            AudioService.Instance.PlaySfx(AudioService.SfxId.BubbleSword);
         }
 
         private bool IsInLayerMask(GameObject obj, LayerMask mask)

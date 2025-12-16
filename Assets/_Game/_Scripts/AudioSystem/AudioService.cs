@@ -1,8 +1,9 @@
+using _Game._Scripts.Patterns;
 using UnityEngine;
 
 namespace _Game._Scripts.AudioSystem
 {
-    public sealed class AudioService : MonoBehaviour
+    public sealed class AudioService : Singleton<AudioService>
     {
         public enum SfxId
         {
@@ -129,18 +130,6 @@ namespace _Game._Scripts.AudioSystem
         {
             if (_unlocked) return;
             _unlocked = true;
-
-            // “Silent tick”: bazı WebGL runtime’larında audio context’i uyandırmaya yardımcı olur.
-            _sfxSource.volume = 0f;
-            _sfxSource.PlayOneShot(CreateSilentClip());
-            _sfxSource.volume = _sfxVolume;
-        }
-
-        private AudioClip CreateSilentClip()
-        {
-            // Çok kısa, sessiz clip
-            var clip = AudioClip.Create("silent", 64, 1, 44100, false);
-            return clip;
         }
 
         private AudioClip GetClip(SfxId id)
