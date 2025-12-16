@@ -23,7 +23,16 @@ namespace _Game._Scripts.PlayerSystem
         [SerializeField] private Color _midHealthColor = new(1f, 0.5f, 0f);
         [SerializeField] private Color _lowHealthColor = Color.red;
 
+        [Header("Death Settings")]
+        [SerializeField] private Collider2D _collider;
+        [SerializeField] private float _deathMoveDistance = 1.2f;
+        [SerializeField] private float _deathDuration = 0.4f;
+        [SerializeField] private Ease _deathEase = Ease.InQuad;
+
+        public event Action OnDied;
+
         private int m_CurrentHealth;
+        private bool m_IsDead;
         private Tween m_WhiteBarTween;
 
         
@@ -31,11 +40,14 @@ namespace _Game._Scripts.PlayerSystem
         private void Awake()
         {
             InitializeHealth();
+            if (_collider == null)
+                _collider = GetComponent<Collider2D>();
         }
         
         private void InitializeHealth()
         {
             m_CurrentHealth = _maxHealth;
+            m_IsDead = m_CurrentHealth <= 0;
 
             float fill = CalculateFillAmount();
             SetHealthBarImmediate(fill);
@@ -46,6 +58,9 @@ namespace _Game._Scripts.PlayerSystem
 
         public void TakeDamage(int amount)
         {
+            if (m_IsDead)
+                return;
+
             if (amount <= 0)
                 return;
 
@@ -66,8 +81,44 @@ namespace _Game._Scripts.PlayerSystem
             SetHealthBarImmediate(targetFill);
             AnimateWhiteIndicatorTo(targetFill);
             UpdateHealthColor();
-            
-            
+
+            UpdateDeadState();
+        }
+
+        public bool IsDead()
+        {
+            return m_IsDead;
+        }
+
+        private void UpdateDeadState()
+        {
+            if (m_IsDead)
+                return;
+
+            if (m_CurrentHealth > 0)
+                return;
+
+            m_IsDead = true;
+            HandleDeath();
+        }
+
+        private void HandleDeath()
+        {
+            if (_collider != null)
+                _collider.enabled = false;
+
+            Vector3 startPos = transform.position;
+            Vector3 targetPos = startPos + Vector3.down * _deathMoveDistance;
+
+            Sequence deathSequence = DOTween.Sequence();
+            deathSequence
+                .Append(transform.DOMoveY(targetPos.y, _deathDuration).SetEase(_deathEase))
+                .Join(transform.DOScale(Vector3.zero, _deathDuration).SetEase(_deathEase))
+                .OnComplete(() =>
+                {
+                    OnDied?.Invoke();
+                    Destroy(gameObject);
+                });
         }
 
         private float CalculateFillAmount()

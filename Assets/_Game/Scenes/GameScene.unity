@@ -1726,6 +1726,10 @@ MonoBehaviour:
   _fullHealthColor: {r: 0, g: 1, b: 0, a: 1}
   _midHealthColor: {r: 1, g: 0.5, b: 0, a: 1}
   _lowHealthColor: {r: 1, g: 0, b: 0, a: 1}
+  _collider: {fileID: 1999706572}
+  _deathMoveDistance: 1.2
+  _deathDuration: 0.4
+  _deathEase: 5
 --- !u!114 &1618810755
 MonoBehaviour:
   m_ObjectHideFlags: 0
