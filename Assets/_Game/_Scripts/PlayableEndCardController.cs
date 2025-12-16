@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _Game._Scripts.PlayableSystem
+namespace _Game._Scripts
 {
     public class PlayableEndCardController : MonoBehaviour
     {
@@ -13,7 +13,7 @@ namespace _Game._Scripts.PlayableSystem
 
         [Header("Settings")]
         [SerializeField] private bool _backgroundAlsoClicksCta = false;
-        [SerializeField] private string _editorFallbackUrl = ""; // Optional: for testing CTA outside Playworks/Luna
+        [SerializeField] private string _editorFallbackUrl = "";
 
         private bool m_IsShown;
 
