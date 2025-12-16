@@ -1,4 +1,5 @@
 using System;
+using _Game._Scripts.AudioSystem;
 using _Game._Scripts.SwordBubbleSystem;
 using _Game._Scripts.SwordOrbitSystem;
 using UnityEngine;
@@ -8,6 +9,7 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerCollisionController : MonoBehaviour
     {
+        [SerializeField] private AudioService _audioService;
         [SerializeField] private bool _isPlayer;
         [SerializeField] private PlayerMovement _playerMovement;
         [SerializeField] private PlayerVisualController _playerVisualController;
@@ -34,6 +36,7 @@ namespace _Game._Scripts.PlayerSystem
             _playerVisualController.PlayDamageFlash();
             ApplyKnockback(other);
             if (_isPlayer) PlayCameraShake();
+            _audioService.PlaySfx(AudioService.SfxId.DamageHit);
         }
 
         private void OnValidate()
@@ -55,6 +58,8 @@ namespace _Game._Scripts.PlayerSystem
                 _swordOrbitController.SpawnSword();
                 _swordBubbleCreator.Release(swordBubbleCollision.GetSwordBubble().transform);
             });
+            
+            _audioService.PlaySfx(AudioService.SfxId.BubbleSword);
         }
 
         private bool IsInLayerMask(GameObject obj, LayerMask mask)

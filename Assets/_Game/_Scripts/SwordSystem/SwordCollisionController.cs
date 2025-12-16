@@ -1,4 +1,5 @@
 using System;
+using _Game._Scripts.AudioSystem;
 using DG.Tweening;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace _Game._Scripts.SwordSystem
 {
     public class SwordCollisionController : MonoBehaviour
     {
+        [SerializeField] private AudioService _audioService;
         [SerializeField] private bool _isPlayer;
         [SerializeField] private Sword _sword;
         [SerializeField] private LayerMask _swordLayerMask;
@@ -13,6 +15,11 @@ namespace _Game._Scripts.SwordSystem
         [SerializeField] private float _shakeStrength = 0.7f;
 
         private Tween m_CameraShakeTween;
+
+        private void Awake()
+        {
+            _audioService = FindFirstObjectByType<AudioService>();
+        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -33,6 +40,8 @@ namespace _Game._Scripts.SwordSystem
 
             if (otherOrbitController && otherSword.transform) otherOrbitController.RemoveSword(otherSword.transform);
             if (myOrbitController && mySword.transform) myOrbitController.RemoveSword(mySword.transform);
+            
+            _audioService.PlaySfx(AudioService.SfxId.SwordHit);
         }
 
         private void OnValidate()

@@ -380,7 +380,6 @@ GameObject:
   m_Component:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
-  - component: {fileID: 519420029}
   m_Layer: 8
   m_Name: camera_main
   m_TagString: MainCamera
@@ -388,14 +387,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &519420029
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -1007,6 +998,10 @@ PrefabInstance:
       value: enemy_player
       objectReference: {fileID: 0}
     - target: {fileID: 4712163088051135781, guid: ceb64674728a944de894b0db2750f80b, type: 3}
+      propertyPath: _audioService
+      value: 
+      objectReference: {fileID: 1252327400}
+    - target: {fileID: 4712163088051135781, guid: ceb64674728a944de894b0db2750f80b, type: 3}
       propertyPath: _swordBubbleCreator
       value: 
       objectReference: {fileID: 536565775}
@@ -1217,7 +1212,7 @@ MonoBehaviour:
     _swordPrefab: {fileID: 5994103736001037649, guid: d0df00ece857e45948a962b1967c774c, type: 3}
   _prewarmCount: 8
   _test:
-    _enableTestSpawning: 1
+    _enableTestSpawning: 0
     _spawnInterval: 0.52
     _enableTestRemoval: 0
     _removeInterval: 3
@@ -1242,7 +1237,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1041625306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1258,6 +1253,7 @@ MonoBehaviour:
   _root: {fileID: 1960536400}
   _ctaButton: {fileID: 1844341130}
   _backgroundButton: {fileID: 0}
+  _floatingJoystickCanvas: {fileID: 0}
   _backgroundAlsoClicksCta: 0
   _editorFallbackUrl: https://loopgames.net/games
 --- !u!114 &1041625307
@@ -1710,6 +1706,100 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1252327399
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1252327401}
+  - component: {fileID: 1252327400}
+  m_Layer: 0
+  m_Name: audio_service
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1252327400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252327399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81009636859e4940b653eac4e040a657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bubbleSword: {fileID: 8300000, guid: 348fc257ca0744978a516c4b05373f6f, type: 3}
+  _damageHit: {fileID: 8300000, guid: 68e9f4cf8d00348daaafb51bb18356e6, type: 3}
+  _swordHit: {fileID: 8300000, guid: 358e8c81fe05e4fc6b562a3c2e6c9c9f, type: 3}
+  _music: {fileID: 0}
+  _playMusicOnStart: 0
+  _sfxVolume: 1
+  _musicVolume: 0.5
+  _randomizePitch: 0
+  _pitchMin: 0.95
+  _pitchMax: 1.05
+--- !u!4 &1252327401
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252327399}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1349502428
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1349502430}
+  - component: {fileID: 1349502429}
+  m_Layer: 0
+  m_Name: audio_listener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!81 &1349502429
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349502428}
+  m_Enabled: 1
+--- !u!4 &1349502430
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349502428}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1400139207
 GameObject:
   m_ObjectHideFlags: 0
@@ -1845,6 +1935,37 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412081199}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1590261662
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1590261663}
+  m_Layer: 0
+  m_Name: ------------------------------------------------ (6)
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1590261663
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590261662}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -2539,6 +2660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8be4473f997463fa2f4292f7396752e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioService: {fileID: 1252327400}
   _isPlayer: 1
   _playerMovement: {fileID: 1618810751}
   _playerVisualController: {fileID: 1618810755}
@@ -2859,3 +2981,6 @@ SceneRoots:
   - {fileID: 536565776}
   - {fileID: 128220280}
   - {fileID: 939126881}
+  - {fileID: 1590261663}
+  - {fileID: 1252327401}
+  - {fileID: 1349502430}
