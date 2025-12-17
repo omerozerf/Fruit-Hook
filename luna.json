@@ -8504,19 +8504,19 @@
                 "excluded": false
             },
             {
-                "name": "_Game._Scripts.EnemyMoveSystem.EnemyAIController.AIState",
-                "excluded": false
-            },
-            {
-                "name": "_Game._Scripts.AudioSystem.AudioService.SfxId",
-                "excluded": false
-            },
-            {
                 "name": "_Game._Scripts.Patterns.EventBusPattern.IEvent",
                 "excluded": false
             },
             {
                 "name": "_Game._Scripts.Patterns.EventBusPattern.IEventBinding$1",
+                "excluded": false
+            },
+            {
+                "name": "_Game._Scripts.AudioSystem.SfxId",
+                "excluded": false
+            },
+            {
+                "name": "_Game._Scripts.EnemyMoveSystem.AIState",
                 "excluded": false
             }
         ],
@@ -27612,56 +27612,6 @@
                 ]
             },
             {
-                "className": "_Game._Scripts.GridMapBuilder",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "BuildGround",
-                        "excluded": false
-                    },
-                    {
-                        "name": "BuildFence",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GridToWorld",
-                        "excluded": false
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ApplyGlobalSorting",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ApplySortingForRoot",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetRandomWeightedGround",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SpawnGroundAt",
-                        "excluded": false
-                    },
-                    {
-                        "name": "DisableTopCornerLastRenderers",
-                        "excluded": false
-                    },
-                    {
-                        "name": "DisableLastRendererInSortingTraversal",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
                 "className": "_Game._Scripts.PlayerSystem.PlayerAnimator",
                 "staticMethods": [],
                 "instanceMethods": [
@@ -27758,6 +27708,14 @@
                     {
                         "name": "Awake",
                         "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CanTakeDamageFrom",
+                        "excluded": false
                     }
                 ]
             },
@@ -27775,10 +27733,6 @@
                     },
                     {
                         "name": "FixedUpdate",
-                        "excluded": false
-                    },
-                    {
-                        "name": "InitializeRigidbody",
                         "excluded": false
                     },
                     {
@@ -27840,10 +27794,6 @@
                     {
                         "name": "DespawnRoutine",
                         "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": true
                     }
                 ]
             },
@@ -28342,6 +28292,26 @@
                     {
                         "name": "GetRandomPointInsideArea",
                         "excluded": false
+                    },
+                    {
+                        "name": "OnEnable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "HandlePlayerDied",
+                        "excluded": false
+                    },
+                    {
+                        "name": "HandleSwordBubbleTaken",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SpawnAt",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SpawnCluster",
+                        "excluded": false
                     }
                 ]
             },
@@ -28431,6 +28401,14 @@
                     },
                     {
                         "name": "KillHintTween",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnEnable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "HandleEndCardShowed",
                         "excluded": false
                     }
                 ]
@@ -31830,10 +31808,6 @@
                 "staticMethods": [],
                 "instanceMethods": [
                     {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
                         "name": "PushInput",
                         "excluded": false
                     },
@@ -31848,41 +31822,11 @@
                 ]
             },
             {
-                "className": "_Game._Scripts.GridMapBuilder.WeightedPrefab",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "getDefaultValue",
-                        "excluded": true
-                    },
-                    {
-                        "name": "ctor",
-                        "excluded": false
-                    },
-                    {
-                        "name": "getHashCode",
-                        "excluded": true
-                    },
-                    {
-                        "name": "equals",
-                        "excluded": true
-                    },
-                    {
-                        "name": "$clone",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
                 "className": "_Game._Scripts.PlayerSystem.PlayerJoystickInputSource",
                 "staticMethods": [],
                 "instanceMethods": [
                     {
                         "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
                         "excluded": false
                     },
                     {
@@ -31900,6 +31844,18 @@
                     {
                         "name": "OnValidate",
                         "excluded": true
+                    },
+                    {
+                        "name": "OnEnable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDisable",
+                        "excluded": true
+                    },
+                    {
+                        "name": "HandleEndCardShowed",
+                        "excluded": false
                     }
                 ]
             },
@@ -32013,6 +31969,10 @@
                     },
                     {
                         "name": "Tick",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Tick\",this)}this.c$-=t;if(this.c$<=0){pc.Application.getApplication().events.off(\"update",
                         "excluded": false
                     }
                 ]
@@ -32914,7 +32874,7 @@
                         "excluded": false
                     },
                     {
-                        "name": "Awake$1",
+                        "name": "Awake",
                         "excluded": false
                     }
                 ]
@@ -32933,7 +32893,7 @@
                     },
                     {
                         "name": "Awake",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "OnApplicationQuit",
@@ -32990,10 +32950,6 @@
                     {
                         "name": "Show",
                         "excluded": false
-                    },
-                    {
-                        "name": "Hide",
-                        "excluded": true
                     },
                     {
                         "name": "HideImmediate",
@@ -33061,7 +33017,7 @@
                     },
                     {
                         "name": "ctor",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Add$1",
@@ -33428,6 +33384,14 @@
                     {
                         "name": "init",
                         "excluded": false
+                    },
+                    {
+                        "name": "DropCount#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DropRadius#get",
+                        "excluded": false
                     }
                 ]
             },
@@ -33514,16 +33478,142 @@
                 ]
             },
             {
-                "className": "_Game._Scripts.Rendering.SpriteMapBaker",
+                "className": "_Game._Scripts.AudioSystem.AudioServiceSettingsSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "BubbleSword#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DamageHit#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SwordHit#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Music#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PlayMusicOnStart#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DefaultSfxVolume#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DefaultMusicVolume#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RandomizePitch#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PitchMin#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "PitchMax#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.MapSystem.GridMapBuilder",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BuildGround",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SpawnGroundAt",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BuildFence",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ApplyGlobalSorting",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DisableTopCornerLastRenderers",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DisableLastRendererInSortingTraversal",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ApplySortingForRoot",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GridToWorld",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetRandomWeightedGround",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.MapSystem.GridMapBuilder.WeightedPrefab",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "getDefaultValue",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getHashCode",
+                        "excluded": true
+                    },
+                    {
+                        "name": "equals",
+                        "excluded": true
+                    },
+                    {
+                        "name": "$clone",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.MapSystem.SpriteMapBaker",
                 "staticMethods": [],
                 "instanceMethods": [
                     {
                         "name": "CollectSpriteRenderers",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "GroupByTextureAndSorting",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "GroupByTextureOnly",
@@ -33531,23 +33621,31 @@
                     },
                     {
                         "name": "CreateSpriteMaterial",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "AddSimpleQuad",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "AddSliced9Patch",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "GetQuadFromSpriteBounds",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "GetQuadUVFromSpriteRect",
-                        "excluded": false
+                        "excluded": true
+                    },
+                    {
+                        "name": "EstimateVertexCount",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SplitByVertexBudget",
+                        "excluded": true
                     },
                     {
                         "name": "init",
@@ -33555,64 +33653,56 @@
                     },
                     {
                         "name": "Start",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Bake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ValidateReferences",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ClearPreviousBake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "BakeGroupToChunks",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetCellBounds",
-                        "excluded": false
-                    },
-                    {
-                        "name": "CollectChunkRenderers",
-                        "excluded": false
-                    },
-                    {
-                        "name": "CreateChunkMesh",
-                        "excluded": false
-                    },
-                    {
-                        "name": "BuildMesh",
-                        "excluded": false
-                    },
-                    {
-                        "name": "WorldToCell",
-                        "excluded": false
-                    },
-                    {
-                        "name": "PostBakeCleanup",
-                        "excluded": false
-                    },
-                    {
-                        "name": "EstimateVertexCount",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SplitByVertexBudget",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "BakeAfterDelay",
-                        "excluded": false
+                        "excluded": true
+                    },
+                    {
+                        "name": "ValidateReferences",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ClearPreviousBake",
+                        "excluded": true
+                    },
+                    {
+                        "name": "BakeGroupToChunks",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetCellBounds",
+                        "excluded": true
+                    },
+                    {
+                        "name": "CollectChunkRenderers",
+                        "excluded": true
+                    },
+                    {
+                        "name": "CreateChunkMesh",
+                        "excluded": true
+                    },
+                    {
+                        "name": "BuildMesh",
+                        "excluded": true
+                    },
+                    {
+                        "name": "WorldToCell",
+                        "excluded": true
+                    },
+                    {
+                        "name": "PostBakeCleanup",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Bake",
+                        "excluded": true
                     }
                 ]
             },
             {
-                "className": "_Game._Scripts.Rendering.SpriteMapBaker.GroupKey",
+                "className": "_Game._Scripts.MapSystem.SpriteMapBaker.GroupKey",
                 "staticMethods": [],
                 "instanceMethods": [
                     {
@@ -33621,19 +33711,19 @@
                     },
                     {
                         "name": "getDefaultValue",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "$ctor1",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "ctor",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "equalsT",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "equals",
@@ -33641,11 +33731,97 @@
                     },
                     {
                         "name": "getHashCode",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "$clone",
                         "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.ScriptableObjects.SwordBubbleSettingsSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "RotationSpeed#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DefaultPushDistance#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DefaultPushDuration#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DefaultHoldDuration#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DefaultPullDuration#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DefaultEndScaleMultiplier#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DisableColliderOnPickup#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "MoveEase#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ScaleEase#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.GameEvents.EndCardShowed",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "getDefaultValue",
+                        "excluded": false
+                    },
+                    {
+                        "name": "$clone",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.GameEvents.SwordBubbleTaken",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "getDefaultValue",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getHashCode",
+                        "excluded": true
+                    },
+                    {
+                        "name": "equals",
+                        "excluded": true
+                    },
+                    {
+                        "name": "$clone",
+                        "excluded": false
                     }
                 ]
             }
