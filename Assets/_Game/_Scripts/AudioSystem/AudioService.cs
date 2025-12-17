@@ -1,4 +1,3 @@
-using _Game._Scripts.Patterns;
 using _Game._Scripts.Patterns.SingletonPattern;
 using UnityEngine;
 

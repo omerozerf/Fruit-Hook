@@ -1,10 +1,10 @@
 using System;
 using _Game._Scripts.ObjectPoolSystem;
+using _Game._Scripts.ScriptableObjects;
 using _Game._Scripts.SwordOrbitSystem.Helpers;
 using _Game._Scripts.SwordSystem;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace _Game._Scripts.SwordOrbitSystem
 {

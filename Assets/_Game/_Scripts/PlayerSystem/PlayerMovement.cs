@@ -1,3 +1,4 @@
+using _Game._Scripts.ScriptableObjects;
 using UnityEngine;
 
 namespace _Game._Scripts.PlayerSystem

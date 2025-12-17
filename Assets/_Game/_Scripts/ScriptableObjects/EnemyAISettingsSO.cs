@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _Game._Scripts.EnemyMoveSystem
+namespace _Game._Scripts.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "EnemyAISettingsSO", menuName = "Game/AI/Enemy AI Settings", order = 0)]
     public class EnemyAISettingsSO : ScriptableObject

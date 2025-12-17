@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _Game._Scripts
+namespace _Game._Scripts.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "GridMapBuilderSettings", menuName = "Game/Map/Grid Map Builder Settings", order = 0)]
     public class GridMapBuilderSettingsSO : ScriptableObject

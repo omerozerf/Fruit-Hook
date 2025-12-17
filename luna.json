@@ -1760,10 +1760,6 @@
                 "excluded": true
             },
             {
-                "name": "UnityEngine.PropertyHelper",
-                "excluded": true
-            },
-            {
                 "name": "UnityEngine.PropertyName",
                 "excluded": true
             },
@@ -19247,7 +19243,7 @@
                     },
                     {
                         "name": "disabledColor#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "disabledColor#set",
@@ -19459,7 +19455,7 @@
                     },
                     {
                         "name": "disabledSprite#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "disabledSprite#set",
@@ -19691,7 +19687,7 @@
                     },
                     {
                         "name": "OnCanvasGroupChanged",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Raycast",
@@ -22601,7 +22597,7 @@
                     },
                     {
                         "name": "Destroyed#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ctor",
@@ -22995,35 +22991,35 @@
                     },
                     {
                         "name": "ExtractBlocksRaycast",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "alpha#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "alpha#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "interactable#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "interactable#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "blocksRaycasts#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "blocksRaycasts#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ignoreParentGroups#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ignoreParentGroups#set",
@@ -23031,15 +23027,15 @@
                     },
                     {
                         "name": "init",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Awake",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "OnEnable",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "OnDisable",
@@ -23047,7 +23043,7 @@
                     },
                     {
                         "name": "AddCanvasGroup",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "RemoveCanvasGroup",
@@ -27658,6 +27654,18 @@
                     {
                         "name": "GetRandomWeightedGround",
                         "excluded": false
+                    },
+                    {
+                        "name": "SpawnGroundAt",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DisableTopCornerLastRenderers",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DisableLastRendererInSortingTraversal",
+                        "excluded": false
                     }
                 ]
             },
@@ -27712,6 +27720,10 @@
                     {
                         "name": "StopIdleAnimation",
                         "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
                     }
                 ]
             },
@@ -27719,10 +27731,6 @@
                 "className": "_Game._Scripts.PlayerSystem.PlayerCollisionController",
                 "staticMethods": [],
                 "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
                     {
                         "name": "OnTriggerEnter2D",
                         "excluded": false
@@ -27753,6 +27761,10 @@
                     },
                     {
                         "name": "HandleSwordCollision",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
                         "excluded": false
                     }
                 ]
@@ -28295,10 +28307,6 @@
                 "className": "_Game._Scripts.SwordBubbleSystem.SwordBubbleCreator",
                 "staticMethods": [],
                 "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
                     {
                         "name": "Awake",
                         "excluded": false
@@ -31336,10 +31344,6 @@
                 "staticMethods": [],
                 "instanceMethods": [
                     {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
                         "name": "Awake",
                         "excluded": false
                     },
@@ -31918,6 +31922,10 @@
                     {
                         "name": "DamageFlashCoroutine",
                         "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
                     }
                 ]
             },
@@ -32013,10 +32021,6 @@
                     },
                     {
                         "name": "Tick",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Tick\",this)}this.c$-=t;if(this.c$<=0){pc.Application.getApplication().events.off(\"update",
                         "excluded": false
                     }
                 ]
@@ -32409,7 +32413,7 @@
                     },
                     {
                         "name": "disabledTrigger#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "disabledTrigger#set",
@@ -33006,10 +33010,6 @@
                     {
                         "name": "OnCtaClicked",
                         "excluded": false
-                    },
-                    {
-                        "name": "OnBackgroundClicked",
-                        "excluded": true
                     }
                 ]
             },
@@ -33125,6 +33125,350 @@
                     },
                     {
                         "name": "toString",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.PropertyHelper",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "SetColor",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetStruct",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetClass",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.EnemyMoveSystem.EnemyAISettingsSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ScanInterval#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "EnemyScanRadius#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SwordScanRadius#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "MaxScanHits#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "EnemyLayer#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SwordLayer#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "AttackRange#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ThreatEnterRange#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ThreatExitRange#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "MinFleeStrength#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SeekWeight#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "AvoidWeight#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "WanderChangeInterval#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "WanderStrength#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DrawGizmos#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.GridMapBuilderSettingsSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Width#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Height#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CellSize#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GroundVariants#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "FenceVertical#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "FenceHorizontal#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "FenceCorner#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StartSortingOrder#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ExtraPaddingCells#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.PlayerSystem.PlayerAnimatorSettingsSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "IdleMoveY#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IdleMoveX#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IdleDuration#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "MovingIdleSpeedMultiplier#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "FootStepAngle#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "FootStepDuration#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "FootStepMoveX#get",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.PlayerSystem.PlayerCollisionSettingsSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "BubbleSwordLayerMask#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SwordLayerMask#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "KnockbackForce#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ShakeDuration#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ShakeStrength#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.PlayerSystem.PlayerHealthSettingsSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "MaxHealth#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "WhiteBarDelay#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "WhiteBarTweenDuration#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "FullHealthColor#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "MidHealthColor#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "LowHealthColor#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "DeathMoveDistance#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "DeathDuration#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "DeathEase#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.PlayerSystem.PlayerMovementSettingsSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "MoveSpeed#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "KnockbackDisableDuration#get",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.PlayerSystem.PlayerVisualSettingsSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "DamageFlashDuration#get",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.SwordBubbleSystem.SwordBubbleCreatorSettingsSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "PrewarmCount#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BaseSpawnInterval#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IntervalVariation#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SpawnOnStart#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "FallbackMin#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "FallbackMax#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "MinDistanceFromPlayer#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PositionTryCount#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.SwordOrbitSystem.SwordOrbitSettingsSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Orbit#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Despawn#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PrewarmCount#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Test#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ShakeDuration#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ShakeStrength#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
                         "excluded": false
                     }
                 ]

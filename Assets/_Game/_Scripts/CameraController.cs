@@ -1,4 +1,3 @@
-using System;
 using _Game._Scripts.GameEvents;
 using _Game._Scripts.Patterns.EventBusPattern;
 using UnityEngine;

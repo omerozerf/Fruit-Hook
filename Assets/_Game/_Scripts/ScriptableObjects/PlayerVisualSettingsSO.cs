@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _Game._Scripts.PlayerSystem
+namespace _Game._Scripts.ScriptableObjects
 {
     [CreateAssetMenu(
         fileName = "PlayerVisualSettingsSO",

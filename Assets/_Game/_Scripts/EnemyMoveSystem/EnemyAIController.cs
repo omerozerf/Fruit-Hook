@@ -1,4 +1,5 @@
 using _Game._Scripts.PlayerSystem;
+using _Game._Scripts.ScriptableObjects;
 using _Game._Scripts.SwordOrbitSystem;
 using UnityEngine;
 #if UNITY_EDITOR

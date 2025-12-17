@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _Game._Scripts.SwordBubbleSystem
+namespace _Game._Scripts.ScriptableObjects
 {
     [CreateAssetMenu(
         fileName = "SwordBubbleCreatorSettings",

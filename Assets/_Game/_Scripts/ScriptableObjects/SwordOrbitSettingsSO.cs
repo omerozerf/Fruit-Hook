@@ -1,6 +1,7 @@
+using _Game._Scripts.SwordOrbitSystem;
 using UnityEngine;
 
-namespace _Game._Scripts.SwordOrbitSystem
+namespace _Game._Scripts.ScriptableObjects
 {
     [CreateAssetMenu(
         fileName = "CommonOrbitSettingsSO",

@@ -1,5 +1,5 @@
+using _Game._Scripts.ScriptableObjects;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace _Game._Scripts.PlayerSystem
 {
