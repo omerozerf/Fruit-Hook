@@ -1,4 +1,6 @@
 using _Game._Scripts.AudioSystem;
+using _Game._Scripts.GameEvents;
+using _Game._Scripts.Patterns.EventBusPattern;
 using _Game._Scripts.ScriptableObjects;
 using _Game._Scripts.SwordBubbleSystem;
 using _Game._Scripts.SwordOrbitSystem;
@@ -18,7 +20,6 @@ namespace _Game._Scripts.PlayerSystem
         [SerializeField] private PlayerMovement _playerMovement;
         [SerializeField] private PlayerVisualController _playerVisualController;
         [SerializeField] private PlayerHealthController _playerHealthController;
-        [SerializeField] private SwordBubbleCreator _swordBubbleCreator;
         [SerializeField] private SwordOrbitController _swordOrbitController;
         [SerializeField] private Rigidbody2D _rigidbody2D;
 
@@ -74,7 +75,10 @@ namespace _Game._Scripts.PlayerSystem
             swordBubbleCollision.GetSwordBubble().PlayPickupToCenter(transform, () =>
             {
                 _swordOrbitController.SpawnSword();
-                _swordBubbleCreator.Release(swordBubbleCollision.GetSwordBubble().transform);
+                EventBus<SwordBubbleTaken>.Publish(new SwordBubbleTaken
+                {
+                    transform = swordBubbleCollision.GetSwordBubble().transform
+                });
                 if (_isPlayer) AudioService.Instance.PlaySfx(AudioService.SfxId.BubbleSword);
             });
             

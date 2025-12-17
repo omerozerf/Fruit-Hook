@@ -25,6 +25,7 @@ namespace _Game._Scripts.SwordBubbleSystem
         private Coroutine m_SpawnRoutine;
         private bool m_IsRunning;
         private EventBinding<PlayerDiedEvent> m_PlayerDiedEventBinding;
+        private EventBinding<SwordBubbleTaken> m_SwordBubbleTakenEventBinding;
 
 
         private void Awake()
@@ -36,7 +37,7 @@ namespace _Game._Scripts.SwordBubbleSystem
                 return;
             }
 
-            if (_swordBubblePrefab == null)
+            if (!_swordBubblePrefab)
             {
                 Debug.LogError($"{nameof(SwordBubbleCreator)}: swordBubblePrefab is null.");
                 enabled = false;
@@ -55,6 +56,8 @@ namespace _Game._Scripts.SwordBubbleSystem
         {
             m_PlayerDiedEventBinding = new EventBinding<PlayerDiedEvent>(HandlePlayerDied);
             EventBus<PlayerDiedEvent>.Subscribe(m_PlayerDiedEventBinding);
+            m_SwordBubbleTakenEventBinding = new EventBinding<SwordBubbleTaken>(HandleSwordBubbleTaken);
+            EventBus<SwordBubbleTaken>.Subscribe(m_SwordBubbleTakenEventBinding);
         }
 
         private void Start()
@@ -68,6 +71,7 @@ namespace _Game._Scripts.SwordBubbleSystem
             StopSpawning();
             
             EventBus<PlayerDiedEvent>.Unsubscribe(m_PlayerDiedEventBinding);
+            EventBus<SwordBubbleTaken>.Unsubscribe(m_SwordBubbleTakenEventBinding);
         }
         
         
@@ -76,6 +80,11 @@ namespace _Game._Scripts.SwordBubbleSystem
             if (obj.isPlayer) return;
             
             SpawnCluster(obj.transform.position, _settings.DropCount, _settings.DropRadius);
+        }
+        
+        private void HandleSwordBubbleTaken(SwordBubbleTaken obj)
+        {
+            Release(obj.transform);
         }
 
         // ---- Public API ----
@@ -129,7 +138,7 @@ namespace _Game._Scripts.SwordBubbleSystem
 
         public void Release(Transform instance)
         {
-            if (instance == null) return;
+            if (!instance) return;
             m_Pool.Release(instance);
         }
 
