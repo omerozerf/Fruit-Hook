@@ -4,15 +4,12 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [Header("Movement")]
-        [SerializeField] private float _moveSpeed = 5f;
+        [Header("Settings")]
+        [SerializeField] private PlayerMovementSettingsSO _settings;
+
+        [Header("Runtime References")]
         [SerializeField] private Rigidbody2D _rigidbody2D;
-
-        [Header("Visuals")]
         [SerializeField] private Transform _visualsTransform;
-
-        [Header("Knockback")]
-        [SerializeField] private float _knockbackDisableDuration = 0.15f;
 
         private Vector2 m_MovementInput;
         private bool m_MovementLocked;
@@ -20,6 +17,13 @@ namespace _Game._Scripts.PlayerSystem
         
         private void Awake()
         {
+            if (_settings == null)
+            {
+                Debug.LogError($"{nameof(PlayerMovement)} on '{name}' has no PlayerMovementSettings assigned.");
+                enabled = false;
+                return;
+            }
+
             InitializeRigidbody();
         }
 
@@ -45,7 +49,7 @@ namespace _Game._Scripts.PlayerSystem
 
         private void ApplyMove()
         {
-            Vector2 targetVelocity = m_MovementInput * _moveSpeed;
+            Vector2 targetVelocity = m_MovementInput * _settings.MoveSpeed;
             _rigidbody2D.velocity = targetVelocity;
         }
 
@@ -70,7 +74,7 @@ namespace _Game._Scripts.PlayerSystem
                 return;
 
             m_MovementLocked = true;
-            Invoke(nameof(UnlockMovement), _knockbackDisableDuration);
+            Invoke(nameof(UnlockMovement), _settings.KnockbackDisableDuration);
         }
 
         private void UnlockMovement()

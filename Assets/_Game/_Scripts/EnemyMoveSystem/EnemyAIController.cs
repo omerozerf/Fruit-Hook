@@ -23,32 +23,8 @@ namespace _Game._Scripts.EnemyMoveSystem
         [SerializeField] private ExternalMoveInputSource _externalMoveInputSource;
         [SerializeField] private SwordOrbitController _swordOrbitController;
 
-        [Header("Scan")]
-        [SerializeField] private float _scanInterval = 0.12f;
-        [SerializeField] private float _enemyScanRadius = 7f;
-        [SerializeField] private float _swordScanRadius = 7f;
-        [SerializeField] private int _maxScanHits = 32;
-        [SerializeField] private LayerMask _enemyLayer;
-        [SerializeField] private LayerMask _swordLayer;
-
-        [Header("Combat")]
-        [SerializeField] private float _attackRange = 1.6f;
-        
-        [SerializeField] private float _threatEnterRange = 2.4f;
-        [SerializeField] private float _threatExitRange = 2.8f;
-
-        [SerializeField, Range(0f, 1f)] private float _minFleeStrength = 0.25f;
-
-        [Header("Steering Weights")]
-        [SerializeField] private float _seekWeight = 1f;
-        [SerializeField] private float _avoidWeight = 1.4f;
-
-        [Header("Wander")]
-        [SerializeField] private float _wanderChangeInterval = 1.2f;
-        [SerializeField] private float _wanderStrength = 1f;
-
-        [Header("Debug / Gizmos")] [SerializeField]
-        private bool _drawGizmos = true;
+        [Header("Settings")]
+        [SerializeField] private EnemyAISettingsSO _settings;
 
         private float m_ScanTimer;
         private float m_WanderTimer;
@@ -70,8 +46,15 @@ namespace _Game._Scripts.EnemyMoveSystem
         
         private void Awake()
         {
-            m_EnemyHits = new Collider2D[Mathf.Max(4, _maxScanHits)];
-            m_SwordHits = new Collider2D[Mathf.Max(4, _maxScanHits)];
+            if (_settings == null)
+            {
+                Debug.LogError($"{nameof(EnemyAIController)} on '{name}' has no settings assigned.");
+                enabled = false;
+                return;
+            }
+
+            m_EnemyHits = new Collider2D[Mathf.Max(4, _settings.MaxScanHits)];
+            m_SwordHits = new Collider2D[Mathf.Max(4, _settings.MaxScanHits)];
             m_SelfColliders = GetComponentsInChildren<Collider2D>(true);
         }
 
@@ -103,16 +86,16 @@ namespace _Game._Scripts.EnemyMoveSystem
 
         private bool ShouldScanNow()
         {
-            return m_ScanTimer >= _scanInterval;
+            return m_ScanTimer >= _settings.ScanInterval;
         }
 
         private void TickWanderTimer()
         {
             m_WanderTimer += Time.deltaTime;
-            if (m_WanderTimer >= _wanderChangeInterval)
+            if (m_WanderTimer >= _settings.WanderChangeInterval)
             {
                 m_WanderTimer = 0f;
-                m_WanderVector = Random.insideUnitCircle.normalized * _wanderStrength;
+                m_WanderVector = Random.insideUnitCircle.normalized * _settings.WanderStrength;
             }
         }
 
@@ -121,8 +104,8 @@ namespace _Game._Scripts.EnemyMoveSystem
         {
             Vector2 pos = transform.position;
 
-            m_ClosestEnemy = ScanClosestByLayer(pos, _enemyScanRadius, _enemyLayer, m_EnemyHits, out var _);
-            m_ClosestSword = ScanClosestByLayer(pos, _swordScanRadius, _swordLayer, m_SwordHits, out var _);
+            m_ClosestEnemy = ScanClosestByLayer(pos, _settings.EnemyScanRadius, _settings.EnemyLayer, m_EnemyHits, out var _);
+            m_ClosestSword = ScanClosestByLayer(pos, _settings.SwordScanRadius, _settings.SwordLayer, m_SwordHits, out var _);
 
             m_AvoidVector = ComputeAvoidVector(pos, m_ClosestEnemy, m_State == AIState.Flee);
         }
@@ -186,11 +169,11 @@ namespace _Game._Scripts.EnemyMoveSystem
 
             if (isCurrentlyFleeing)
             {
-                if (dist > _threatExitRange) return Vector2.zero;
+                if (dist > _settings.ThreatExitRange) return Vector2.zero;
             }
             else
             {
-                if (dist > _threatEnterRange) return Vector2.zero;
+                if (dist > _settings.ThreatEnterRange) return Vector2.zero;
             }
 
             int mySwords = GetMySwordCount();
@@ -203,11 +186,11 @@ namespace _Game._Scripts.EnemyMoveSystem
             if (away.sqrMagnitude < 0.0001f) away = Random.insideUnitCircle;
             away = away.normalized;
             
-            float strength = Mathf.InverseLerp(_threatExitRange, _threatEnterRange, dist);
+            float strength = Mathf.InverseLerp(_settings.ThreatExitRange, _settings.ThreatEnterRange, dist);
             strength = Mathf.Clamp01(strength);
 
             if (isCurrentlyFleeing)
-                strength = Mathf.Max(strength, _minFleeStrength);
+                strength = Mathf.Max(strength, _settings.MinFleeStrength);
 
             return away * strength;
         }
@@ -224,8 +207,8 @@ namespace _Game._Scripts.EnemyMoveSystem
             int enemySwords = hasEnemy ? GetEnemySwordCount(m_ClosestEnemy) : 0;
 
             float enemyDist = hasEnemy ? Vector2.Distance(myPos, m_ClosestEnemy.position) : float.PositiveInfinity;
-            bool enemyIsThreatClose = hasEnemy && (m_State == AIState.Flee ? enemyDist <= _threatExitRange : enemyDist <= _threatEnterRange);
-            bool enemyInAttackRange = hasEnemy && enemyDist <= _attackRange;
+            bool enemyIsThreatClose = hasEnemy && (m_State == AIState.Flee ? enemyDist <= _settings.ThreatExitRange : enemyDist <= _settings.ThreatEnterRange);
+            bool enemyInAttackRange = hasEnemy && enemyDist <= _settings.AttackRange;
 
             // 1) Kaçınma (bariz tehdit)
             if (enemyIsThreatClose && enemySwords > mySwords)
@@ -281,7 +264,7 @@ namespace _Game._Scripts.EnemyMoveSystem
 
         private Vector2 ComposeSteering(Vector2 seekDir, Vector2 avoidDir)
         {
-            Vector2 v = (seekDir * _seekWeight) + (avoidDir * _avoidWeight);
+            Vector2 v = (seekDir * _settings.SeekWeight) + (avoidDir * _settings.AvoidWeight);
             if (v.sqrMagnitude < 0.0001f) return Vector2.zero;
             return Vector2.ClampMagnitude(v, 1f);
         }
@@ -315,27 +298,27 @@ namespace _Game._Scripts.EnemyMoveSystem
 
         private void OnDrawGizmos()
         {
-            if (!_drawGizmos) return;
+            if (_settings == null || !_settings.DrawGizmos) return;
 
             Vector3 p = transform.position;
 
             // Scan radii
             Gizmos.color = Color.gray;
-            Gizmos.DrawWireSphere(p, _enemyScanRadius);
+            Gizmos.DrawWireSphere(p, _settings.EnemyScanRadius);
 
             Gizmos.color = Color.cyan;
-            Gizmos.DrawWireSphere(p, _swordScanRadius);
+            Gizmos.DrawWireSphere(p, _settings.SwordScanRadius);
 
             // Attack range
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(p, _attackRange);
+            Gizmos.DrawWireSphere(p, _settings.AttackRange);
 
             // Threat range (enter/exit)
             Gizmos.color = new Color(1f, 0.5f, 0f, 1f);
-            Gizmos.DrawWireSphere(p, _threatEnterRange);
+            Gizmos.DrawWireSphere(p, _settings.ThreatEnterRange);
 
             Gizmos.color = new Color(1f, 0.5f, 0f, 0.45f);
-            Gizmos.DrawWireSphere(p, _threatExitRange);
+            Gizmos.DrawWireSphere(p, _settings.ThreatExitRange);
 
             // Targets
             if (m_ClosestEnemy)
@@ -364,7 +347,7 @@ namespace _Game._Scripts.EnemyMoveSystem
                 Vector3 dir = (Vector3)m_FinalMoveInput.normalized;
                 Vector3 perp = Vector3.Cross(dir, Vector3.forward).normalized;
 
-                float forwardLength = Mathf.Max(_enemyScanRadius, _swordScanRadius);
+                float forwardLength = Mathf.Max(_settings.EnemyScanRadius, _settings.SwordScanRadius);
                 float halfWidth = 0.35f;
 
                 Vector3 start = p;

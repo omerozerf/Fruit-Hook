@@ -2036,17 +2036,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 259cdcfaa3174296a52ed526d25ba848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _settings: {fileID: 11400000, guid: 1f2a10aabbbbc438681ac8680e9ecc7f, type: 2}
   _bodyTransform: {fileID: 1627529937}
-  _idleMoveY: 0.95
-  _idleMoveX: 1.05
-  _idleDuration: 0.45
-  _movingIdleSpeedMultiplier: 4
   _rigidbody2D: {fileID: 1618810752}
   _leftFootTransform: {fileID: 511877017}
   _rightFootTransform: {fileID: 545383065}
-  _footStepAngle: 12
-  _footStepDuration: 0.2
-  _footStepMoveX: 0.3
 --- !u!114 &1618810751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2059,10 +2053,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ea7b48110ae4e34a789eb74b0f30761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 5
+  _settings: {fileID: 11400000, guid: cc03bb44081af488896f2a3e6a9fcf17, type: 2}
   _rigidbody2D: {fileID: 1618810752}
   _visualsTransform: {fileID: 684711428}
-  _knockbackDisableDuration: 0.15
 --- !u!50 &1618810752
 Rigidbody2D:
   serializedVersion: 4
@@ -2124,16 +2117,8 @@ MonoBehaviour:
   _isPlayer: 1
   _healthBar: {fileID: 1400139209}
   _healthWhiteIndicatorBar: {fileID: 1658980071}
-  _maxHealth: 3
-  _whiteBarDelay: 0.15
-  _whiteBarTweenDuration: 0.4
-  _fullHealthColor: {r: 0, g: 1, b: 0, a: 1}
-  _midHealthColor: {r: 1, g: 0.5, b: 0, a: 1}
-  _lowHealthColor: {r: 1, g: 0, b: 0, a: 1}
+  _settings: {fileID: 11400000, guid: 5b16f3ef0d40341c883b558f55af4113, type: 2}
   _collider: {fileID: 1999706572}
-  _deathMoveDistance: 1.2
-  _deathDuration: 0.4
-  _deathEase: 5
 --- !u!114 &1618810755
 MonoBehaviour:
   m_ObjectHideFlags: 0

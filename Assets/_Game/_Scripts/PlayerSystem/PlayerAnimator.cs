@@ -5,18 +5,14 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerAnimator : MonoBehaviour
     {
+        [Header("Settings")]
+        [SerializeField] private PlayerAnimatorSettingsSO _settings;
+
+        [Header("References")]
         [SerializeField] private Transform _bodyTransform;
-        [SerializeField] private float _idleMoveY;
-        [SerializeField] private float _idleMoveX;
-        [SerializeField] private float _idleDuration = 0.8f;
-        [SerializeField] private float _movingIdleSpeedMultiplier = 1.5f;
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Transform _leftFootTransform;
         [SerializeField] private Transform _rightFootTransform;
-
-        [SerializeField] private float _footStepAngle = 12f;
-        [SerializeField] private float _footStepDuration = 0.12f;
-        [SerializeField] private float _footStepMoveX = 0.03f;
 
         private Tween m_IdleTween;
         private Sequence m_FeetStepSequence;
@@ -25,6 +21,19 @@ namespace _Game._Scripts.PlayerSystem
         private Vector3 m_RightFootStartLocalPos;
         private Vector3 m_LeftFootStartLocalEuler;
         private Vector3 m_RightFootStartLocalEuler;
+
+        private void Awake()
+        {
+            if (_settings == null)
+            {
+                Debug.LogError($"{nameof(PlayerAnimator)} on '{name}' has no PlayerAnimatorSettings assigned.");
+                enabled = false;
+                return;
+            }
+
+            if (!_rigidbody2D)
+                _rigidbody2D = GetComponent<Rigidbody2D>();
+        }
 
         private void Start()
         {
@@ -87,10 +96,10 @@ namespace _Game._Scripts.PlayerSystem
 
             // Phase A
             m_FeetStepSequence.Append(_leftFootTransform
-                .DOLocalMoveX(m_LeftFootStartLocalPos.x + _footStepMoveX, _footStepDuration)
+                .DOLocalMoveX(m_LeftFootStartLocalPos.x + _settings.FootStepMoveX, _settings.FootStepDuration)
                 .SetEase(Ease.InOutSine));
             m_FeetStepSequence.Join(_rightFootTransform
-                .DOLocalMoveX(m_RightFootStartLocalPos.x - _footStepMoveX, _footStepDuration)
+                .DOLocalMoveX(m_RightFootStartLocalPos.x - _settings.FootStepMoveX, _settings.FootStepDuration)
                 .SetEase(Ease.InOutSine));
 
             m_FeetStepSequence.Join(_leftFootTransform
@@ -98,24 +107,24 @@ namespace _Game._Scripts.PlayerSystem
                     new Vector3(
                         m_LeftFootStartLocalEuler.x,
                         m_LeftFootStartLocalEuler.y,
-                        m_LeftFootStartLocalEuler.z - _footStepAngle),
-                    _footStepDuration)
+                        m_LeftFootStartLocalEuler.z - _settings.FootStepAngle),
+                    _settings.FootStepDuration)
                 .SetEase(Ease.InOutSine));
             m_FeetStepSequence.Join(_rightFootTransform
                 .DOLocalRotate(
                     new Vector3(
                         m_RightFootStartLocalEuler.x,
                         m_RightFootStartLocalEuler.y,
-                        m_RightFootStartLocalEuler.z + _footStepAngle),
-                    _footStepDuration)
+                        m_RightFootStartLocalEuler.z + _settings.FootStepAngle),
+                    _settings.FootStepDuration)
                 .SetEase(Ease.InOutSine));
 
             // Phase B (returns naturally, no snap)
             m_FeetStepSequence.Append(_leftFootTransform
-                .DOLocalMoveX(m_LeftFootStartLocalPos.x, _footStepDuration)
+                .DOLocalMoveX(m_LeftFootStartLocalPos.x, _settings.FootStepDuration)
                 .SetEase(Ease.InOutSine));
             m_FeetStepSequence.Join(_rightFootTransform
-                .DOLocalMoveX(m_RightFootStartLocalPos.x, _footStepDuration)
+                .DOLocalMoveX(m_RightFootStartLocalPos.x, _settings.FootStepDuration)
                 .SetEase(Ease.InOutSine));
 
             m_FeetStepSequence.Join(_leftFootTransform
@@ -124,7 +133,7 @@ namespace _Game._Scripts.PlayerSystem
                         m_LeftFootStartLocalEuler.x,
                         m_LeftFootStartLocalEuler.y,
                         m_LeftFootStartLocalEuler.z),
-                    _footStepDuration)
+                    _settings.FootStepDuration)
                 .SetEase(Ease.InOutSine));
             m_FeetStepSequence.Join(_rightFootTransform
                 .DOLocalRotate(
@@ -132,7 +141,7 @@ namespace _Game._Scripts.PlayerSystem
                         m_RightFootStartLocalEuler.x,
                         m_RightFootStartLocalEuler.y,
                         m_RightFootStartLocalEuler.z),
-                    _footStepDuration)
+                    _settings.FootStepDuration)
                 .SetEase(Ease.InOutSine));
 
             m_FeetStepSequence.SetLoops(-1, LoopType.Restart);
@@ -165,7 +174,7 @@ namespace _Game._Scripts.PlayerSystem
                 return;
 
             var speed = _rigidbody2D.velocity.sqrMagnitude > 0.01f
-                ? _movingIdleSpeedMultiplier
+                ? _settings.MovingIdleSpeedMultiplier
                 : 1f;
 
             m_IdleTween.timeScale = speed;
@@ -185,7 +194,7 @@ namespace _Game._Scripts.PlayerSystem
             StopIdleAnimation();
 
             m_IdleTween = _bodyTransform
-                .DOScale(new Vector3(_idleMoveX, _idleMoveY, 1f), _idleDuration)
+                .DOScale(new Vector3(_settings.IdleMoveX, _settings.IdleMoveY, 1f), _settings.IdleDuration)
                 .SetEase(Ease.InOutSine)
                 .SetLoops(-1, LoopType.Yoyo);
         }

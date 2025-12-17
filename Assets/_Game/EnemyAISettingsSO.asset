@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 864d1a69acd04dad8c5665a8833439bf, type: 3}
+  m_Name: EnemyAISettingsSO
+  m_EditorClassIdentifier: 
+  _scanInterval: 0.1
+  _enemyScanRadius: 14
+  _swordScanRadius: 11
+  _maxScanHits: 32
+  _enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  _swordLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _attackRange: 3.5
+  _threatEnterRange: 4.6
+  _threatExitRange: 6
+  _minFleeStrength: 0.4
+  _seekWeight: 1
+  _avoidWeight: 1.8
+  _wanderChangeInterval: 0.65
+  _wanderStrength: 0.55
+  _drawGizmos: 1

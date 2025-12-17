@@ -15,23 +15,11 @@ namespace _Game._Scripts.PlayerSystem
         [SerializeField] private Image _healthBar;
         [SerializeField] private Image _healthWhiteIndicatorBar;
 
-        [Header("Health Settings")]
-        [SerializeField] private int _maxHealth = 3;
-
-        [Header("White Indicator Settings")]
-        [SerializeField] private float _whiteBarDelay = 0.15f;
-        [SerializeField] private float _whiteBarTweenDuration = 0.4f;
-
-        [Header("Colors")]
-        [SerializeField] private Color _fullHealthColor = Color.green;
-        [SerializeField] private Color _midHealthColor = new(1f, 0.5f, 0f);
-        [SerializeField] private Color _lowHealthColor = Color.red;
+        [Header("Settings")]
+        [SerializeField] private PlayerHealthSettingsSO _settings;
 
         [Header("Death Settings")]
         [SerializeField] private Collider2D _collider;
-        [SerializeField] private float _deathMoveDistance = 1.2f;
-        [SerializeField] private float _deathDuration = 0.4f;
-        [SerializeField] private Ease _deathEase = Ease.InQuad;
 
         public event Action OnDied;
 
@@ -42,14 +30,22 @@ namespace _Game._Scripts.PlayerSystem
 
         private void Awake()
         {
+            if (_settings == null)
+            {
+                Debug.LogError($"{nameof(PlayerHealthController)} on '{name}' has no PlayerHealthSettings assigned.");
+                enabled = false;
+                return;
+            }
+
             InitializeHealth();
+
             if (!_collider)
                 _collider = GetComponent<Collider2D>();
         }
         
         private void InitializeHealth()
         {
-            m_CurrentHealth = _maxHealth;
+            m_CurrentHealth = _settings.MaxHealth;
             m_IsDead = m_CurrentHealth <= 0;
 
             float fill = CalculateFillAmount();
@@ -72,7 +68,7 @@ namespace _Game._Scripts.PlayerSystem
 
         private void SetHealth(int newHealth)
         {
-            newHealth = Mathf.Clamp(newHealth, 0, _maxHealth);
+            newHealth = Mathf.Clamp(newHealth, 0, _settings.MaxHealth);
 
             if (newHealth == m_CurrentHealth)
                 return;
@@ -116,12 +112,12 @@ namespace _Game._Scripts.PlayerSystem
             });
             
             Vector3 startPos = transform.position;
-            Vector3 targetPos = startPos + Vector3.down * _deathMoveDistance;
+            Vector3 targetPos = startPos + Vector3.down * _settings.DeathMoveDistance;
 
             Sequence deathSequence = DOTween.Sequence();
             deathSequence
-                .Append(transform.DOMoveY(targetPos.y, _deathDuration).SetEase(_deathEase))
-                .Join(transform.DOScale(Vector3.zero, _deathDuration).SetEase(_deathEase))
+                .Append(transform.DOMoveY(targetPos.y, _settings.DeathDuration).SetEase(_settings.DeathEase))
+                .Join(transform.DOScale(Vector3.zero, _settings.DeathDuration).SetEase(_settings.DeathEase))
                 .OnComplete(() =>
                 {
                     gameObject.SetActive(false);
@@ -130,7 +126,7 @@ namespace _Game._Scripts.PlayerSystem
 
         private float CalculateFillAmount()
         {
-            return (float)m_CurrentHealth / _maxHealth;
+            return (float)m_CurrentHealth / _settings.MaxHealth;
         }
 
         private void SetHealthBarImmediate(float fill)
@@ -167,24 +163,26 @@ namespace _Game._Scripts.PlayerSystem
                 return;
             }
 
-            m_WhiteBarTween = DOVirtual.DelayedCall(_whiteBarDelay, () =>
+            m_WhiteBarTween = DOVirtual.DelayedCall(_settings.WhiteBarDelay, () =>
             {
                 m_WhiteBarTween = DOTween.To(
                         () => _healthWhiteIndicatorBar ? _healthWhiteIndicatorBar.transform.localScale.x : targetFill,
                         SetWhiteBarImmediate,
                         targetFill,
-                        _whiteBarTweenDuration)
+                        _settings.WhiteBarTweenDuration)
                     .SetEase(Ease.OutQuad);
             });
         }
 
         private void UpdateHealthColor()
         {
+            if (!_healthBar) return;
+
             _healthBar.color = m_CurrentHealth switch
             {
-                >= 3 => _fullHealthColor,
-                2 => _midHealthColor,
-                _ => _lowHealthColor
+                >= 3 => _settings.FullHealthColor,
+                2 => _settings.MidHealthColor,
+                _ => _settings.LowHealthColor
             };
         }
     }
