@@ -5,8 +5,21 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerVisualController : MonoBehaviour
     {
-        [SerializeField] private float _duration;
+        [Header("Settings")]
+        [SerializeField] private PlayerVisualSettingsSO _settings;
+
+        [Header("References")]
         [SerializeField] private SpriteRenderer[] _spriteRendererArray;
+
+        private void Awake()
+        {
+            if (_settings == null)
+            {
+                Debug.LogError($"{nameof(PlayerVisualController)} on '{name}' has no PlayerVisualSettings assigned.");
+                enabled = false;
+                return;
+            }
+        }
 
         public void PlayDamageFlash()
         {
@@ -27,7 +40,7 @@ namespace _Game._Scripts.PlayerSystem
                 }
             }
 
-            yield return new WaitForSeconds(_duration);
+            yield return new WaitForSeconds(_settings.DamageFlashDuration);
 
             foreach (var spriteRenderer in _spriteRendererArray)
             {
