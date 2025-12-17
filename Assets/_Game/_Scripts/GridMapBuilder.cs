@@ -7,32 +7,14 @@ namespace _Game._Scripts
     public sealed class GridMapBuilder : MonoBehaviour
     {
         [Serializable]
-        private struct WeightedPrefab
+        public struct WeightedPrefab
         {
             [Min(0)] public int _weight;
             public Transform _prefab;
         }
 
-        [Header("Grid")]
-        [Min(1)] [SerializeField] private int _width = 10;
-        [Min(1)] [SerializeField] private int _height = 10;
-        [Min(0.01f)] [SerializeField] private float _cellSize = 1f;
-
-        [Header("Ground Prefabs (Weighted)")]
-        [SerializeField] private WeightedPrefab[] _groundVariants;
-
-        [Header("Fence")]
-        [SerializeField] private Transform _fenceVertical;
-        [SerializeField] private Transform _fenceHorizontal;
-        [SerializeField] private Transform _fenceCorner;
-
-        [Header("Global Sorting")]
-        [Tooltip("Assigned in decreasing order. Example: 0, -1, -2 ... (negative values are OK).")]
-        [SerializeField] private int _startSortingOrder = 0;
-
-        [Header("Extra Padding")]
-        [Tooltip("Number of extra tile rows/columns to generate outside the main grid on each side.")]
-        [Min(0)] [SerializeField] private int _extraPaddingCells = 0;
+        [Header("Settings")]
+        [SerializeField] private GridMapBuilderSettingsSO _settings;
 
         private readonly List<Transform> m_SpawnedRoots = new List<Transform>(512);
         private readonly List<Transform> m_TopCornerRoots = new List<Transform>(4);
@@ -40,6 +22,13 @@ namespace _Game._Scripts
         
         private void Awake()
         {
+            if (_settings == null)
+            {
+                Debug.LogError($"{nameof(GridMapBuilder)} on '{name}' has no {nameof(GridMapBuilderSettingsSO)} assigned.", this);
+                enabled = false;
+                return;
+            }
+
             m_SpawnedRoots.Clear();
             m_TopCornerRoots.Clear();
 
@@ -54,29 +43,29 @@ namespace _Game._Scripts
         private void BuildGround()
         {
             // 1) Main grid (your intended bounds)
-            for (var x = 0; x < _width; x++)
+            for (var x = 0; x < _settings.Width; x++)
             {
-                for (var y = 0; y < _height; y++)
+                for (var y = 0; y < _settings.Height; y++)
                 {
                     SpawnGroundAt(x, y);
                 }
             }
 
             // 2) Extra padding outside the bounds (to avoid camera empty space)
-            if (_extraPaddingCells <= 0)
+            if (_settings.ExtraPaddingCells <= 0)
                 return;
 
-            var startX = -_extraPaddingCells;
-            var endX = _width + _extraPaddingCells;
-            var startY = -_extraPaddingCells;
-            var endY = _height + _extraPaddingCells;
+            var startX = -_settings.ExtraPaddingCells;
+            var endX = _settings.Width + _settings.ExtraPaddingCells;
+            var startY = -_settings.ExtraPaddingCells;
+            var endY = _settings.Height + _settings.ExtraPaddingCells;
 
             for (var x = startX; x < endX; x++)
             {
                 for (var y = startY; y < endY; y++)
                 {
                     // Skip cells that are inside the main grid.
-                    if (x >= 0 && x < _width && y >= 0 && y < _height)
+                    if (x >= 0 && x < _settings.Width && y >= 0 && y < _settings.Height)
                         continue;
 
                     SpawnGroundAt(x, y);
@@ -96,7 +85,7 @@ namespace _Game._Scripts
 
         private void BuildFence()
         {
-            if (!_fenceCorner || !_fenceHorizontal || !_fenceVertical)
+            if (!_settings.FenceCorner || !_settings.FenceHorizontal || !_settings.FenceVertical)
             {
                 Debug.LogError(
                     "Fence prefabs are not fully assigned (GridMapBuilder requires: _fenceCorner, _fenceHorizontal, _fenceVertical).",
@@ -106,46 +95,46 @@ namespace _Game._Scripts
             }
 
             var minX = 0;
-            var maxX = _width - 1;
+            var maxX = _settings.Width - 1;
             var minY = 0;
-            var maxY = _height - 1;
+            var maxY = _settings.Height - 1;
 
             // Corners
-            var bottomLeft = Instantiate(_fenceCorner, GridToWorld(minX - 1, minY - 1), Quaternion.identity, transform);
+            var bottomLeft = Instantiate(_settings.FenceCorner, GridToWorld(minX - 1, minY - 1), Quaternion.identity, transform);
             m_SpawnedRoots.Add(bottomLeft);
 
             // Bottom-right corner should be vertical (no corner prefab)
-            var bottomRight = Instantiate(_fenceVertical, GridToWorld(maxX + 1, minY - 1), Quaternion.identity, transform);
+            var bottomRight = Instantiate(_settings.FenceVertical, GridToWorld(maxX + 1, minY - 1), Quaternion.identity, transform);
             m_SpawnedRoots.Add(bottomRight);
 
             // Top-left corner should be vertical
-            var topLeft = Instantiate(_fenceVertical, GridToWorld(minX - 1, maxY + 1), Quaternion.identity, transform);
+            var topLeft = Instantiate(_settings.FenceVertical, GridToWorld(minX - 1, maxY + 1), Quaternion.identity, transform);
             m_SpawnedRoots.Add(topLeft);
             m_TopCornerRoots.Add(topLeft);
 
             // Top-right corner should be vertical
-            var topRight = Instantiate(_fenceVertical, GridToWorld(maxX + 1, maxY + 1), Quaternion.identity, transform);
+            var topRight = Instantiate(_settings.FenceVertical, GridToWorld(maxX + 1, maxY + 1), Quaternion.identity, transform);
             m_SpawnedRoots.Add(topRight);
             m_TopCornerRoots.Add(topRight);
 
             // Horizontal edges
             for (var x = minX; x <= maxX; x++)
             {
-                Instantiate(_fenceHorizontal, GridToWorld(x, minY - 1), Quaternion.identity, transform);
-                Instantiate(_fenceHorizontal, GridToWorld(x, maxY + 1), Quaternion.identity, transform);
+                Instantiate(_settings.FenceHorizontal, GridToWorld(x, minY - 1), Quaternion.identity, transform);
+                Instantiate(_settings.FenceHorizontal, GridToWorld(x, maxY + 1), Quaternion.identity, transform);
             }
 
             // Vertical edges
             for (var y = minY; y <= maxY; y++)
             {
-                m_SpawnedRoots.Add(Instantiate(_fenceVertical, GridToWorld(minX - 1, y), Quaternion.identity, transform));
-                m_SpawnedRoots.Add(Instantiate(_fenceVertical, GridToWorld(maxX + 1, y), Quaternion.identity, transform));
+                m_SpawnedRoots.Add(Instantiate(_settings.FenceVertical, GridToWorld(minX - 1, y), Quaternion.identity, transform));
+                m_SpawnedRoots.Add(Instantiate(_settings.FenceVertical, GridToWorld(maxX + 1, y), Quaternion.identity, transform));
             }
         }
 
         private void ApplyGlobalSorting()
         {
-            var order = _startSortingOrder;
+            var order = _settings.StartSortingOrder;
 
             // 1) Sort everything EXCEPT top corners first
             for (var i = 0; i < m_SpawnedRoots.Count; i++)
@@ -240,22 +229,22 @@ namespace _Game._Scripts
 
         private Vector3 GridToWorld(int x, int y)
         {
-            return new Vector3(x * _cellSize, y * _cellSize, 0f);
+            return new Vector3(x * _settings.CellSize, y * _settings.CellSize, 0f);
         }
 
         private Transform GetRandomWeightedGround()
         {
-            if (_groundVariants == null || _groundVariants.Length == 0)
+            if (_settings.GroundVariants == null || _settings.GroundVariants.Length == 0)
             {
                 Debug.LogError("No ground variants assigned in GridMapBuilder.", this);
                 return null;
             }
 
             var totalWeight = 0;
-            for (var i = 0; i < _groundVariants.Length; i++)
+            for (var i = 0; i < _settings.GroundVariants.Length; i++)
             {
-                var w = _groundVariants[i]._weight;
-                if (w > 0 && _groundVariants[i]._prefab != null)
+                var w = _settings.GroundVariants[i]._weight;
+                if (w > 0 && _settings.GroundVariants[i]._prefab != null)
                     totalWeight += w;
             }
 
@@ -266,9 +255,9 @@ namespace _Game._Scripts
             }
 
             var roll = UnityEngine.Random.Range(0, totalWeight);
-            for (var i = 0; i < _groundVariants.Length; i++)
+            for (var i = 0; i < _settings.GroundVariants.Length; i++)
             {
-                var entry = _groundVariants[i];
+                var entry = _settings.GroundVariants[i];
                 if (entry._weight <= 0 || !entry._prefab)
                     continue;
 
@@ -278,7 +267,7 @@ namespace _Game._Scripts
             }
 
             // Fallback (should never happen)
-            return _groundVariants[0]._prefab;
+            return _settings.GroundVariants[0]._prefab;
         }
     }
 }

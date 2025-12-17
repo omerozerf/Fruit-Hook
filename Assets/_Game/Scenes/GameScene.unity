@@ -579,18 +579,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 599ac022f2d8405c93470d816c29c4c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _settings: {fileID: 11400000, guid: 8aa5d999a1e0e4e15bf9fe8012f9ea04, type: 2}
   _swordBubblePrefab: {fileID: 2133267946360404422, guid: ca83824cf03dd40699c01e9ec3f31449, type: 3}
   _poolParent: {fileID: 536565776}
-  _prewarmCount: 50
-  _baseSpawnInterval: 1
-  _intervalVariation: 1.5
-  _spawnOnStart: 1
-  _spawnArea2D: {fileID: 0}
-  _fallbackMin: {x: 0, y: 0}
-  _fallbackMax: {x: 50, y: 50}
   _player: {fileID: 1618810753}
-  _minDistanceFromPlayer: 1.5
-  _positionTryCount: 12
 --- !u!4 &536565776
 Transform:
   m_ObjectHideFlags: 0
@@ -1153,10 +1145,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvas: {fileID: 1041625309}
   _ctaButton: {fileID: 1844341130}
-  _backgroundButton: {fileID: 0}
   _floatingJoystickCanvas: {fileID: 25640710}
   _canvasGroup: {fileID: 1041625311}
-  _backgroundAlsoClicksCta: 0
   _editorFallbackUrl: https://apps.apple.com/tr/app/apple-grapple-survivor/id6478910885
 --- !u!114 &1041625307
 MonoBehaviour:
@@ -1526,23 +1516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1cb42216b5e488dbd1d6dc2e69c4f6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 50
-  _height: 50
-  _cellSize: 1
-  _groundVariants:
-  - _weight: 500
-    _prefab: {fileID: 6743821381425734164, guid: 33a2ab8e1b0a24d1cb17bc57b35fe91d, type: 3}
-  - _weight: 10
-    _prefab: {fileID: 6743821381425734164, guid: f8b852c9b1adf47068a704a5c1710697, type: 3}
-  - _weight: 10
-    _prefab: {fileID: 6743821381425734164, guid: cd6239c7ed21443388006d74a075ff66, type: 3}
-  - _weight: 10
-    _prefab: {fileID: 6743821381425734164, guid: 7e0338a5708af416981ddffcd0410cdd, type: 3}
-  _fenceVertical: {fileID: 6743821381425734164, guid: 48493c9ede74146659a20fb696591560, type: 3}
-  _fenceHorizontal: {fileID: 6743821381425734164, guid: 555ca7db1c0e6495d879c29959e23c08, type: 3}
-  _fenceCorner: {fileID: 6743821381425734164, guid: f149173e3ef2743b1857b479093805ef, type: 3}
-  _startSortingOrder: 0
-  _extraPaddingCells: 20
+  _settings: {fileID: 11400000, guid: a66938b9e53f14289b10896f5a80001f, type: 2}
 --- !u!4 &1113936022
 Transform:
   m_ObjectHideFlags: 0

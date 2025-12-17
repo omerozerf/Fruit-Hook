@@ -12,12 +12,10 @@ namespace _Game._Scripts
         [Header("References")]
         [SerializeField] private Canvas _canvas;          
         [SerializeField] private Button _ctaButton;         
-        [SerializeField] private Button _backgroundButton;
         [SerializeField] private Canvas _floatingJoystickCanvas;
         [SerializeField] private CanvasGroup _canvasGroup;
 
         [Header("Settings")]
-        [SerializeField] private bool _backgroundAlsoClicksCta = false;
         [SerializeField] private string _editorFallbackUrl = "";
 
         private bool m_IsShown;
@@ -28,9 +26,6 @@ namespace _Game._Scripts
         {
             if (_ctaButton)
                 _ctaButton.onClick.AddListener(OnCtaClicked);
-
-            if (_backgroundButton)
-                _backgroundButton.onClick.AddListener(OnBackgroundClicked);
 
             HideImmediate();
         }
@@ -127,12 +122,6 @@ namespace _Game._Scripts
 
             Debug.LogWarning("CTA clicked, but Luna InstallFullGame is only implemented in the Playworks WebGL export. Provide _editorFallbackUrl for local testing.");
 #endif
-        }
-
-        private void OnBackgroundClicked()
-        {
-            if (!_backgroundAlsoClicksCta) return;
-            OnCtaClicked();
         }
     }
 }

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 960f99a267984c31afa23c2668d8acab, type: 3}
+  m_Name: GridMapBuilderSettings
+  m_EditorClassIdentifier: 
+  _width: 50
+  _height: 50
+  _cellSize: 1
+  _groundVariants:
+  - _weight: 200
+    _prefab: {fileID: 6743821381425734164, guid: 33a2ab8e1b0a24d1cb17bc57b35fe91d, type: 3}
+  - _weight: 10
+    _prefab: {fileID: 6743821381425734164, guid: f8b852c9b1adf47068a704a5c1710697, type: 3}
+  - _weight: 10
+    _prefab: {fileID: 6743821381425734164, guid: cd6239c7ed21443388006d74a075ff66, type: 3}
+  - _weight: 10
+    _prefab: {fileID: 6743821381425734164, guid: 7e0338a5708af416981ddffcd0410cdd, type: 3}
+  _fenceVertical: {fileID: 6743821381425734164, guid: 48493c9ede74146659a20fb696591560, type: 3}
+  _fenceHorizontal: {fileID: 6743821381425734164, guid: 555ca7db1c0e6495d879c29959e23c08, type: 3}
+  _fenceCorner: {fileID: 6743821381425734164, guid: f149173e3ef2743b1857b479093805ef, type: 3}
+  _startSortingOrder: 0
+  _extraPaddingCells: 20

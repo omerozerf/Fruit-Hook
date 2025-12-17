@@ -6,25 +6,15 @@ namespace _Game._Scripts.SwordBubbleSystem
 {
     public sealed class SwordBubbleCreator : MonoBehaviour
     {
+        [Header("Settings")]
+        [SerializeField] private SwordBubbleCreatorSettingsSO _settings;
+
         [Header("Prefab & Pool")]
         [SerializeField] private Transform _swordBubblePrefab;
         [SerializeField] private Transform _poolParent;
-        [SerializeField] private int _prewarmCount = 8;
 
-        [Header("Spawn Timing (seconds)")]
-        [SerializeField] private float _baseSpawnInterval = 3f;
-        [SerializeField] private float _intervalVariation = 1.5f; // final = base + Random(-variation, +variation)
-        [SerializeField] private bool _spawnOnStart = true;
-
-        [Header("Spawn Area")]
-        [SerializeField] private Collider2D _spawnArea2D;
-        [SerializeField] private Vector2 _fallbackMin = new Vector2(-8f, -4f);
-        [SerializeField] private Vector2 _fallbackMax = new Vector2(8f, 4f);
-
-        [Header("Spawn Rules")]
+        [Header("References")]
         [SerializeField] private Transform _player;
-        [SerializeField] private float _minDistanceFromPlayer = 1.5f;
-        [SerializeField] private int _positionTryCount = 12;
 
         private ObjectPool<Transform> m_Pool;
         private Coroutine m_SpawnRoutine;
@@ -33,6 +23,13 @@ namespace _Game._Scripts.SwordBubbleSystem
 
         private void Awake()
         {
+            if (_settings == null)
+            {
+                Debug.LogError($"{nameof(SwordBubbleCreator)} on '{name}' has no {nameof(SwordBubbleCreatorSettingsSO)} assigned.");
+                enabled = false;
+                return;
+            }
+
             if (_swordBubblePrefab == null)
             {
                 Debug.LogError($"{nameof(SwordBubbleCreator)}: swordBubblePrefab is null.");
@@ -43,14 +40,14 @@ namespace _Game._Scripts.SwordBubbleSystem
             m_Pool = new ObjectPool<Transform>(
                 prefab: _swordBubblePrefab,
                 parent: _poolParent,
-                prewarmCount: Mathf.Max(0, _prewarmCount),
+                prewarmCount: Mathf.Max(0, _settings.PrewarmCount),
                 keepWorldPositionWhenParenting: false
             );
         }
 
         private void Start()
         {
-            if (_spawnOnStart)
+            if (_settings.SpawnOnStart)
                 StartSpawning();
         }
 
@@ -109,22 +106,22 @@ namespace _Game._Scripts.SwordBubbleSystem
 
         private float GetNextSpawnDelay()
         {
-            var v = _intervalVariation;
-            var delay = _baseSpawnInterval + Random.Range(-v, v);
+            var v = _settings.IntervalVariation;
+            var delay = _settings.BaseSpawnInterval + Random.Range(-v, v);
             return Mathf.Max(0.05f, delay);
         }
 
         private Vector3 GetRandomSpawnPosition()
         {
-            for (var i = 0; i < Mathf.Max(1, _positionTryCount); i++)
+            for (var i = 0; i < Mathf.Max(1, _settings.PositionTryCount); i++)
             {
                 var candidate = GetRandomPointInsideArea();
 
-                if (_player == null || _minDistanceFromPlayer <= 0f)
+                if (_player == null || _settings.MinDistanceFromPlayer <= 0f)
                     return candidate;
 
                 var dist = Vector2.Distance(candidate, _player.position);
-                if (dist >= _minDistanceFromPlayer)
+                if (dist >= _settings.MinDistanceFromPlayer)
                     return candidate;
             }
 
@@ -134,16 +131,8 @@ namespace _Game._Scripts.SwordBubbleSystem
 
         private Vector3 GetRandomPointInsideArea()
         {
-            if (_spawnArea2D != null)
-            {
-                var b = _spawnArea2D.bounds;
-                var x = Random.Range(b.min.x, b.max.x);
-                var y = Random.Range(b.min.y, b.max.y);
-                return new Vector3(x, y, 0f);
-            }
-
-            var rx = Random.Range(_fallbackMin.x, _fallbackMax.x);
-            var ry = Random.Range(_fallbackMin.y, _fallbackMax.y);
+            var rx = Random.Range(_settings.FallbackMin.x, _settings.FallbackMax.x);
+            var ry = Random.Range(_settings.FallbackMin.y, _settings.FallbackMax.y);
             return new Vector3(rx, ry, 0f);
         }
     }
