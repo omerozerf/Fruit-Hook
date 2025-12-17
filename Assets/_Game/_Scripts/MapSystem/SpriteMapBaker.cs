@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-namespace _Game._Scripts.Rendering
+namespace _Game._Scripts.MapSystem
 {
     public sealed class SpriteMapBaker : MonoBehaviour
     {

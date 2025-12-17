@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using _Game._Scripts.ScriptableObjects;
 using UnityEngine;
 
-namespace _Game._Scripts
+namespace _Game._Scripts.MapSystem
 {
     public sealed class GridMapBuilder : MonoBehaviour
     {
@@ -20,12 +20,13 @@ namespace _Game._Scripts
         private readonly List<Transform> m_SpawnedRoots = new List<Transform>(512);
         private readonly List<Transform> m_TopCornerRoots = new List<Transform>(4);
 
-        
+
         private void Awake()
         {
             if (!_settings)
             {
-                Debug.LogError($"{nameof(GridMapBuilder)} on '{name}' has no {nameof(GridMapBuilderSettingsSO)} assigned.", this);
+                Debug.LogError(
+                    $"{nameof(GridMapBuilder)} on '{name}' has no {nameof(GridMapBuilderSettingsSO)} assigned.", this);
                 enabled = false;
                 return;
             }
@@ -40,7 +41,7 @@ namespace _Game._Scripts
             DisableTopCornerLastRenderers();
         }
 
-        
+
         private void BuildGround()
         {
             // 1) Main grid (your intended bounds)
@@ -101,20 +102,24 @@ namespace _Game._Scripts
             var maxY = _settings.Height - 1;
 
             // Corners
-            var bottomLeft = Instantiate(_settings.FenceCorner, GridToWorld(minX - 1, minY - 1), Quaternion.identity, transform);
+            var bottomLeft = Instantiate(_settings.FenceCorner, GridToWorld(minX - 1, minY - 1), Quaternion.identity,
+                transform);
             m_SpawnedRoots.Add(bottomLeft);
 
             // Bottom-right corner should be vertical (no corner prefab)
-            var bottomRight = Instantiate(_settings.FenceVertical, GridToWorld(maxX + 1, minY - 1), Quaternion.identity, transform);
+            var bottomRight = Instantiate(_settings.FenceVertical, GridToWorld(maxX + 1, minY - 1), Quaternion.identity,
+                transform);
             m_SpawnedRoots.Add(bottomRight);
 
             // Top-left corner should be vertical
-            var topLeft = Instantiate(_settings.FenceVertical, GridToWorld(minX - 1, maxY + 1), Quaternion.identity, transform);
+            var topLeft = Instantiate(_settings.FenceVertical, GridToWorld(minX - 1, maxY + 1), Quaternion.identity,
+                transform);
             m_SpawnedRoots.Add(topLeft);
             m_TopCornerRoots.Add(topLeft);
 
             // Top-right corner should be vertical
-            var topRight = Instantiate(_settings.FenceVertical, GridToWorld(maxX + 1, maxY + 1), Quaternion.identity, transform);
+            var topRight = Instantiate(_settings.FenceVertical, GridToWorld(maxX + 1, maxY + 1), Quaternion.identity,
+                transform);
             m_SpawnedRoots.Add(topRight);
             m_TopCornerRoots.Add(topRight);
 
@@ -128,8 +133,10 @@ namespace _Game._Scripts
             // Vertical edges
             for (var y = minY; y <= maxY; y++)
             {
-                m_SpawnedRoots.Add(Instantiate(_settings.FenceVertical, GridToWorld(minX - 1, y), Quaternion.identity, transform));
-                m_SpawnedRoots.Add(Instantiate(_settings.FenceVertical, GridToWorld(maxX + 1, y), Quaternion.identity, transform));
+                m_SpawnedRoots.Add(Instantiate(_settings.FenceVertical, GridToWorld(minX - 1, y), Quaternion.identity,
+                    transform));
+                m_SpawnedRoots.Add(Instantiate(_settings.FenceVertical, GridToWorld(maxX + 1, y), Quaternion.identity,
+                    transform));
             }
         }
 
