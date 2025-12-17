@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using _Game._Scripts.SwordSystem;
 
 namespace _Game._Scripts.SwordOrbitSystem.Helpers
 {
@@ -60,12 +61,29 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
         }
         
         
-        public void StartDespawn(Transform sword, Vector3 centerWorld, float orbitRadius)
+        public void StartDespawn(Sword sword, Vector3 centerWorld, float orbitRadius)
         {
-            if (!sword || !m_Host)
+            if (!sword)
                 return;
 
-            m_Host.StartCoroutine(DespawnRoutine(sword, centerWorld, orbitRadius));
+            // Prefer running the coroutine on the sword itself so the animation lifecycle is owned by the sword.
+            // If the sword is pooled/disabled/destroyed, the coroutine will naturally stop.
+            MonoBehaviour runner = null;
+
+            if (sword && sword.isActiveAndEnabled)
+            {
+                runner = sword;
+            }
+            else if (m_Host && m_Host.isActiveAndEnabled)
+            {
+                // Fallback for cases where sword doesn't have a valid MonoBehaviour to host the coroutine.
+                runner = m_Host;
+            }
+
+            if (!runner)
+                return;
+
+            runner.StartCoroutine(DespawnRoutine(sword.transform, centerWorld, orbitRadius));
         }
     }
 }

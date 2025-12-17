@@ -99,7 +99,7 @@ namespace _Game._Scripts.Editor
                 name = "DefaultTexturePlatform",
                 overridden = true,
                 maxTextureSize = 2048,
-                format = TextureImporterFormat.AutomaticCompressed,
+                format = TextureImporterFormat.Automatic,
                 compressionQuality = 50
             };
             atlas.SetPlatformSettings(defaultPlatform);
@@ -110,7 +110,7 @@ namespace _Game._Scripts.Editor
                 name = "WebGL",
                 overridden = true,
                 maxTextureSize = 2048,
-                format = TextureImporterFormat.AutomaticCompressed,
+                format = TextureImporterFormat.Automatic,
                 compressionQuality = 50
             };
             atlas.SetPlatformSettings(webglPlatform);

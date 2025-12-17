@@ -180,7 +180,7 @@ namespace _Game._Scripts.SwordOrbitSystem
             var sword = swordTransform.GetComponent<Sword>();
             sword.SetSwordOrbitController(null);
             sword.SetColliderEnabled(false);
-            m_DespawnAnimator.StartDespawn(swordTransform, transform.position, _settings.Orbit._radius);
+            m_DespawnAnimator.StartDespawn(sword, transform.position, _settings.Orbit._radius);
 
             if (_isPlayer) PlayCameraShake();
         }
