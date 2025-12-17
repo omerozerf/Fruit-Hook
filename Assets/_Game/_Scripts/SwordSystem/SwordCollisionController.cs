@@ -9,6 +9,7 @@ namespace _Game._Scripts.SwordSystem
         [SerializeField] private bool _isPlayer;
         [SerializeField] private Sword _sword;
         [SerializeField] private LayerMask _swordLayerMask;
+        [SerializeField] private Collider2D _collider;
 
         private Tween m_CameraShakeTween;
 
@@ -21,6 +22,7 @@ namespace _Game._Scripts.SwordSystem
         private void OnValidate()
         {
             if (!_sword) _sword = GetComponentInParent<Sword>();
+            if (!_collider) _collider = GetComponent<Collider2D>();
         }
 
 
@@ -35,8 +37,17 @@ namespace _Game._Scripts.SwordSystem
             var otherSword = otherSwordCollision.GetSword();
             var mySword = GetSword();
 
-            if (otherOrbitController && otherSword.transform) otherOrbitController.RemoveSword(otherSword.transform);
-            if (myOrbitController && mySword.transform) myOrbitController.RemoveSword(mySword.transform);
+            if (otherOrbitController && otherSword.transform)
+            {
+                otherOrbitController.RemoveSword(otherSword.transform);
+                otherSwordCollision._collider.enabled = false;
+            }
+
+            if (myOrbitController && mySword.transform)
+            {
+                myOrbitController.RemoveSword(mySword.transform);
+                _collider.enabled = false;
+            }
 
             AudioService.Instance.PlaySfx(SfxId.SwordHit);
         }
