@@ -33,7 +33,11 @@ namespace _Game._Scripts.EnemyMoveSystem
 
         [Header("Combat")]
         [SerializeField] private float _attackRange = 1.6f;
-        [SerializeField] private float _threatRange = 2.4f;
+        
+        [SerializeField] private float _threatEnterRange = 2.4f;
+        [SerializeField] private float _threatExitRange = 2.8f;
+
+        [SerializeField, Range(0f, 1f)] private float _minFleeStrength = 0.25f;
 
         [Header("Steering Weights")]
         [SerializeField] private float _seekWeight = 1f;
@@ -120,7 +124,7 @@ namespace _Game._Scripts.EnemyMoveSystem
             m_ClosestEnemy = ScanClosestByLayer(pos, _enemyScanRadius, _enemyLayer, m_EnemyHits, out var _);
             m_ClosestSword = ScanClosestByLayer(pos, _swordScanRadius, _swordLayer, m_SwordHits, out var _);
 
-            m_AvoidVector = ComputeAvoidVector(pos, m_ClosestEnemy);
+            m_AvoidVector = ComputeAvoidVector(pos, m_ClosestEnemy, m_State == AIState.Flee);
         }
 
         private Transform ScanClosestByLayer(
@@ -174,24 +178,38 @@ namespace _Game._Scripts.EnemyMoveSystem
             return false;
         }
 
-        private Vector2 ComputeAvoidVector(Vector2 myPos, Transform enemy)
+        private Vector2 ComputeAvoidVector(Vector2 myPos, Transform enemy, bool isCurrentlyFleeing)
         {
             if (!enemy) return Vector2.zero;
 
             float dist = Vector2.Distance(myPos, enemy.position);
-            if (dist > _threatRange) return Vector2.zero;
+
+            if (isCurrentlyFleeing)
+            {
+                if (dist > _threatExitRange) return Vector2.zero;
+            }
+            else
+            {
+                if (dist > _threatEnterRange) return Vector2.zero;
+            }
 
             int mySwords = GetMySwordCount();
             int enemySwords = GetEnemySwordCount(enemy);
 
-            if (enemySwords > mySwords)
-            {
-                Vector2 away = (myPos - (Vector2)enemy.position);
-                if (away.sqrMagnitude < 0.0001f) away = Random.insideUnitCircle;
-                return away.normalized * Mathf.InverseLerp(_threatRange, 0.2f, dist);
-            }
+            if (enemySwords <= mySwords)
+                return Vector2.zero;
 
-            return Vector2.zero;
+            Vector2 away = (myPos - (Vector2)enemy.position);
+            if (away.sqrMagnitude < 0.0001f) away = Random.insideUnitCircle;
+            away = away.normalized;
+            
+            float strength = Mathf.InverseLerp(_threatExitRange, _threatEnterRange, dist);
+            strength = Mathf.Clamp01(strength);
+
+            if (isCurrentlyFleeing)
+                strength = Mathf.Max(strength, _minFleeStrength);
+
+            return away * strength;
         }
 
 
@@ -205,8 +223,9 @@ namespace _Game._Scripts.EnemyMoveSystem
             int mySwords = GetMySwordCount();
             int enemySwords = hasEnemy ? GetEnemySwordCount(m_ClosestEnemy) : 0;
 
-            bool enemyInAttackRange = hasEnemy && Vector2.Distance(myPos, m_ClosestEnemy.position) <= _attackRange;
-            bool enemyIsThreatClose = hasEnemy && Vector2.Distance(myPos, m_ClosestEnemy.position) <= _threatRange;
+            float enemyDist = hasEnemy ? Vector2.Distance(myPos, m_ClosestEnemy.position) : float.PositiveInfinity;
+            bool enemyIsThreatClose = hasEnemy && (m_State == AIState.Flee ? enemyDist <= _threatExitRange : enemyDist <= _threatEnterRange);
+            bool enemyInAttackRange = hasEnemy && enemyDist <= _attackRange;
 
             // 1) Kaçınma (bariz tehdit)
             if (enemyIsThreatClose && enemySwords > mySwords)
@@ -311,9 +330,12 @@ namespace _Game._Scripts.EnemyMoveSystem
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(p, _attackRange);
 
-            // Threat range
+            // Threat range (enter/exit)
             Gizmos.color = new Color(1f, 0.5f, 0f, 1f);
-            Gizmos.DrawWireSphere(p, _threatRange);
+            Gizmos.DrawWireSphere(p, _threatEnterRange);
+
+            Gizmos.color = new Color(1f, 0.5f, 0f, 0.45f);
+            Gizmos.DrawWireSphere(p, _threatExitRange);
 
             // Targets
             if (m_ClosestEnemy)
