@@ -3,6 +3,7 @@ using _Game._Scripts.GameEvents;
 using _Game._Scripts.Patterns.EventBusPattern;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace _Game._Scripts
 {
@@ -13,6 +14,7 @@ namespace _Game._Scripts
         [SerializeField] private Button _ctaButton;         
         [SerializeField] private Button _backgroundButton;
         [SerializeField] private Canvas _floatingJoystickCanvas;
+        [SerializeField] private CanvasGroup _canvasGroup;
 
         [Header("Settings")]
         [SerializeField] private bool _backgroundAlsoClicksCta = false;
@@ -72,6 +74,14 @@ namespace _Game._Scripts
 
             _floatingJoystickCanvas.enabled = false;
             if (_canvas) _canvas.enabled = true;
+            
+            if (_canvasGroup)
+            {
+                _canvasGroup.alpha = 0f;
+                _canvasGroup.blocksRaycasts = true;
+                _canvasGroup.interactable = true;
+                _canvasGroup.DOFade(1f, 0.3f);
+            }
 
 #if UNITY_WEBGL && !UNITY_EDITOR
             Luna.Unity.LifeCycle.GameEnded();
@@ -81,12 +91,24 @@ namespace _Game._Scripts
         public void Hide()
         {
             m_IsShown = false;
+            if (_canvasGroup)
+            {
+                _canvasGroup.alpha = 0f;
+                _canvasGroup.blocksRaycasts = false;
+                _canvasGroup.interactable = false;
+            }
             if (_canvas) _canvas.enabled = false;
         }
 
         private void HideImmediate()
         {
             m_IsShown = false;
+            if (_canvasGroup)
+            {
+                _canvasGroup.alpha = 0f;
+                _canvasGroup.blocksRaycasts = false;
+                _canvasGroup.interactable = false;
+            }
             if (_canvas) _canvas.enabled = false;
         }
 
