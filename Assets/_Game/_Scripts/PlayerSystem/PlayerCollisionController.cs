@@ -13,11 +13,11 @@ namespace _Game._Scripts.PlayerSystem
     {
         [SerializeField] private bool _isPlayer;
 
-        [Header("Settings")] [SerializeField] private PlayerCollisionSettingsSO _settings;
+        [Header("Settings")]
+        [SerializeField] private PlayerCollisionSettingsSO _settings;
 
-        [Header("References")] [SerializeField]
-        private PlayerMovement _playerMovement;
-
+        [Header("References")]
+        [SerializeField] private PlayerMovement _playerMovement;
         [SerializeField] private PlayerVisualController _playerVisualController;
         [SerializeField] private PlayerHealthController _playerHealthController;
         [SerializeField] private SwordOrbitController _swordOrbitController;
@@ -25,6 +25,7 @@ namespace _Game._Scripts.PlayerSystem
 
         private Tween m_CameraShakeTween;
 
+        
         private void Awake()
         {
             if (!_settings)
@@ -34,12 +35,6 @@ namespace _Game._Scripts.PlayerSystem
                 enabled = false;
                 return;
             }
-
-            // Runtime safety if OnValidate didn't run (e.g., in builds)
-            if (!_playerHealthController) _playerHealthController = GetComponentInParent<PlayerHealthController>();
-            if (!_rigidbody2D) _rigidbody2D = GetComponentInParent<Rigidbody2D>();
-            if (!_playerMovement) _playerMovement = GetComponentInParent<PlayerMovement>();
-            if (!_playerVisualController) _playerVisualController = GetComponentInParent<PlayerVisualController>();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -65,7 +60,7 @@ namespace _Game._Scripts.PlayerSystem
             _playerVisualController.PlayDamageFlash();
             ApplyKnockback(other);
             if (_isPlayer) PlayCameraShake();
-            AudioService.Instance.PlaySfx(AudioService.SfxId.DamageHit);
+            AudioService.Instance.PlaySfx(SfxId.DamageHit);
         }
 
         private void HandleSwordBubbleCollision(Collider2D other)
@@ -80,7 +75,7 @@ namespace _Game._Scripts.PlayerSystem
                 {
                     transform = swordBubbleCollision.GetSwordBubble().transform
                 });
-                if (_isPlayer) AudioService.Instance.PlaySfx(AudioService.SfxId.BubbleSword);
+                if (_isPlayer) AudioService.Instance.PlaySfx(SfxId.BubbleSword);
             });
         }
 
@@ -88,8 +83,7 @@ namespace _Game._Scripts.PlayerSystem
         {
             return (mask.value & (1 << obj.layer)) != 0;
         }
-
-
+        
         private void ApplyKnockback(Collider2D other)
         {
             if (!_rigidbody2D) return;
@@ -117,6 +111,7 @@ namespace _Game._Scripts.PlayerSystem
                 .SetUpdate(true);
         }
 
+        
         public SwordOrbitController GetSwordOrbitController()
         {
             return _swordOrbitController;

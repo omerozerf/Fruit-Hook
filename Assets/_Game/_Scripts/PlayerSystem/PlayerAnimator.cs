@@ -6,16 +6,17 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerAnimator : MonoBehaviour
     {
-        [Header("Settings")] [SerializeField] private PlayerAnimatorSettingsSO _settings;
+        [Header("Settings")]
+        [SerializeField] private PlayerAnimatorSettingsSO _settings;
 
-        [Header("References")] [SerializeField]
+        [Header("References")]
+        [SerializeField]
         private Transform _bodyTransform;
-
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Transform _leftFootTransform;
         [SerializeField] private Transform _rightFootTransform;
+        
         private Sequence m_FeetStepSequence;
-
         private Tween m_IdleTween;
         private bool m_IsMoving;
         private Vector3 m_LeftFootStartLocalEuler;
@@ -23,6 +24,7 @@ namespace _Game._Scripts.PlayerSystem
         private Vector3 m_RightFootStartLocalEuler;
         private Vector3 m_RightFootStartLocalPos;
 
+        
         private void Awake()
         {
             if (!_settings)
@@ -31,9 +33,6 @@ namespace _Game._Scripts.PlayerSystem
                 enabled = false;
                 return;
             }
-
-            if (!_rigidbody2D)
-                _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
         private void Start()
@@ -56,9 +55,11 @@ namespace _Game._Scripts.PlayerSystem
 
         private void OnValidate()
         {
-            if (!_rigidbody2D) _rigidbody2D = GetComponent<Rigidbody2D>();
+            if (!_rigidbody2D)
+                _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
+        
         private void CacheFootDefaults()
         {
             if (_leftFootTransform)

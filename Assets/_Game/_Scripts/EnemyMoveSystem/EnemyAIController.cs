@@ -10,35 +10,20 @@ namespace _Game._Scripts.EnemyMoveSystem
 {
     public class EnemyAIController : MonoBehaviour
     {
-        public enum AIState
-        {
-            Idle,
-            Wander,
-            SeekSword,
-            ChaseEnemy,
-            AttackEnemy,
-            Flee
-        }
-
-        [Header("References")] [SerializeField]
-        private ExternalMoveInputSource _externalMoveInputSource;
-
+        [Header("References")]
+        [SerializeField] private ExternalMoveInputSource _externalMoveInputSource;
         [SerializeField] private SwordOrbitController _swordOrbitController;
-
-        [Header("Settings")] [SerializeField] private EnemyAISettingsSO _settings;
+        
+        [Header("Settings")]
+        [SerializeField] private EnemyAISettingsSO _settings;
 
         private Vector2 m_AvoidVector;
-
         private Transform m_ClosestEnemy;
         private Transform m_ClosestSword;
-
         private Collider2D[] m_EnemyHits;
         private Vector2 m_FinalMoveInput;
-
         private float m_ScanTimer;
-
         private Collider2D[] m_SelfColliders;
-
         private AIState m_State;
         private Collider2D[] m_SwordHits;
         private float m_WanderTimer;
@@ -58,8 +43,7 @@ namespace _Game._Scripts.EnemyMoveSystem
             m_SwordHits = new Collider2D[Mathf.Max(4, _settings.MaxScanHits)];
             m_SelfColliders = GetComponentsInChildren<Collider2D>(true);
         }
-
-
+        
         private void Update()
         {
             TickScanTimer();
@@ -81,7 +65,7 @@ namespace _Game._Scripts.EnemyMoveSystem
 
         private void OnDrawGizmos()
         {
-            if (_settings == null || !_settings.DrawGizmos) return;
+            if (!_settings || !_settings.DrawGizmos) return;
 
             var p = transform.position;
 
@@ -168,8 +152,7 @@ namespace _Game._Scripts.EnemyMoveSystem
                 m_WanderVector = Random.insideUnitCircle.normalized * _settings.WanderStrength;
             }
         }
-
-
+        
         private void ScanEnvironment()
         {
             Vector2 pos = transform.position;
@@ -264,8 +247,7 @@ namespace _Game._Scripts.EnemyMoveSystem
 
             return away * strength;
         }
-
-
+        
         private AIState DecideState()
         {
             Vector2 myPos = transform.position;
@@ -282,31 +264,30 @@ namespace _Game._Scripts.EnemyMoveSystem
                 : enemyDist <= _settings.ThreatEnterRange);
             var enemyInAttackRange = hasEnemy && enemyDist <= _settings.AttackRange;
 
-            // 1) Kaçınma (bariz tehdit)
+            // 1) Run 
             if (enemyIsThreatClose && enemySwords > mySwords)
                 return AIState.Flee;
 
-            // 2) Saldırı (kılıcı varsa ve rakipten fazlaysa + menzilde)
+            // 2) Attack
             if (enemyInAttackRange && mySwords > enemySwords && mySwords > 0)
                 return AIState.AttackEnemy;
 
-            // 3) Kılıç topla (kılıç yoksa veya güçlenmek istiyorsan)
+            // 3) Go sword bubble
             if (hasSword && (mySwords == 0 || mySwords <= enemySwords))
                 return AIState.SeekSword;
 
-            // 4) Rakibe yaklaş (avantajlıyım ama menzilde değilim)
+            // 4) Close to enemy
             if (hasEnemy && mySwords > enemySwords && mySwords > 0)
                 return AIState.ChaseEnemy;
 
-            // 5) Eğer kılıç var ama düşman yoksa yine kılıca gidebilir
+            // 5) Go sword bubble
             if (hasSword && !hasEnemy)
                 return AIState.SeekSword;
 
-            // 6) Yoksa wander
+            // 6) Wander
             return AIState.Wander;
         }
-
-
+        
         private Vector2 ComputeMoveInput(AIState state)
         {
             Vector2 myPos = transform.position;

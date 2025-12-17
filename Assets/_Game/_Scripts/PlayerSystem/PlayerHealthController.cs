@@ -12,14 +12,15 @@ namespace _Game._Scripts.PlayerSystem
     {
         [SerializeField] private bool _isPlayer;
 
-        [Header("UI")] [SerializeField] private Image _healthBar;
-
+        [Header("UI")]
+        [SerializeField] private Image _healthBar;
         [SerializeField] private Image _healthWhiteIndicatorBar;
 
-        [Header("Settings")] [SerializeField] private PlayerHealthSettingsSO _settings;
+        [Header("Settings")]
+        [SerializeField] private PlayerHealthSettingsSO _settings;
 
-        [Header("Death Settings")] [SerializeField]
-        private Collider2D _collider;
+        [Header("Death Settings")]
+        [SerializeField] private Collider2D _collider;
 
         private int m_CurrentHealth;
         private bool m_IsDead;
@@ -36,13 +37,9 @@ namespace _Game._Scripts.PlayerSystem
             }
 
             InitializeHealth();
-
-            if (!_collider)
-                _collider = GetComponent<Collider2D>();
         }
-
-        public event Action OnDied;
-
+        
+        
         private void InitializeHealth()
         {
             m_CurrentHealth = _settings.MaxHealth;

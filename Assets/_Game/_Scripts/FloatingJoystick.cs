@@ -162,7 +162,7 @@ namespace _Game._Scripts
 
             m_HintTween = null;
         }
-        
+
         private void UpdateHandleAndInput()
         {
             if (!m_IsActive)

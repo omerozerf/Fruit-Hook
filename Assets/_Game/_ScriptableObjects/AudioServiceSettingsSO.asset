@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db32b667e115415a9d9acfef9d1f26c2, type: 3}
+  m_Name: AudioServiceSettingsSO
+  m_EditorClassIdentifier: 
+  _bubbleSword: {fileID: 8300000, guid: 348fc257ca0744978a516c4b05373f6f, type: 3}
+  _damageHit: {fileID: 8300000, guid: 68e9f4cf8d00348daaafb51bb18356e6, type: 3}
+  _swordHit: {fileID: 8300000, guid: 358e8c81fe05e4fc6b562a3c2e6c9c9f, type: 3}
+  _music: {fileID: 0}
+  _playMusicOnStart: 0
+  _defaultSfxVolume: 1
+  _defaultMusicVolume: 0.5
+  _randomizePitch: 0
+  _pitchMin: 0.95
+  _pitchMax: 1.05

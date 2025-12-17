@@ -21,7 +21,7 @@ namespace _Game._Scripts
         private bool m_IsShown;
         private EventBinding<PlayerDiedEvent> m_PlayerDiedEventBinding;
 
-        
+
         private void Awake()
         {
             if (_ctaButton)
@@ -41,7 +41,7 @@ namespace _Game._Scripts
             EventBus<PlayerDiedEvent>.Unsubscribe(m_PlayerDiedEventBinding);
         }
 
-        
+
         private void HandlePlayerDied(PlayerDiedEvent playerDiedEvent)
         {
             var isPlayer = playerDiedEvent.isPlayer;
@@ -63,7 +63,7 @@ namespace _Game._Scripts
             }
         }
 
-        
+
         private void Show()
         {
             if (m_IsShown) return;
@@ -84,7 +84,7 @@ namespace _Game._Scripts
             Luna.Unity.LifeCycle.GameEnded();
 #endif
         }
-        
+
         private void HideImmediate()
         {
             m_IsShown = false;

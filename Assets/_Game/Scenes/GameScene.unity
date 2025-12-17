@@ -1710,16 +1710,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81009636859e4940b653eac4e040a657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bubbleSword: {fileID: 8300000, guid: 348fc257ca0744978a516c4b05373f6f, type: 3}
-  _damageHit: {fileID: 8300000, guid: 68e9f4cf8d00348daaafb51bb18356e6, type: 3}
-  _swordHit: {fileID: 8300000, guid: 358e8c81fe05e4fc6b562a3c2e6c9c9f, type: 3}
-  _music: {fileID: 0}
-  _playMusicOnStart: 0
+  _settings: {fileID: 11400000, guid: 5b7e29457a80a418d84e7d9c06726b9f, type: 2}
   _sfxVolume: 1
   _musicVolume: 0.5
-  _randomizePitch: 0
-  _pitchMin: 0.95
-  _pitchMax: 1.05
 --- !u!4 &1252327401
 Transform:
   m_ObjectHideFlags: 0

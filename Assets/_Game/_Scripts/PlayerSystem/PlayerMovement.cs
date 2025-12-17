@@ -5,11 +5,11 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [Header("Settings")] [SerializeField] private PlayerMovementSettingsSO _settings;
+        [Header("Settings")]
+        [SerializeField] private PlayerMovementSettingsSO _settings;
 
-        [Header("Runtime References")] [SerializeField]
-        private Rigidbody2D _rigidbody2D;
-
+        [Header("Runtime References")]
+        [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Transform _visualsTransform;
 
         private Vector2 m_MovementInput;
@@ -24,8 +24,6 @@ namespace _Game._Scripts.PlayerSystem
                 enabled = false;
                 return;
             }
-
-            InitializeRigidbody();
         }
 
         private void FixedUpdate()
@@ -42,18 +40,8 @@ namespace _Game._Scripts.PlayerSystem
             if (!_rigidbody2D)
                 _rigidbody2D = GetComponent<Rigidbody2D>();
         }
-
-        private void InitializeRigidbody()
-        {
-            if (!_rigidbody2D)
-                _rigidbody2D = GetComponent<Rigidbody2D>();
-        }
-
-        public void SetMoveInput(Vector2 input)
-        {
-            m_MovementInput = Vector2.ClampMagnitude(input, 1f);
-        }
-
+        
+        
         private void ApplyMove()
         {
             var targetVelocity = m_MovementInput * _settings.MoveSpeed;
@@ -75,6 +63,17 @@ namespace _Game._Scripts.PlayerSystem
             _visualsTransform.localScale = localScale;
         }
 
+        private void UnlockMovement()
+        {
+            m_MovementLocked = false;
+        }
+        
+        
+        public void SetMoveInput(Vector2 input)
+        {
+            m_MovementInput = Vector2.ClampMagnitude(input, 1f);
+        }
+
         public void LockMovementTemporarily()
         {
             if (m_MovementLocked)
@@ -82,11 +81,6 @@ namespace _Game._Scripts.PlayerSystem
 
             m_MovementLocked = true;
             Invoke(nameof(UnlockMovement), _settings.KnockbackDisableDuration);
-        }
-
-        private void UnlockMovement()
-        {
-            m_MovementLocked = false;
         }
     }
 }

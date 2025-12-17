@@ -40,7 +40,7 @@ namespace _Game._Scripts.SwordSystem
             if (otherOrbitController && otherSword.transform) otherOrbitController.RemoveSword(otherSword.transform);
             if (myOrbitController && mySword.transform) myOrbitController.RemoveSword(mySword.transform);
 
-            AudioService.Instance.PlaySfx(AudioService.SfxId.SwordHit);
+            AudioService.Instance.PlaySfx(SfxId.SwordHit);
         }
 
 

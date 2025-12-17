@@ -5,12 +5,9 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
     internal struct SwordOrbitEntry
     {
         public Transform transform;
-
         public float currentAngle;
         public float targetAngle;
-
         public Vector3 targetLocalScale;
-
         public float spawnElapsed;
         public float spawnDuration;
         public bool isSpawning;

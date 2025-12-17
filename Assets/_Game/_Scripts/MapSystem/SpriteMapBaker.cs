@@ -7,148 +7,46 @@ namespace _Game._Scripts.MapSystem
 {
     public sealed class SpriteMapBaker : MonoBehaviour
     {
-        [Header("Source")] [SerializeField] private Transform _sourceRoot;
+        [Header("Source")]
+        [SerializeField] private Transform _sourceRoot;
 
-        [Header("Chunk Settings")] [SerializeField]
-        private float _cellSize = 1f;
-
+        [Header("Chunk Settings")]
+        [SerializeField] private float _cellSize = 1f;
         [SerializeField] private int _chunkSizeInCells = 32;
-
-        [Tooltip("Safety limit for 16-bit index buffers (Web builds). Keep this under 65535.")] [SerializeField]
-        private int _maxVerticesPerMesh = 60000;
+        
+        [Tooltip("Safety limit for 16-bit index buffers (Web builds). Keep this under 65535.")]
+        [SerializeField] private int _maxVerticesPerMesh = 60000;
 
         [Header("UV Fix")]
         [Tooltip("Inset UVs by N pixels to reduce atlas bleeding in Web builds (Luna/WebGL). 1 is usually enough.")]
-        [SerializeField]
-        private int _uvInsetPixels = 1;
+        [SerializeField] private int _uvInsetPixels = 1;
 
         [Header("Bake Options")]
         [Tooltip("Delays baking by N frames to allow SpriteAtlas/packed textures to be resolved on Web builds.")]
-        [SerializeField]
-        private int _bakeDelayFrames = 2;
-
+        [SerializeField] private int _bakeDelayFrames = 2;
         [SerializeField] private bool _bakeOnStart = true;
-
         [SerializeField] private bool _disableSourceRenderersAfterBake = true;
         [SerializeField] private bool _destroySourceObjectsAfterBake;
 
         [Header("Sorting")]
         [Tooltip(
-            "If enabled, preserves sortingLayer + sortingOrder by creating separate chunk meshes per sorting bucket.")]
-        [SerializeField]
-        private bool _preserveSorting = true;
+            "If enabled, preserves sortingLayer + sortingOrder" +
+            "by creating separate chunk meshes per sorting bucket.")]
+        [SerializeField] private bool _preserveSorting = true;
 
-        [Header("Output")] [SerializeField] private Transform _outputRoot;
+        [Header("Output")]
+        [SerializeField] private Transform _outputRoot;
+        
+        private readonly List<GameObject> m_CreatedChunks = new();
 
-        private readonly List<GameObject> _createdChunks = new();
-
+        
         private void Start()
         {
             if (_bakeOnStart)
                 StartCoroutine(BakeAfterDelay());
         }
 
-        private IEnumerator BakeAfterDelay()
-        {
-            var frames = Mathf.Clamp(_bakeDelayFrames, 0, 30);
-            for (var i = 0; i < frames; i++)
-                yield return null;
-
-            // One extra yield at end of frame can help on Web builds.
-            yield return new WaitForEndOfFrame();
-
-            Bake();
-        }
-
-        [ContextMenu("Bake")]
-        public void Bake()
-        {
-            ValidateReferences();
-            ClearPreviousBake();
-
-            var renderers = CollectSpriteRenderers(_sourceRoot);
-            if (renderers.Count == 0)
-            {
-                Debug.LogWarning("[SpriteMapBaker] No SpriteRenderers found under source root.");
-                return;
-            }
-
-            // Safety: if any sprite texture is missing/invalid, do NOT disable sources.
-            // This prevents ending up with baked meshes sampling a placeholder texture on Web builds.
-            var hasInvalidTexture = false;
-            for (var i = 0; i < renderers.Count; i++)
-            {
-                var sp = renderers[i].sprite;
-                var tx = sp ? sp.texture : null;
-                if (!tx || tx.width <= 0 || tx.height <= 0)
-                {
-                    hasInvalidTexture = true;
-                    break;
-                }
-            }
-
-            if (hasInvalidTexture)
-            {
-                Debug.LogWarning(
-                    "[SpriteMapBaker] Bake aborted: detected invalid sprite textures (likely atlas not ready). Retrying next frame.");
-                StartCoroutine(BakeAfterDelay());
-                return;
-            }
-
-            // Group order:
-            // - always by texture (to avoid texture switches)
-            // - optionally by sorting bucket (to preserve visual order)
-            var groups = _preserveSorting
-                ? GroupByTextureAndSorting(renderers)
-                : GroupByTextureOnly(renderers);
-
-            foreach (var group in groups)
-            {
-                var tex = group.Key.Texture;
-                var mat = CreateSpriteMaterial(tex);
-
-                BakeGroupToChunks(
-                    group.Value,
-                    mat,
-                    group.Key.SortingLayerId,
-                    group.Key.SortingOrder
-                );
-            }
-
-            PostBakeCleanup(renderers);
-
-            Debug.Log(
-                $"[SpriteMapBaker] Bake complete. Source SR: {renderers.Count} | Chunks: {_createdChunks.Count} | PreserveSorting: {_preserveSorting}");
-        }
-
-        private void ValidateReferences()
-        {
-            if (!_sourceRoot)
-                throw new InvalidOperationException("[SpriteMapBaker] Source Root is null.");
-
-            if (!_outputRoot)
-            {
-                var go = new GameObject("BakedSpriteChunks");
-                _outputRoot = go.transform;
-                _outputRoot.SetParent(transform, false);
-            }
-
-            if (_cellSize <= 0f) _cellSize = 1f;
-            if (_chunkSizeInCells <= 0) _chunkSizeInCells = 32;
-        }
-
-        private void ClearPreviousBake()
-        {
-            for (var i = _createdChunks.Count - 1; i >= 0; i--)
-                if (_createdChunks[i])
-                    Destroy(_createdChunks[i]);
-
-            _createdChunks.Clear();
-
-            for (var i = _outputRoot.childCount - 1; i >= 0; i--)
-                Destroy(_outputRoot.GetChild(i).gameObject);
-        }
-
+        
         private static List<SpriteRenderer> CollectSpriteRenderers(Transform root)
         {
             var result = new List<SpriteRenderer>(1024);
@@ -215,144 +113,7 @@ namespace _Game._Scripts.MapSystem
             mat.mainTexture = texture;
             return mat;
         }
-
-        private void BakeGroupToChunks(List<SpriteRenderer> renderers, Material material, int sortingLayerId,
-            int sortingOrder)
-        {
-            GetCellBounds(renderers, out var minCellX, out var minCellY, out var maxCellX, out var maxCellY);
-
-            var chunkSize = _chunkSizeInCells;
-
-            for (var cy = minCellY; cy <= maxCellY; cy += chunkSize)
-            for (var cx = minCellX; cx <= maxCellX; cx += chunkSize)
-            {
-                var chunkRenderers = CollectChunkRenderers(renderers, cx, cy, chunkSize);
-                if (chunkRenderers.Count == 0)
-                    continue;
-
-                CreateChunkMesh(chunkRenderers, material, cx, cy, sortingLayerId, sortingOrder);
-            }
-        }
-
-        private void GetCellBounds(List<SpriteRenderer> renderers, out int minX, out int minY, out int maxX,
-            out int maxY)
-        {
-            minX = int.MaxValue;
-            minY = int.MaxValue;
-            maxX = int.MinValue;
-            maxY = int.MinValue;
-
-            for (var i = 0; i < renderers.Count; i++)
-            {
-                var pos = renderers[i].transform.position;
-                var cx = WorldToCell(pos.x);
-                var cy = WorldToCell(pos.y);
-
-                if (cx < minX) minX = cx;
-                if (cy < minY) minY = cy;
-                if (cx > maxX) maxX = cx;
-                if (cy > maxY) maxY = cy;
-            }
-        }
-
-        private List<SpriteRenderer> CollectChunkRenderers(List<SpriteRenderer> renderers, int chunkMinX, int chunkMinY,
-            int chunkSize)
-        {
-            var list = new List<SpriteRenderer>(256);
-            var chunkMaxX = chunkMinX + chunkSize - 1;
-            var chunkMaxY = chunkMinY + chunkSize - 1;
-
-            for (var i = 0; i < renderers.Count; i++)
-            {
-                var sr = renderers[i];
-                var pos = sr.transform.position;
-
-                var cx = WorldToCell(pos.x);
-                var cy = WorldToCell(pos.y);
-
-                if (cx < chunkMinX || cx > chunkMaxX) continue;
-                if (cy < chunkMinY || cy > chunkMaxY) continue;
-
-                list.Add(sr);
-            }
-
-            return list;
-        }
-
-        private void CreateChunkMesh(List<SpriteRenderer> chunkRenderers, Material material, int chunkMinX,
-            int chunkMinY, int sortingLayerId, int sortingOrder)
-        {
-            // Split into multiple meshes to stay within 16-bit index limits (important for Web/Luna).
-            var parts = SplitByVertexBudget(chunkRenderers, Mathf.Clamp(_maxVerticesPerMesh, 1000, 65000));
-
-            for (var p = 0; p < parts.Count; p++)
-            {
-                var partRenderers = parts[p];
-                if (partRenderers.Count == 0)
-                    continue;
-
-                var chunkGo = new GameObject($"Chunk_{chunkMinX}_{chunkMinY}_SO{sortingOrder}_P{p}");
-                chunkGo.transform.SetParent(_outputRoot, false);
-                _createdChunks.Add(chunkGo);
-
-                var mf = chunkGo.AddComponent<MeshFilter>();
-                var mr = chunkGo.AddComponent<MeshRenderer>();
-                mr.sharedMaterial = material;
-
-                mr.sortingLayerID = sortingLayerId;
-                mr.sortingOrder = sortingOrder;
-
-                var mesh = BuildMesh(partRenderers);
-                mf.sharedMesh = mesh;
-            }
-        }
-
-        private Mesh BuildMesh(List<SpriteRenderer> renderers)
-        {
-            // Some SpriteRenderers may be Simple (4 verts) while others may be Sliced (16 verts).
-            // Use lists to support variable vertex counts.
-            var vertices = new List<Vector3>(renderers.Count * 4);
-            var uvs = new List<Vector2>(renderers.Count * 4);
-            var triangles = new List<int>(renderers.Count * 6);
-
-            for (var i = 0; i < renderers.Count; i++)
-            {
-                var sr = renderers[i];
-                var sprite = sr.sprite;
-
-                var world = sr.transform.localToWorldMatrix;
-
-                switch (sr.drawMode)
-                {
-                    case SpriteDrawMode.Simple:
-                        AddSimpleQuad(sprite, world, vertices, uvs, triangles, _uvInsetPixels);
-                        break;
-
-                    case SpriteDrawMode.Sliced:
-                        AddSliced9Patch(sprite, sr.size, world, vertices, uvs, triangles, _uvInsetPixels);
-                        break;
-
-                    case SpriteDrawMode.Tiled:
-                        // Tiled is more complex (repeats center area). For bake purposes, fall back to Simple.
-                        // If you need perfect tiling, we can add a tiled implementation next.
-                        AddSimpleQuad(sprite, world, vertices, uvs, triangles, _uvInsetPixels);
-                        break;
-
-                    default:
-                        AddSimpleQuad(sprite, world, vertices, uvs, triangles, _uvInsetPixels);
-                        break;
-                }
-            }
-
-            var mesh = new Mesh { name = "BakedSpriteChunkMesh" };
-
-            mesh.SetVertices(vertices);
-            mesh.SetUVs(0, uvs);
-            mesh.SetTriangles(triangles, 0, true);
-            mesh.RecalculateBounds();
-            return mesh;
-        }
-
+        
         private static void AddSimpleQuad(
             Sprite sprite,
             Matrix4x4 world,
@@ -547,25 +308,7 @@ namespace _Game._Scripts.MapSystem
             tr = new Vector2(xMax, yMax);
             br = new Vector2(xMax, yMin);
         }
-
-        private int WorldToCell(float world)
-        {
-            // Statik grid için Round genelde ok; eğer edge-case varsa Floor’a alırız.
-            return Mathf.RoundToInt(world / _cellSize);
-        }
-
-        private void PostBakeCleanup(List<SpriteRenderer> renderers)
-        {
-            if (_disableSourceRenderersAfterBake)
-                for (var i = 0; i < renderers.Count; i++)
-                    if (renderers[i])
-                        renderers[i].enabled = false;
-
-            if (_destroySourceObjectsAfterBake)
-                for (var i = _sourceRoot.childCount - 1; i >= 0; i--)
-                    Destroy(_sourceRoot.GetChild(i).gameObject);
-        }
-
+        
         private static int EstimateVertexCount(SpriteRenderer sr)
         {
             // Matches what we generate in BuildMesh:
@@ -618,25 +361,284 @@ namespace _Game._Scripts.MapSystem
 
             return result;
         }
+        
+        
+        private IEnumerator BakeAfterDelay()
+        {
+            var frames = Mathf.Clamp(_bakeDelayFrames, 0, 30);
+            for (var i = 0; i < frames; i++)
+                yield return null;
 
+            // One extra yield at end of frame can help on Web builds.
+            yield return new WaitForEndOfFrame();
+
+            Bake();
+        }
+        
+        private void ValidateReferences()
+        {
+            if (!_sourceRoot)
+                throw new InvalidOperationException("[SpriteMapBaker] Source Root is null.");
+
+            if (!_outputRoot)
+            {
+                var go = new GameObject("BakedSpriteChunks");
+                _outputRoot = go.transform;
+                _outputRoot.SetParent(transform, false);
+            }
+
+            if (_cellSize <= 0f) _cellSize = 1f;
+            if (_chunkSizeInCells <= 0) _chunkSizeInCells = 32;
+        }
+
+        private void ClearPreviousBake()
+        {
+            for (var i = m_CreatedChunks.Count - 1; i >= 0; i--)
+                if (m_CreatedChunks[i])
+                    Destroy(m_CreatedChunks[i]);
+
+            m_CreatedChunks.Clear();
+
+            for (var i = _outputRoot.childCount - 1; i >= 0; i--)
+                Destroy(_outputRoot.GetChild(i).gameObject);
+        }
+        
+        private void BakeGroupToChunks(List<SpriteRenderer> renderers, Material material, int sortingLayerId,
+            int sortingOrder)
+        {
+            GetCellBounds(renderers, out var minCellX, out var minCellY, out var maxCellX, out var maxCellY);
+
+            var chunkSize = _chunkSizeInCells;
+
+            for (var cy = minCellY; cy <= maxCellY; cy += chunkSize)
+            for (var cx = minCellX; cx <= maxCellX; cx += chunkSize)
+            {
+                var chunkRenderers = CollectChunkRenderers(renderers, cx, cy, chunkSize);
+                if (chunkRenderers.Count == 0)
+                    continue;
+
+                CreateChunkMesh(chunkRenderers, material, cx, cy, sortingLayerId, sortingOrder);
+            }
+        }
+
+        private void GetCellBounds(List<SpriteRenderer> renderers, out int minX, out int minY, out int maxX,
+            out int maxY)
+        {
+            minX = int.MaxValue;
+            minY = int.MaxValue;
+            maxX = int.MinValue;
+            maxY = int.MinValue;
+
+            for (var i = 0; i < renderers.Count; i++)
+            {
+                var pos = renderers[i].transform.position;
+                var cx = WorldToCell(pos.x);
+                var cy = WorldToCell(pos.y);
+
+                if (cx < minX) minX = cx;
+                if (cy < minY) minY = cy;
+                if (cx > maxX) maxX = cx;
+                if (cy > maxY) maxY = cy;
+            }
+        }
+
+        private List<SpriteRenderer> CollectChunkRenderers(List<SpriteRenderer> renderers, int chunkMinX, int chunkMinY,
+            int chunkSize)
+        {
+            var list = new List<SpriteRenderer>(256);
+            var chunkMaxX = chunkMinX + chunkSize - 1;
+            var chunkMaxY = chunkMinY + chunkSize - 1;
+
+            for (var i = 0; i < renderers.Count; i++)
+            {
+                var sr = renderers[i];
+                var pos = sr.transform.position;
+
+                var cx = WorldToCell(pos.x);
+                var cy = WorldToCell(pos.y);
+
+                if (cx < chunkMinX || cx > chunkMaxX) continue;
+                if (cy < chunkMinY || cy > chunkMaxY) continue;
+
+                list.Add(sr);
+            }
+
+            return list;
+        }
+
+        private void CreateChunkMesh(List<SpriteRenderer> chunkRenderers, Material material, int chunkMinX,
+            int chunkMinY, int sortingLayerId, int sortingOrder)
+        {
+            // Split into multiple meshes to stay within 16-bit index limits (important for Web/Luna).
+            var parts = SplitByVertexBudget(chunkRenderers, Mathf.Clamp(_maxVerticesPerMesh, 1000, 65000));
+
+            for (var p = 0; p < parts.Count; p++)
+            {
+                var partRenderers = parts[p];
+                if (partRenderers.Count == 0)
+                    continue;
+
+                var chunkGo = new GameObject($"Chunk_{chunkMinX}_{chunkMinY}_SO{sortingOrder}_P{p}");
+                chunkGo.transform.SetParent(_outputRoot, false);
+                m_CreatedChunks.Add(chunkGo);
+
+                var mf = chunkGo.AddComponent<MeshFilter>();
+                var mr = chunkGo.AddComponent<MeshRenderer>();
+                mr.sharedMaterial = material;
+
+                mr.sortingLayerID = sortingLayerId;
+                mr.sortingOrder = sortingOrder;
+
+                var mesh = BuildMesh(partRenderers);
+                mf.sharedMesh = mesh;
+            }
+        }
+
+        private Mesh BuildMesh(List<SpriteRenderer> renderers)
+        {
+            // Some SpriteRenderers may be Simple (4 verts) while others may be Sliced (16 verts).
+            // Use lists to support variable vertex counts.
+            var vertices = new List<Vector3>(renderers.Count * 4);
+            var uvs = new List<Vector2>(renderers.Count * 4);
+            var triangles = new List<int>(renderers.Count * 6);
+
+            for (var i = 0; i < renderers.Count; i++)
+            {
+                var sr = renderers[i];
+                var sprite = sr.sprite;
+
+                var world = sr.transform.localToWorldMatrix;
+
+                switch (sr.drawMode)
+                {
+                    case SpriteDrawMode.Simple:
+                        AddSimpleQuad(sprite, world, vertices, uvs, triangles, _uvInsetPixels);
+                        break;
+
+                    case SpriteDrawMode.Sliced:
+                        AddSliced9Patch(sprite, sr.size, world, vertices, uvs, triangles, _uvInsetPixels);
+                        break;
+
+                    case SpriteDrawMode.Tiled:
+                        // Tiled is more complex (repeats center area). For bake purposes, fall back to Simple.
+                        // If you need perfect tiling, we can add a tiled implementation next.
+                        AddSimpleQuad(sprite, world, vertices, uvs, triangles, _uvInsetPixels);
+                        break;
+
+                    default:
+                        AddSimpleQuad(sprite, world, vertices, uvs, triangles, _uvInsetPixels);
+                        break;
+                }
+            }
+
+            var mesh = new Mesh { name = "BakedSpriteChunkMesh" };
+
+            mesh.SetVertices(vertices);
+            mesh.SetUVs(0, uvs);
+            mesh.SetTriangles(triangles, 0, true);
+            mesh.RecalculateBounds();
+            return mesh;
+        }
+        
+        private int WorldToCell(float world)
+        {
+            // Statik grid için Round genelde ok; eğer edge-case varsa Floor’a alırız.
+            return Mathf.RoundToInt(world / _cellSize);
+        }
+
+        private void PostBakeCleanup(List<SpriteRenderer> renderers)
+        {
+            if (_disableSourceRenderersAfterBake)
+                for (var i = 0; i < renderers.Count; i++)
+                    if (renderers[i])
+                        renderers[i].enabled = false;
+
+            if (_destroySourceObjectsAfterBake)
+                for (var i = _sourceRoot.childCount - 1; i >= 0; i--)
+                    Destroy(_sourceRoot.GetChild(i).gameObject);
+        }
+        
+        
+        [ContextMenu("Bake")]
+        public void Bake()
+        {
+            ValidateReferences();
+            ClearPreviousBake();
+
+            var renderers = CollectSpriteRenderers(_sourceRoot);
+            if (renderers.Count == 0)
+            {
+                Debug.LogWarning("[SpriteMapBaker] No SpriteRenderers found under source root.");
+                return;
+            }
+
+            // Safety: if any sprite texture is missing/invalid, do NOT disable sources.
+            // This prevents ending up with baked meshes sampling a placeholder texture on Web builds.
+            var hasInvalidTexture = false;
+            for (var i = 0; i < renderers.Count; i++)
+            {
+                var sp = renderers[i].sprite;
+                var tx = sp ? sp.texture : null;
+                if (!tx || tx.width <= 0 || tx.height <= 0)
+                {
+                    hasInvalidTexture = true;
+                    break;
+                }
+            }
+
+            if (hasInvalidTexture)
+            {
+                Debug.LogWarning(
+                    "[SpriteMapBaker] Bake aborted: detected invalid sprite textures (likely atlas not ready). Retrying next frame.");
+                StartCoroutine(BakeAfterDelay());
+                return;
+            }
+
+            // Group order:
+            // - always by texture (to avoid texture switches)
+            // - optionally by sorting bucket (to preserve visual order)
+            var groups = _preserveSorting
+                ? GroupByTextureAndSorting(renderers)
+                : GroupByTextureOnly(renderers);
+
+            foreach (var group in groups)
+            {
+                var tex = group.Key.texture;
+                var mat = CreateSpriteMaterial(tex);
+
+                BakeGroupToChunks(
+                    group.Value,
+                    mat,
+                    group.Key.sortingLayerId,
+                    group.Key.sortingOrder
+                );
+            }
+
+            PostBakeCleanup(renderers);
+
+            Debug.Log(
+                $"[SpriteMapBaker] Bake complete. Source SR: {renderers.Count} | Chunks: {m_CreatedChunks.Count} | PreserveSorting: {_preserveSorting}");
+        }
+
+        
         private readonly struct GroupKey : IEquatable<GroupKey>
         {
-            public readonly Texture2D Texture;
-            public readonly int SortingLayerId;
-            public readonly int SortingOrder;
+            public readonly Texture2D texture;
+            public readonly int sortingLayerId;
+            public readonly int sortingOrder;
 
             public GroupKey(Texture2D texture, int sortingLayerId, int sortingOrder)
             {
-                Texture = texture;
-                SortingLayerId = sortingLayerId;
-                SortingOrder = sortingOrder;
+                this.texture = texture;
+                this.sortingLayerId = sortingLayerId;
+                this.sortingOrder = sortingOrder;
             }
 
             public bool Equals(GroupKey other)
             {
-                return Texture == other.Texture &&
-                       SortingLayerId == other.SortingLayerId &&
-                       SortingOrder == other.SortingOrder;
+                return texture == other.texture &&
+                       sortingLayerId == other.sortingLayerId &&
+                       sortingOrder == other.sortingOrder;
             }
 
             public override bool Equals(object obj)
@@ -649,9 +651,9 @@ namespace _Game._Scripts.MapSystem
                 unchecked
                 {
                     var hash = 17;
-                    hash = hash * 31 + (Texture ? Texture.GetHashCode() : 0);
-                    hash = hash * 31 + SortingLayerId.GetHashCode();
-                    hash = hash * 31 + SortingOrder.GetHashCode();
+                    hash = hash * 31 + (texture ? texture.GetHashCode() : 0);
+                    hash = hash * 31 + sortingLayerId.GetHashCode();
+                    hash = hash * 31 + sortingOrder.GetHashCode();
                     return hash;
                 }
             }

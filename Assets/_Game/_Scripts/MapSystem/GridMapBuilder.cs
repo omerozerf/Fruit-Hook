@@ -8,7 +8,8 @@ namespace _Game._Scripts.MapSystem
 {
     public sealed class GridMapBuilder : MonoBehaviour
     {
-        [Header("Settings")] [SerializeField] private GridMapBuilderSettingsSO _settings;
+        [Header("Settings")]
+        [SerializeField] private GridMapBuilderSettingsSO _settings;
 
         private readonly List<Transform> m_SpawnedRoots = new(512);
         private readonly List<Transform> m_TopCornerRoots = new(4);
@@ -262,6 +263,7 @@ namespace _Game._Scripts.MapSystem
             return _settings.GroundVariants[0]._prefab;
         }
 
+        
         [Serializable]
         public struct WeightedPrefab
         {

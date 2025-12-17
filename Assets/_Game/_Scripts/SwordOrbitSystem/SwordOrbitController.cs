@@ -12,22 +12,21 @@ namespace _Game._Scripts.SwordOrbitSystem
     {
         [SerializeField] private bool _isPlayer;
 
-        [Header("Settings")] [SerializeField] private SwordOrbitSettingsSO _settings;
+        [Header("Settings")]
+        [SerializeField] private SwordOrbitSettingsSO _settings;
 
-        [Header("References")] [SerializeField]
-        private OrbitReferences _references = OrbitReferences.Default;
+        [Header("References")]
+        [SerializeField] private OrbitReferences _references = OrbitReferences.Default;
 
         private readonly SwordOrbitList m_OrbitList = new();
         private Camera m_Cam;
-
         private Tween m_CameraShakeTween;
         private SwordDespawnAnimator m_DespawnAnimator;
         private float m_RemoveTimer;
-
         private float m_SpawnTimer;
-
         private ObjectPool<Transform> m_SwordPool;
 
+        
         private void Awake()
         {
             if (!_settings)
@@ -42,8 +41,7 @@ namespace _Game._Scripts.SwordOrbitSystem
                 m_SwordPool = new ObjectPool<Transform>(
                     _references._swordPrefab,
                     transform,
-                    Mathf.Max(0, _settings.PrewarmCount),
-                    false
+                    Mathf.Max(0, _settings.PrewarmCount)
                 );
 
             m_DespawnAnimator = new SwordDespawnAnimator(this, _settings.Despawn, OnSwordDespawnCompleted);
@@ -60,46 +58,7 @@ namespace _Game._Scripts.SwordOrbitSystem
             TickOrbit();
             TickRotation();
         }
-
-        public void SpawnSword()
-        {
-            if (!_references._swordPrefab)
-                return;
-
-            if (m_SwordPool == null)
-                m_SwordPool = new ObjectPool<Transform>(
-                    _references._swordPrefab,
-                    transform,
-                    0,
-                    false
-                );
-
-            var swordInstance = m_SwordPool.Get(transform, false);
-            swordInstance.localPosition = Vector3.zero;
-            swordInstance.localRotation = Quaternion.identity;
-            swordInstance.localScale = Vector3.zero;
-
-            AddSwordToOrbit(swordInstance);
-        }
-
-        public void RemoveSword(Transform swordTransform)
-        {
-            if (!swordTransform)
-                return;
-
-            if (!m_OrbitList.TryRemove(swordTransform, out var _))
-                return;
-
-            m_OrbitList.RecalculateTargetAngles();
-
-            swordTransform.SetParent(null, true);
-            var sword = swordTransform.GetComponent<Sword>();
-            sword.SetSwordOrbitController(null);
-            sword.SetColliderEnabled(false);
-            m_DespawnAnimator.StartDespawn(swordTransform, transform.position, _settings.Orbit._radius);
-
-            if (_isPlayer) PlayCameraShake();
-        }
+        
 
         private void PlayCameraShake()
         {
@@ -182,11 +141,51 @@ namespace _Game._Scripts.SwordOrbitSystem
             transform.Rotate(0f, 0f, -_settings.Orbit._rotationSpeed * Time.deltaTime);
         }
 
+        
         public int GetSwordCount()
         {
             return m_OrbitList.Count;
         }
+        
+        public void SpawnSword()
+        {
+            if (!_references._swordPrefab)
+                return;
 
+            if (m_SwordPool == null)
+                m_SwordPool = new ObjectPool<Transform>(
+                    _references._swordPrefab,
+                    transform
+                );
+
+            var swordInstance = m_SwordPool.Get(transform, false);
+            swordInstance.localPosition = Vector3.zero;
+            swordInstance.localRotation = Quaternion.identity;
+            swordInstance.localScale = Vector3.zero;
+
+            AddSwordToOrbit(swordInstance);
+        }
+
+        public void RemoveSword(Transform swordTransform)
+        {
+            if (!swordTransform)
+                return;
+
+            if (!m_OrbitList.TryRemove(swordTransform, out var _))
+                return;
+
+            m_OrbitList.RecalculateTargetAngles();
+
+            swordTransform.SetParent(null, true);
+            var sword = swordTransform.GetComponent<Sword>();
+            sword.SetSwordOrbitController(null);
+            sword.SetColliderEnabled(false);
+            m_DespawnAnimator.StartDespawn(swordTransform, transform.position, _settings.Orbit._radius);
+
+            if (_isPlayer) PlayCameraShake();
+        }
+
+        
         [Serializable]
         public struct OrbitSettings
         {

@@ -7,6 +7,7 @@ namespace _Game._Scripts.Patterns.EventBusPattern
         private Action<T> m_OnEvent = _ => { };
         private Action m_OnEventNoArgs = () => { };
 
+        
         public EventBinding(Action<T> onEvent)
         {
             m_OnEvent = onEvent;
@@ -17,6 +18,7 @@ namespace _Game._Scripts.Patterns.EventBusPattern
             m_OnEventNoArgs = onEventNoArgs;
         }
 
+        
         Action<T> IEventBinding<T>.OnEvent
         {
             get => m_OnEvent;
@@ -29,6 +31,7 @@ namespace _Game._Scripts.Patterns.EventBusPattern
             set => m_OnEventNoArgs = value;
         }
 
+        
         public void Add(Action<T> onEvent)
         {
             m_OnEvent += onEvent;

@@ -1,5 +1,6 @@
 using System;
 using _Game._Scripts.ObjectPoolSystem;
+using _Game._Scripts.ScriptableObjects;
 using DG.Tweening;
 using UnityEngine;
 
@@ -7,30 +8,29 @@ namespace _Game._Scripts.SwordBubbleSystem
 {
     public class SwordBubble : MonoBehaviour, IPoolable
     {
-        [Header("Sword Visual")] [SerializeField]
-        private Transform _swordTransform;
+        [Header("Settings")]
+        [SerializeField] private SwordBubbleSettingsSO _settings;
 
-        [SerializeField] private float _rotationSpeed = 180f;
+        [Header("Sword Visual")]
+        [SerializeField] private Transform _swordTransform;
 
-        [Header("Pickup Animation")] [SerializeField]
-        private Collider2D _triggerCollider;
-
+        [Header("Pickup Animation")]
+        [SerializeField] private Collider2D _triggerCollider;
         [SerializeField] private Transform _scaleTarget;
-        [SerializeField] private float _defaultPushDistance = 0.35f;
-        [SerializeField] private float _defaultPushDuration = 0.15f;
-        [SerializeField] private float _defaultHoldDuration = 0.06f;
-        [SerializeField] private float _defaultPullDuration = 0.28f;
-        [SerializeField] private float _defaultEndScaleMultiplier = 0.15f;
-        [SerializeField] private bool _disableColliderOnPickup = true;
-        [SerializeField] private AnimationCurve _moveEase;
-        [SerializeField] private AnimationCurve _scaleEase;
-        private Vector3 m_InitialScale;
 
+        private Vector3 m_InitialScale;
         private Sequence m_PickupSequence;
 
 
         private void Awake()
         {
+            if (!_settings)
+            {
+                Debug.LogError($"{nameof(SwordBubble)} on '{name}' has no {nameof(SwordBubbleSettingsSO)} assigned.");
+                enabled = false;
+                return;
+            }
+
             m_InitialScale = GetScaleTarget().localScale;
         }
 
@@ -44,6 +44,7 @@ namespace _Game._Scripts.SwordBubbleSystem
             KillPickupSequence();
         }
 
+
         public void OnSpawnedFromPool()
         {
             ResetPickupVisuals();
@@ -54,44 +55,21 @@ namespace _Game._Scripts.SwordBubbleSystem
             ResetPickupVisuals();
         }
 
-        private void RotateSword()
-        {
-            if (!_swordTransform)
-                return;
 
-            _swordTransform.Rotate(Vector3.forward, _rotationSpeed * Time.deltaTime);
-        }
-
-        /// <summary>
-        ///     Plays a pickup sequence:
-        ///     1) Pushes outward along radial direction from targetCenter,
-        ///     2) Optional hold,
-        ///     3) Pulls into targetCenter while shrinking.
-        ///     Calls onCompleted after the sequence finishes.
-        ///     Each bubble runs its own animation, so multiple bubbles can be collected simultaneously.
-        /// </summary>
-        public void PlayPickupToCenter(
-            Transform targetCenter,
-            Action onCompleted = null,
-            float? pushDistance = null,
-            float? pushDuration = null,
-            float? holdDuration = null,
-            float? pullDuration = null,
-            float? endScaleMultiplier = null)
+        public void PlayPickupToCenter(Transform targetCenter, Action onCompleted = null)
         {
             if (!targetCenter)
                 return;
 
-            if (_disableColliderOnPickup)
+            if (_settings.DisableColliderOnPickup)
                 SetColliderEnabled(false);
 
             KillPickupSequence();
-
-            var finalPushDistance = pushDistance ?? _defaultPushDistance;
-            var finalPushDuration = pushDuration ?? _defaultPushDuration;
-            var finalHoldDuration = holdDuration ?? _defaultHoldDuration;
-            var finalPullDuration = pullDuration ?? _defaultPullDuration;
-            var finalEndScaleMultiplier = endScaleMultiplier ?? _defaultEndScaleMultiplier;
+            var finalPushDistance = _settings.DefaultPushDistance;
+            var finalPushDuration = _settings.DefaultPushDuration;
+            var finalHoldDuration = _settings.DefaultHoldDuration;
+            var finalPullDuration = _settings.DefaultPullDuration;
+            var finalEndScaleMultiplier = _settings.DefaultEndScaleMultiplier;
 
             var scaleTarget = GetScaleTarget();
 
@@ -117,7 +95,7 @@ namespace _Game._Scripts.SwordBubbleSystem
             if (finalPushDuration > 0f)
             {
                 Tween pushTween = transform.DOMove(pushedPos, finalPushDuration);
-                ApplyEase(pushTween, _moveEase, Ease.OutQuad);
+                ApplyEase(pushTween, _settings.MoveEase, Ease.OutQuad);
                 m_PickupSequence.Append(pushTween);
             }
             else
@@ -148,14 +126,14 @@ namespace _Game._Scripts.SwordBubbleSystem
                     },
                     1f,
                     finalPullDuration);
-                ApplyEase(pullMoveTween, _moveEase, Ease.InQuad);
+                ApplyEase(pullMoveTween, _settings.MoveEase, Ease.InQuad);
 
                 Tween pullScaleTween = DOTween.To(
                     () => 0f,
                     t => { scaleTarget.localScale = Vector3.LerpUnclamped(pullStartScale, endScale, t); },
                     1f,
                     finalPullDuration);
-                ApplyEase(pullScaleTween, _scaleEase, Ease.InQuad);
+                ApplyEase(pullScaleTween, _settings.ScaleEase, Ease.InQuad);
 
                 m_PickupSequence.Append(pullMoveTween);
                 m_PickupSequence.Join(pullScaleTween);
@@ -177,14 +155,23 @@ namespace _Game._Scripts.SwordBubbleSystem
             });
         }
 
-        public void SetColliderEnabled(bool isEnabled)
+
+        private void RotateSword()
+        {
+            if (!_swordTransform)
+                return;
+
+            _swordTransform.Rotate(Vector3.forward, _settings.RotationSpeed * Time.deltaTime);
+        }
+
+        private void SetColliderEnabled(bool isEnabled)
         {
             var col = GetTriggerCollider();
             if (col)
                 col.enabled = isEnabled;
         }
 
-        public void ResetPickupVisuals()
+        private void ResetPickupVisuals()
         {
             KillPickupSequence();
             GetScaleTarget().localScale = m_InitialScale;
@@ -200,7 +187,7 @@ namespace _Game._Scripts.SwordBubbleSystem
             m_PickupSequence = null;
         }
 
-        private static void ApplyEase(Tween tween, AnimationCurve curve, Ease fallback)
+        private void ApplyEase(Tween tween, AnimationCurve curve, Ease fallback)
         {
             if (tween == null)
                 return;
@@ -213,10 +200,6 @@ namespace _Game._Scripts.SwordBubbleSystem
 
         private Collider2D GetTriggerCollider()
         {
-            if (_triggerCollider)
-                return _triggerCollider;
-
-            _triggerCollider = GetComponent<Collider2D>();
             return _triggerCollider;
         }
 

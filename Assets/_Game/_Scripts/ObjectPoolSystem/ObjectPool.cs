@@ -5,22 +5,16 @@ using Object = UnityEngine.Object;
 
 namespace _Game._Scripts.ObjectPoolSystem
 {
-    /// <summary>
-    ///     General purpose object pool (Queue-based).
-    ///     - Uses SetActive for lifecycle
-    ///     - If no inactive instance is available, instantiates a new one
-    ///     - No "auto expand" toggle: it always creates when needed
-    /// </summary>
     public sealed class ObjectPool<T> where T : Component
     {
         private readonly HashSet<int> m_ActiveInstanceIds = new();
         private readonly HashSet<int> m_InactiveInstanceIds = new();
-
         private readonly Queue<T> m_InactiveQueue = new(64);
         private readonly bool m_KeepWorldPositionWhenParenting;
         private readonly Transform m_Parent;
         private readonly T m_Prefab;
 
+        
         public ObjectPool(
             T prefab,
             Transform parent = null,
@@ -37,68 +31,24 @@ namespace _Game._Scripts.ObjectPoolSystem
                 Prewarm(prewarmCount);
         }
 
+        
         public int TotalCreated { get; private set; }
         public int ActiveCount => m_ActiveInstanceIds.Count;
         public int InactiveCount => m_InactiveQueue.Count;
 
-        public void Prewarm(int count)
+        
+        private static void CallPoolableSpawned(T instance)
         {
-            if (count <= 0) return;
-
-            for (var i = 0; i < count; i++)
-            {
-                var instance = CreateNewInstance();
-                DeactivateAndEnqueue(instance);
-            }
+            if (instance.TryGetComponent<IPoolable>(out var poolable))
+                poolable.OnSpawnedFromPool();
         }
 
-        public T Get(Vector3 position, Quaternion rotation)
+        private static void CallPoolableDespawned(T instance)
         {
-            var instance = TryDequeueInactive();
-            if (!instance) instance = CreateNewInstance();
-
-            ActivateInstance(instance, position, rotation);
-            return instance;
+            if (instance.TryGetComponent<IPoolable>(out var poolable))
+                poolable.OnDespawnedToPool();
         }
-
-        public T Get(Transform followParent, bool worldPositionStays = true)
-        {
-            var instance = TryDequeueInactive();
-            if (!instance) instance = CreateNewInstance();
-
-            instance.transform.SetParent(followParent, worldPositionStays);
-            instance.gameObject.SetActive(true);
-
-            MarkActive(instance);
-            CallPoolableSpawned(instance);
-            return instance;
-        }
-
-        public void Release(T instance)
-        {
-            if (!instance) return;
-
-            var id = instance.gameObject.GetInstanceID();
-
-            // If it wasn't active (or already released), ignore to prevent double enqueue bugs.
-            if (!m_ActiveInstanceIds.Remove(id))
-                return;
-
-            CallPoolableDespawned(instance);
-
-            // Optional: reset parent back to pool parent.
-            if (m_Parent)
-                instance.transform.SetParent(m_Parent, m_KeepWorldPositionWhenParenting);
-
-            DeactivateAndEnqueue(instance);
-        }
-
-        public void ReleaseAllActive(List<T> activeListSnapshot)
-        {
-            if (activeListSnapshot == null) return;
-            for (var i = 0; i < activeListSnapshot.Count; i++)
-                Release(activeListSnapshot[i]);
-        }
+        
 
         private T TryDequeueInactive()
         {
@@ -163,16 +113,64 @@ namespace _Game._Scripts.ObjectPoolSystem
             m_ActiveInstanceIds.Add(id);
         }
 
-        private static void CallPoolableSpawned(T instance)
+        
+        public void Prewarm(int count)
         {
-            if (instance.TryGetComponent<IPoolable>(out var poolable))
-                poolable.OnSpawnedFromPool();
+            if (count <= 0) return;
+
+            for (var i = 0; i < count; i++)
+            {
+                var instance = CreateNewInstance();
+                DeactivateAndEnqueue(instance);
+            }
         }
 
-        private static void CallPoolableDespawned(T instance)
+        public T Get(Vector3 position, Quaternion rotation)
         {
-            if (instance.TryGetComponent<IPoolable>(out var poolable))
-                poolable.OnDespawnedToPool();
+            var instance = TryDequeueInactive();
+            if (!instance) instance = CreateNewInstance();
+
+            ActivateInstance(instance, position, rotation);
+            return instance;
+        }
+
+        public T Get(Transform followParent, bool worldPositionStays = true)
+        {
+            var instance = TryDequeueInactive();
+            if (!instance) instance = CreateNewInstance();
+
+            instance.transform.SetParent(followParent, worldPositionStays);
+            instance.gameObject.SetActive(true);
+
+            MarkActive(instance);
+            CallPoolableSpawned(instance);
+            return instance;
+        }
+
+        public void Release(T instance)
+        {
+            if (!instance) return;
+
+            var id = instance.gameObject.GetInstanceID();
+
+            // If it wasn't active (or already released), ignore to prevent double enqueue bugs.
+            if (!m_ActiveInstanceIds.Remove(id))
+                return;
+
+            CallPoolableDespawned(instance);
+
+            // Optional: reset parent back to pool parent.
+            if (m_Parent)
+                instance.transform.SetParent(m_Parent, m_KeepWorldPositionWhenParenting);
+
+            DeactivateAndEnqueue(instance);
+        }
+
+        public void ReleaseAllActive(List<T> activeListSnapshot)
+        {
+            if (activeListSnapshot == null) return;
+            for (var i = 0; i < activeListSnapshot.Count; i++)
+                Release(activeListSnapshot[i]);
         }
     }
 }

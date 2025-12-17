@@ -9,6 +9,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
 
         public int Count => m_Swords.Count;
 
+
         public void Add(Transform sword, float spawnGrowDuration)
         {
             if (!sword)

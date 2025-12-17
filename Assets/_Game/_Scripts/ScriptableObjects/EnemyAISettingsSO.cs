@@ -5,32 +5,32 @@ namespace _Game._Scripts.ScriptableObjects
     [CreateAssetMenu(fileName = "EnemyAISettingsSO", menuName = "Game/AI/Enemy AI Settings", order = 0)]
     public class EnemyAISettingsSO : ScriptableObject
     {
-        [Header("Scan")] [SerializeField] private float _scanInterval;
-
+        [Header("Scan")]
+        [SerializeField] private float _scanInterval;
         [SerializeField] private float _enemyScanRadius;
         [SerializeField] private float _swordScanRadius;
         [SerializeField] private int _maxScanHits;
         [SerializeField] private LayerMask _enemyLayer;
         [SerializeField] private LayerMask _swordLayer;
 
-        [Header("Combat")] [SerializeField] private float _attackRange;
-
+        [Header("Combat")]
+        [SerializeField] private float _attackRange;
         [SerializeField] private float _threatEnterRange;
         [SerializeField] private float _threatExitRange;
         [SerializeField] [Range(0f, 1f)] private float _minFleeStrength;
 
-        [Header("Steering Weights")] [SerializeField]
-        private float _seekWeight;
-
+        [Header("Steering Weights")]
+        [SerializeField] private float _seekWeight;
         [SerializeField] private float _avoidWeight;
 
-        [Header("Wander")] [SerializeField] private float _wanderChangeInterval;
-
+        [Header("Wander")]
+        [SerializeField] private float _wanderChangeInterval;
         [SerializeField] private float _wanderStrength;
 
-        [Header("Debug / Gizmos")] [SerializeField]
-        private bool _drawGizmos = true;
+        [Header("Debug / Gizmos")]
+        [SerializeField] private bool _drawGizmos = true;
 
+        
         public float ScanInterval => _scanInterval;
         public float EnemyScanRadius => _enemyScanRadius;
         public float SwordScanRadius => _swordScanRadius;

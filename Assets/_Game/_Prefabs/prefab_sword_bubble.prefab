@@ -161,28 +161,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39dc0e2a6c7b4971a60094daf50fdea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _settings: {fileID: 11400000, guid: 70b1d1f3d6948485eb15a0652bf542c7, type: 2}
   _swordTransform: {fileID: 8077100711640401700}
-  _rotationSpeed: -75
   _triggerCollider: {fileID: 1040313752943804507}
   _scaleTarget: {fileID: 2133267946360404422}
-  _defaultPushDistance: 0.35
-  _defaultPushDuration: 0.15
-  _defaultHoldDuration: 0.06
-  _defaultPullDuration: 0.28
-  _defaultEndScaleMultiplier: 0.15
-  _disableColliderOnPickup: 1
-  _moveEase:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _scaleEase:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &6595581204849269915
 GameObject:
   m_ObjectHideFlags: 0

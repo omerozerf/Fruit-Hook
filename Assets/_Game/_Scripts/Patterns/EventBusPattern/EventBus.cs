@@ -5,6 +5,13 @@ namespace _Game._Scripts.Patterns.EventBusPattern
     public static class EventBus<T> where T : IEvent
     {
         private static readonly HashSet<IEventBinding<T>> BINDINGS = new();
+        
+        
+        private static void Clear()
+        {
+            BINDINGS.Clear();
+        }
+
 
         public static void Subscribe(EventBinding<T> binding)
         {
@@ -23,11 +30,6 @@ namespace _Game._Scripts.Patterns.EventBusPattern
                 binding.OnEvent.Invoke(eventToRaise);
                 binding.OnEventNoArgs.Invoke();
             }
-        }
-
-        private static void Clear()
-        {
-            BINDINGS.Clear();
         }
     }
 }

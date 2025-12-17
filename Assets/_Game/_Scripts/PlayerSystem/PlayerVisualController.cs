@@ -6,11 +6,13 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerVisualController : MonoBehaviour
     {
-        [Header("Settings")] [SerializeField] private PlayerVisualSettingsSO _settings;
+        [Header("Settings")]
+        [SerializeField] private PlayerVisualSettingsSO _settings;
 
         [Header("References")] [SerializeField]
         private SpriteRenderer[] _spriteRendererArray;
 
+        
         private void Awake()
         {
             if (!_settings)
@@ -20,12 +22,7 @@ namespace _Game._Scripts.PlayerSystem
             }
         }
 
-        public void PlayDamageFlash()
-        {
-            StopAllCoroutines();
-            StartCoroutine(DamageFlashCoroutine());
-        }
-
+        
         private IEnumerator DamageFlashCoroutine()
         {
             if (_spriteRendererArray == null)
@@ -41,5 +38,13 @@ namespace _Game._Scripts.PlayerSystem
                 if (spriteRenderer)
                     spriteRenderer.color = Color.white;
         }
+        
+        
+        public void PlayDamageFlash()
+        {
+            StopAllCoroutines();
+            StartCoroutine(DamageFlashCoroutine());
+        }
+
     }
 }

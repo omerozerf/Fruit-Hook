@@ -10,19 +10,18 @@ namespace _Game._Scripts.SwordBubbleSystem
 {
     public sealed class SwordBubbleCreator : MonoBehaviour
     {
-        [Header("Settings")] [SerializeField] private SwordBubbleCreatorSettingsSO _settings;
+        [Header("Settings")]
+        [SerializeField] private SwordBubbleCreatorSettingsSO _settings;
 
-        [Header("Prefab & Pool")] [SerializeField]
-        private Transform _swordBubblePrefab;
-
+        [Header("Prefab & Pool")]
+        [SerializeField] private Transform _swordBubblePrefab;
         [SerializeField] private Transform _poolParent;
 
-        [Header("References")] [SerializeField]
-        private Transform _player;
-
+        [Header("References")]
+        [SerializeField] private Transform _player;
+        
         private bool m_IsRunning;
         private EventBinding<PlayerDiedEvent> m_PlayerDiedEventBinding;
-
         private ObjectPool<Transform> m_Pool;
         private Coroutine m_SpawnRoutine;
         private EventBinding<SwordBubbleTaken> m_SwordBubbleTakenEventBinding;
@@ -48,8 +47,7 @@ namespace _Game._Scripts.SwordBubbleSystem
             m_Pool = new ObjectPool<Transform>(
                 _swordBubblePrefab,
                 _poolParent,
-                Mathf.Max(0, _settings.PrewarmCount),
-                false
+                Mathf.Max(0, _settings.PrewarmCount)
             );
         }
 
@@ -63,6 +61,7 @@ namespace _Game._Scripts.SwordBubbleSystem
         {
             m_PlayerDiedEventBinding = new EventBinding<PlayerDiedEvent>(HandlePlayerDied);
             EventBus<PlayerDiedEvent>.Subscribe(m_PlayerDiedEventBinding);
+            
             m_SwordBubbleTakenEventBinding = new EventBinding<SwordBubbleTaken>(HandleSwordBubbleTaken);
             EventBus<SwordBubbleTaken>.Subscribe(m_SwordBubbleTakenEventBinding);
         }
@@ -88,63 +87,7 @@ namespace _Game._Scripts.SwordBubbleSystem
             Release(obj.transform);
         }
 
-        // ---- Public API ----
-
-        public void StartSpawning()
-        {
-            if (m_IsRunning) return;
-
-            m_IsRunning = true;
-            m_SpawnRoutine = StartCoroutine(SpawnLoop());
-        }
-
-        public void StopSpawning()
-        {
-            if (!m_IsRunning) return;
-
-            m_IsRunning = false;
-
-            if (m_SpawnRoutine != null)
-            {
-                StopCoroutine(m_SpawnRoutine);
-                m_SpawnRoutine = null;
-            }
-        }
-
-        public Transform SpawnOne()
-        {
-            var pos = GetRandomSpawnPosition();
-            return m_Pool.Get(pos, Quaternion.identity);
-        }
-
-        public Transform SpawnAt(Vector3 position)
-        {
-            return m_Pool.Get(position, Quaternion.identity);
-        }
-
-        public void SpawnCluster(Vector3 centerPosition, int count, float radius)
-        {
-            if (count <= 0)
-                return;
-
-            radius = Mathf.Max(0f, radius);
-
-            for (var i = 0; i < count; i++)
-            {
-                var offset = Random.insideUnitCircle * radius;
-                var pos = centerPosition + new Vector3(offset.x, offset.y, 0f);
-                SpawnAt(pos);
-            }
-        }
-
-        public void Release(Transform instance)
-        {
-            if (!instance) return;
-            m_Pool.Release(instance);
-        }
-
-        // ---- Internals ----
-
+        
         private IEnumerator SpawnLoop()
         {
             while (m_IsRunning)
@@ -160,7 +103,8 @@ namespace _Game._Scripts.SwordBubbleSystem
         {
             var v = _settings.IntervalVariation;
             var delay = _settings.BaseSpawnInterval + Random.Range(-v, v);
-            return Mathf.Max(0.05f, delay);
+            const float minSpawnDelay = 0.05f;
+            return Mathf.Max(minSpawnDelay, delay);
         }
 
         private Vector3 GetRandomSpawnPosition()
@@ -186,6 +130,59 @@ namespace _Game._Scripts.SwordBubbleSystem
             var rx = Random.Range(_settings.FallbackMin.x, _settings.FallbackMax.x);
             var ry = Random.Range(_settings.FallbackMin.y, _settings.FallbackMax.y);
             return new Vector3(rx, ry, 0f);
+        }
+        
+        private void StartSpawning()
+        {
+            if (m_IsRunning) return;
+
+            m_IsRunning = true;
+            m_SpawnRoutine = StartCoroutine(SpawnLoop());
+        }
+
+        private void StopSpawning()
+        {
+            if (!m_IsRunning) return;
+
+            m_IsRunning = false;
+
+            if (m_SpawnRoutine != null)
+            {
+                StopCoroutine(m_SpawnRoutine);
+                m_SpawnRoutine = null;
+            }
+        }
+
+        private Transform SpawnOne()
+        {
+            var pos = GetRandomSpawnPosition();
+            return m_Pool.Get(pos, Quaternion.identity);
+        }
+
+        private Transform SpawnAt(Vector3 position)
+        {
+            return m_Pool.Get(position, Quaternion.identity);
+        }
+
+        private void SpawnCluster(Vector3 centerPosition, int count, float radius)
+        {
+            if (count <= 0)
+                return;
+
+            radius = Mathf.Max(0f, radius);
+
+            for (var i = 0; i < count; i++)
+            {
+                var offset = Random.insideUnitCircle * radius;
+                var pos = centerPosition + new Vector3(offset.x, offset.y, 0f);
+                SpawnAt(pos);
+            }
+        }
+
+        private void Release(Transform instance)
+        {
+            if (!instance) return;
+            m_Pool.Release(instance);
         }
     }
 }

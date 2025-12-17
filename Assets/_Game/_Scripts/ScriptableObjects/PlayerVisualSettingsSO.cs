@@ -8,9 +8,8 @@ namespace _Game._Scripts.ScriptableObjects
         order = 0)]
     public class PlayerVisualSettingsSO : ScriptableObject
     {
-        [Header("Damage Flash")] [SerializeField]
-        private float _damageFlashDuration;
-
+        [Header("Damage Flash")]
+        [SerializeField] private float _damageFlashDuration;
         public float DamageFlashDuration => _damageFlashDuration;
     }
 }

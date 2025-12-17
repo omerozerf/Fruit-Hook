@@ -3,47 +3,36 @@ using UnityEngine;
 
 namespace _Game._Scripts.AudioSystem
 {
-    public sealed class AudioService : Singleton<AudioService>
+    public class AudioService : Singleton<AudioService>
     {
-        public enum SfxId
+        [Header("Settings")]
+        [SerializeField] private AudioServiceSettingsSO _settings;
+
+        [Header("Runtime Volumes")]
+        [SerializeField, Range(0f, 1f)] private float _sfxVolume = 1f;
+        [SerializeField, Range(0f, 1f)] private float _musicVolume = 0.5f;
+
+        private const string PREF_SFX = "audio_sfx_01";
+        private const string PREF_MUSIC = "audio_music_01";
+        
+        private AudioSource m_MusicSource;
+        private AudioSource m_SfxSource;
+        private bool m_Unlocked;
+
+
+        protected override void Awake()
         {
-            BubbleSword = 0,
-            DamageHit = 1,
-            SwordHit = 2
-        }
+            base.Awake();
+            if (!_settings)
+            {
+                Debug.LogError($"{nameof(AudioService)} on '{name}' has no {nameof(AudioServiceSettingsSO)} assigned.");
+                enabled = false;
+                return;
+            }
 
-        private const string PrefSfx = "audio_sfx_01";
-        private const string PrefMusic = "audio_music_01";
+            _sfxVolume = Mathf.Clamp01(_settings.DefaultSfxVolume);
+            _musicVolume = Mathf.Clamp01(_settings.DefaultMusicVolume);
 
-        [Header("Clips (3 SFX)")] [SerializeField]
-        private AudioClip _bubbleSword;
-
-        [SerializeField] private AudioClip _damageHit;
-        [SerializeField] private AudioClip _swordHit;
-
-        [Header("Music (Optional)")] [SerializeField]
-        private AudioClip _music;
-
-        [SerializeField] private bool _playMusicOnStart = true;
-
-        [Header("Volumes")] [SerializeField] [Range(0f, 1f)]
-        private float _sfxVolume = 1f;
-
-        [SerializeField] [Range(0f, 1f)] private float _musicVolume = 0.5f;
-
-        [Header("Random Pitch (Optional)")] [SerializeField]
-        private bool _randomizePitch = true;
-
-        [SerializeField] [Range(0.8f, 1.2f)] private float _pitchMin = 0.95f;
-        [SerializeField] [Range(0.8f, 1.2f)] private float _pitchMax = 1.05f;
-        private AudioSource _musicSource;
-
-        private AudioSource _sfxSource;
-
-        private bool _unlocked;
-
-        private void Awake()
-        {
             CreateSources();
             LoadVolumes();
         }
@@ -52,13 +41,13 @@ namespace _Game._Scripts.AudioSystem
         {
             // WebGL / mobile: genelde ilk kullanıcı etkileşimine kadar ses başlamaz.
             // Bu yüzden müziği direkt başlatmak yerine unlock sonrası başlatıyoruz.
-            if (!_playMusicOnStart) return;
+            if (!_settings.PlayMusicOnStart) return;
             TryStartMusic();
         }
 
         private void Update()
         {
-            if (_unlocked) return;
+            if (m_Unlocked) return;
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -67,6 +56,7 @@ namespace _Game._Scripts.AudioSystem
             }
         }
 
+        
         public void PlaySfx(SfxId id)
         {
             UnlockAudio();
@@ -74,35 +64,37 @@ namespace _Game._Scripts.AudioSystem
             var clip = GetClip(id);
             if (!clip) return;
 
-            _sfxSource.volume = _sfxVolume;
+            m_SfxSource.volume = _sfxVolume;
 
-            if (_randomizePitch)
-                _sfxSource.pitch = Random.Range(Mathf.Min(_pitchMin, _pitchMax), Mathf.Max(_pitchMin, _pitchMax));
+            if (_settings.RandomizePitch)
+                m_SfxSource.pitch = Random.Range(
+                    Mathf.Min(_settings.PitchMin, _settings.PitchMax),
+                    Mathf.Max(_settings.PitchMin, _settings.PitchMax));
             else
-                _sfxSource.pitch = 1f;
+                m_SfxSource.pitch = 1f;
 
-            _sfxSource.PlayOneShot(clip);
+            m_SfxSource.PlayOneShot(clip);
         }
 
         public void SetSfxVolume01(float v)
         {
             _sfxVolume = Mathf.Clamp01(v);
-            PlayerPrefs.SetFloat(PrefSfx, _sfxVolume);
+            PlayerPrefs.SetFloat(PREF_SFX, _sfxVolume);
             PlayerPrefs.Save();
         }
 
         public void SetMusicVolume01(float v)
         {
             _musicVolume = Mathf.Clamp01(v);
-            if (_musicSource) _musicSource.volume = _musicVolume;
+            if (m_MusicSource) m_MusicSource.volume = _musicVolume;
 
-            PlayerPrefs.SetFloat(PrefMusic, _musicVolume);
+            PlayerPrefs.SetFloat(PREF_MUSIC, _musicVolume);
             PlayerPrefs.Save();
         }
 
         public void StopMusic()
         {
-            if (_musicSource) _musicSource.Stop();
+            if (m_MusicSource) m_MusicSource.Stop();
         }
 
         public void PlayMusic()
@@ -113,57 +105,58 @@ namespace _Game._Scripts.AudioSystem
 
         private void TryStartMusic()
         {
-            if (!_music) return;
-            if (!_unlocked) return;
+            if (!_settings.Music) return;
+            if (!m_Unlocked) return;
             StartMusicInternal();
         }
 
         private void StartMusicInternal()
         {
-            if (!_music) return;
-            if (_musicSource.isPlaying && _musicSource.clip == _music) return;
+            if (!_settings.Music) return;
+            if (m_MusicSource.isPlaying && m_MusicSource.clip == _settings.Music) return;
 
-            _musicSource.clip = _music;
-            _musicSource.loop = true;
-            _musicSource.volume = _musicVolume;
-            _musicSource.pitch = 1f;
-            _musicSource.Play();
+            m_MusicSource.clip = _settings.Music;
+            m_MusicSource.loop = true;
+            m_MusicSource.volume = _musicVolume;
+            m_MusicSource.pitch = 1f;
+            m_MusicSource.Play();
         }
 
         private void UnlockAudio()
         {
-            if (_unlocked) return;
-            _unlocked = true;
+            if (m_Unlocked) return;
+            m_Unlocked = true;
         }
 
         private AudioClip GetClip(SfxId id)
         {
             switch (id)
             {
-                case SfxId.BubbleSword: return _bubbleSword;
-                case SfxId.DamageHit: return _damageHit;
-                case SfxId.SwordHit: return _swordHit;
+                case SfxId.BubbleSword: return _settings.BubbleSword;
+                case SfxId.DamageHit: return _settings.DamageHit;
+                case SfxId.SwordHit: return _settings.SwordHit;
                 default: return null;
             }
         }
 
         private void CreateSources()
         {
-            _sfxSource = gameObject.AddComponent<AudioSource>();
-            _sfxSource.playOnAwake = false;
-            _sfxSource.loop = false;
+            m_SfxSource = gameObject.AddComponent<AudioSource>();
+            m_SfxSource.playOnAwake = false;
+            m_SfxSource.loop = false;
 
-            _musicSource = gameObject.AddComponent<AudioSource>();
-            _musicSource.playOnAwake = false;
-            _musicSource.loop = true;
+            m_MusicSource = gameObject.AddComponent<AudioSource>();
+            m_MusicSource.playOnAwake = false;
+            m_MusicSource.loop = true;
         }
 
         private void LoadVolumes()
         {
-            if (PlayerPrefs.HasKey(PrefSfx)) _sfxVolume = PlayerPrefs.GetFloat(PrefSfx);
-            if (PlayerPrefs.HasKey(PrefMusic)) _musicVolume = PlayerPrefs.GetFloat(PrefMusic);
+            if (PlayerPrefs.HasKey(PREF_SFX)) _sfxVolume = PlayerPrefs.GetFloat(PREF_SFX);
+            if (PlayerPrefs.HasKey(PREF_MUSIC)) _musicVolume = PlayerPrefs.GetFloat(PREF_MUSIC);
 
-            if (_musicSource) _musicSource.volume = _musicVolume;
+            if (m_SfxSource) m_SfxSource.volume = _sfxVolume;
+            if (m_MusicSource) m_MusicSource.volume = _musicVolume;
         }
     }
 }

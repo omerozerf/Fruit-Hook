@@ -4,18 +4,13 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerJoystickInputSource : MonoBehaviour
     {
-        [Header("References")] [SerializeField]
-        private PlayerMovement _movement;
-
+        [Header("References")]
+        [SerializeField] private PlayerMovement _movement;
         [SerializeField] private FloatingJoystick _floatingJoystick;
 
-        [Header("Settings")] [SerializeField] private bool _isEnabled = true;
-
-        private void Awake()
-        {
-            if (!_movement)
-                _movement = GetComponent<PlayerMovement>();
-        }
+        [Header("Settings")]
+        [SerializeField] private bool _isEnabled = true;
+        
 
         private void Update()
         {

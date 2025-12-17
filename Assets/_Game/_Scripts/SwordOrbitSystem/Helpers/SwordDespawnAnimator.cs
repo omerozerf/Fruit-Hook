@@ -11,6 +11,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
         private readonly SwordOrbitController.DespawnSettings m_Settings;
         private Camera m_Cam;
 
+        
         public SwordDespawnAnimator(
             MonoBehaviour host,
             SwordOrbitController.DespawnSettings settings,
@@ -20,21 +21,8 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
             m_Settings = settings;
             m_OnDespawnCompleted = onDespawnCompleted;
         }
-
-        private void Awake()
-        {
-            m_Cam = Camera.main;
-        }
-
-
-        public void StartDespawn(Transform sword, Vector3 centerWorld, float orbitRadius)
-        {
-            if (!sword || !m_Host)
-                return;
-
-            m_Host.StartCoroutine(DespawnRoutine(sword, centerWorld, orbitRadius));
-        }
-
+        
+        
         private IEnumerator DespawnRoutine(Transform sword, Vector3 centerWorld, float orbitRadius)
         {
             var startPos = sword.position;
@@ -69,6 +57,15 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
 
             if (sword)
                 m_OnDespawnCompleted?.Invoke(sword);
+        }
+        
+        
+        public void StartDespawn(Transform sword, Vector3 centerWorld, float orbitRadius)
+        {
+            if (!sword || !m_Host)
+                return;
+
+            m_Host.StartCoroutine(DespawnRoutine(sword, centerWorld, orbitRadius));
         }
     }
 }
