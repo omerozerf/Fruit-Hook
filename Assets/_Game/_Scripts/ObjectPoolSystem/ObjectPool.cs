@@ -27,7 +27,7 @@ namespace _Game._Scripts.ObjectPoolSystem
             int prewarmCount = 0,
             bool keepWorldPositionWhenParenting = false)
         {
-            if (prefab == null) throw new ArgumentNullException(nameof(prefab));
+            if (!prefab) throw new ArgumentNullException(nameof(prefab));
 
             m_Prefab = prefab;
             m_Parent = parent;
@@ -55,7 +55,7 @@ namespace _Game._Scripts.ObjectPoolSystem
         public T Get(Vector3 position, Quaternion rotation)
         {
             var instance = TryDequeueInactive();
-            if (instance == null) instance = CreateNewInstance();
+            if (!instance) instance = CreateNewInstance();
 
             ActivateInstance(instance, position, rotation);
             return instance;
@@ -64,7 +64,7 @@ namespace _Game._Scripts.ObjectPoolSystem
         public T Get(Transform followParent, bool worldPositionStays = true)
         {
             var instance = TryDequeueInactive();
-            if (instance == null) instance = CreateNewInstance();
+            if (!instance) instance = CreateNewInstance();
 
             instance.transform.SetParent(followParent, worldPositionStays);
             instance.gameObject.SetActive(true);
@@ -76,7 +76,7 @@ namespace _Game._Scripts.ObjectPoolSystem
 
         public void Release(T instance)
         {
-            if (instance == null) return;
+            if (!instance) return;
 
             var id = instance.gameObject.GetInstanceID();
 
@@ -105,7 +105,7 @@ namespace _Game._Scripts.ObjectPoolSystem
             while (m_InactiveQueue.Count > 0)
             {
                 var instance = m_InactiveQueue.Dequeue();
-                if (instance == null) continue;
+                if (!instance) continue;
 
                 var id = instance.gameObject.GetInstanceID();
                 m_InactiveInstanceIds.Remove(id);

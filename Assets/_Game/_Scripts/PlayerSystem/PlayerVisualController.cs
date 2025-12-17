@@ -13,7 +13,7 @@ namespace _Game._Scripts.PlayerSystem
 
         private void Awake()
         {
-            if (_settings == null)
+            if (!_settings)
             {
                 Debug.LogError($"{nameof(PlayerVisualController)} on '{name}' has no PlayerVisualSettings assigned.");
                 enabled = false;

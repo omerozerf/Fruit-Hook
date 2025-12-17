@@ -25,7 +25,7 @@ namespace _Game._Scripts.PlayerSystem
 
         private void Awake()
         {
-            if (_settings == null)
+            if (!_settings)
             {
                 Debug.LogError($"{nameof(PlayerAnimator)} on '{name}' has no PlayerAnimatorSettings assigned.");
                 enabled = false;
@@ -94,7 +94,7 @@ namespace _Game._Scripts.PlayerSystem
 
         private void StartFeetStepAnimation()
         {
-            if (_leftFootTransform == null || _rightFootTransform == null)
+            if (!_leftFootTransform || !_rightFootTransform)
                 return;
 
             StopFeetStepAnimation();
@@ -189,7 +189,7 @@ namespace _Game._Scripts.PlayerSystem
 
         private void StartIdleAnimation()
         {
-            if (_bodyTransform == null)
+            if (!_bodyTransform)
                 return;
 
             StopIdleAnimation();

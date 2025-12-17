@@ -18,7 +18,7 @@ namespace _Game._Scripts.PlayerSystem
 
         private void Awake()
         {
-            if (_settings == null)
+            if (!_settings)
             {
                 Debug.LogError($"{nameof(PlayerMovement)} on '{name}' has no PlayerMovementSettings assigned.");
                 enabled = false;

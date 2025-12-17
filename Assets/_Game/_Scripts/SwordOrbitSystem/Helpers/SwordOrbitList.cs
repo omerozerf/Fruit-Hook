@@ -11,7 +11,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
 
         public void Add(Transform sword, float spawnGrowDuration)
         {
-            if (sword == null)
+            if (!sword)
                 return;
 
             m_Swords.Add(SwordOrbitEntry.CreateForSpawn(sword, spawnGrowDuration));
@@ -53,7 +53,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
             for (var i = 0; i < m_Swords.Count; i++)
             {
                 var entry = m_Swords[i];
-                if (entry.transform == null)
+                if (!entry.transform)
                     continue;
 
                 entry.Tick(deltaTime, radius, smoothSpeed);

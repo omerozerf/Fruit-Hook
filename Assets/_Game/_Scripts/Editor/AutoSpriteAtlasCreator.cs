@@ -13,7 +13,7 @@ namespace _Game._Scripts.Editor
         private static void CreateSpriteAtlasFromFolder()
         {
             var selection = Selection.activeObject;
-            if (selection == null)
+            if (!selection)
             {
                 Debug.LogError("First select a folder in the Project view.");
                 return;
@@ -58,7 +58,7 @@ namespace _Game._Scripts.Editor
             OverwritePackables(atlas, sprites);
 
             // 4) Create asset if needed
-            if (existingAtlas == null) AssetDatabase.CreateAsset(atlas, atlasPath);
+            if (!existingAtlas) AssetDatabase.CreateAsset(atlas, atlasPath);
 
             // 5) Ensure importer flags (Include in Build etc.) are set
             EnsureImporterSettings(atlasPath);
@@ -156,14 +156,14 @@ namespace _Game._Scripts.Editor
         private static void EnsureImporterSettings(string atlasAssetPath)
         {
             var importer = AssetImporter.GetAtPath(atlasAssetPath) as SpriteAtlasImporter;
-            if (importer == null)
+            if (!importer)
             {
                 // In some Unity setups, importer can be null until asset is imported.
                 AssetDatabase.ImportAsset(atlasAssetPath, ImportAssetOptions.ForceUpdate);
                 importer = AssetImporter.GetAtPath(atlasAssetPath) as SpriteAtlasImporter;
             }
 
-            if (importer == null)
+            if (!importer)
             {
                 Debug.LogWarning(
                     $"SpriteAtlasImporter not found for '{atlasAssetPath}'. Include-in-build may not be enforced here.");

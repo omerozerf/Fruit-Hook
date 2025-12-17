@@ -56,7 +56,7 @@ namespace _Game._Scripts.SwordBubbleSystem
 
         private void RotateSword()
         {
-            if (_swordTransform == null)
+            if (!_swordTransform)
                 return;
 
             _swordTransform.Rotate(Vector3.forward, _rotationSpeed * Time.deltaTime);
@@ -79,7 +79,7 @@ namespace _Game._Scripts.SwordBubbleSystem
             float? pullDuration = null,
             float? endScaleMultiplier = null)
         {
-            if (targetCenter == null)
+            if (!targetCenter)
                 return;
 
             if (_disableColliderOnPickup)

@@ -63,7 +63,7 @@ namespace _Game._Scripts.SwordOrbitSystem
 
         public void SpawnSword()
         {
-            if (_references._swordPrefab == null)
+            if (!_references._swordPrefab)
                 return;
 
             if (m_SwordPool == null)

@@ -16,7 +16,7 @@ namespace _Game._Scripts.Editor
 
             void Add(Material mat, Object owner, string extra)
             {
-                if (mat == null) return;
+                if (!mat) return;
 
                 if (!materialToUsers.TryGetValue(mat, out var list))
                 {

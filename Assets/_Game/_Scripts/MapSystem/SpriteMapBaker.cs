@@ -123,10 +123,10 @@ namespace _Game._Scripts.MapSystem
 
         private void ValidateReferences()
         {
-            if (_sourceRoot == null)
+            if (!_sourceRoot)
                 throw new InvalidOperationException("[SpriteMapBaker] Source Root is null.");
 
-            if (_outputRoot == null)
+            if (!_outputRoot)
             {
                 var go = new GameObject("BakedSpriteChunks");
                 _outputRoot = go.transform;
@@ -155,7 +155,7 @@ namespace _Game._Scripts.MapSystem
             root.GetComponentsInChildren(true, result);
 
             for (var i = result.Count - 1; i >= 0; i--)
-                if (result[i] == null || result[i].sprite == null || !result[i].enabled)
+                if (!result[i] || !result[i].sprite || !result[i].enabled)
                     result.RemoveAt(i);
 
             return result;
@@ -588,7 +588,7 @@ namespace _Game._Scripts.MapSystem
             for (var i = 0; i < renderers.Count; i++)
             {
                 var sr = renderers[i];
-                if (sr == null || sr.sprite == null)
+                if (!sr || !sr.sprite)
                     continue;
 
                 var addVerts = EstimateVertexCount(sr);

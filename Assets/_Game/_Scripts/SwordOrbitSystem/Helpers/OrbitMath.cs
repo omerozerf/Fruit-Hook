@@ -24,7 +24,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
             float offscreenMargin
         )
         {
-            if (cam == null)
+            if (!cam)
             {
                 var dirFallback = fromWorldPos - centerWorld;
                 if (dirFallback.sqrMagnitude < 0.0001f)

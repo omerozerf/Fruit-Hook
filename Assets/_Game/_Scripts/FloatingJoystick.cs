@@ -40,7 +40,7 @@ namespace _Game._Scripts
 
         private void Awake()
         {
-            if (_canvas == null)
+            if (!_canvas)
                 _canvas = GetComponentInParent<Canvas>();
 
             if (!_uiCamera && _canvas && _canvas.renderMode != RenderMode.ScreenSpaceOverlay)
@@ -106,7 +106,7 @@ namespace _Game._Scripts
             if (m_HintDismissed)
                 return;
 
-            if (_background == null || _handle == null)
+            if (!_background || !_handle)
                 return;
 
             SetVisualActive(true);
@@ -171,7 +171,7 @@ namespace _Game._Scripts
                 return;
             }
 
-            if (_background == null || _handle == null)
+            if (!_background || !_handle)
             {
                 m_Input = Vector2.zero;
                 return;
@@ -180,7 +180,7 @@ namespace _Game._Scripts
             var screenPos = GetActiveScreenPosition();
 
             var parent = _background.parent as RectTransform;
-            if (parent == null)
+            if (!parent)
             {
                 m_Input = Vector2.zero;
                 return;
@@ -220,13 +220,13 @@ namespace _Game._Scripts
 
         private void BeginAtScreenPosition(Vector2 screenPos)
         {
-            if (_background == null)
+            if (!_background)
                 return;
 
             SetVisualActive(true);
 
             var parent = _background.parent as RectTransform;
-            if (parent == null)
+            if (!parent)
                 return;
 
             if (_followTouch)

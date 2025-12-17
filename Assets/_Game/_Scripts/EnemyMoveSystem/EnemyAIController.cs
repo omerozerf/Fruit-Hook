@@ -47,7 +47,7 @@ namespace _Game._Scripts.EnemyMoveSystem
 
         private void Awake()
         {
-            if (_settings == null)
+            if (!_settings)
             {
                 Debug.LogError($"{nameof(EnemyAIController)} on '{name}' has no settings assigned.");
                 enabled = false;
