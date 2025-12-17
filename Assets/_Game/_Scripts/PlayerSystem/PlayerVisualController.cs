@@ -1,3 +1,4 @@
+using System.Collections;
 using _Game._Scripts.ScriptableObjects;
 using UnityEngine;
 
@@ -5,11 +6,10 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerVisualController : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField] private PlayerVisualSettingsSO _settings;
+        [Header("Settings")] [SerializeField] private PlayerVisualSettingsSO _settings;
 
-        [Header("References")]
-        [SerializeField] private SpriteRenderer[] _spriteRendererArray;
+        [Header("References")] [SerializeField]
+        private SpriteRenderer[] _spriteRendererArray;
 
         private void Awake()
         {
@@ -17,7 +17,6 @@ namespace _Game._Scripts.PlayerSystem
             {
                 Debug.LogError($"{nameof(PlayerVisualController)} on '{name}' has no PlayerVisualSettings assigned.");
                 enabled = false;
-                return;
             }
         }
 
@@ -27,28 +26,20 @@ namespace _Game._Scripts.PlayerSystem
             StartCoroutine(DamageFlashCoroutine());
         }
 
-        private System.Collections.IEnumerator DamageFlashCoroutine()
+        private IEnumerator DamageFlashCoroutine()
         {
             if (_spriteRendererArray == null)
                 yield break;
 
             foreach (var spriteRenderer in _spriteRendererArray)
-            {
                 if (spriteRenderer)
-                {
                     spriteRenderer.color = Color.black;
-                }
-            }
 
             yield return new WaitForSeconds(_settings.DamageFlashDuration);
 
             foreach (var spriteRenderer in _spriteRendererArray)
-            {
                 if (spriteRenderer)
-                {
                     spriteRenderer.color = Color.white;
-                }
-            }
         }
     }
 }

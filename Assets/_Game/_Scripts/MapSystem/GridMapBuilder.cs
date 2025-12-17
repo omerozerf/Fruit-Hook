@@ -2,23 +2,16 @@ using System;
 using System.Collections.Generic;
 using _Game._Scripts.ScriptableObjects;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace _Game._Scripts.MapSystem
 {
     public sealed class GridMapBuilder : MonoBehaviour
     {
-        [Serializable]
-        public struct WeightedPrefab
-        {
-            [Min(0)] public int _weight;
-            public Transform _prefab;
-        }
+        [Header("Settings")] [SerializeField] private GridMapBuilderSettingsSO _settings;
 
-        [Header("Settings")]
-        [SerializeField] private GridMapBuilderSettingsSO _settings;
-
-        private readonly List<Transform> m_SpawnedRoots = new List<Transform>(512);
-        private readonly List<Transform> m_TopCornerRoots = new List<Transform>(4);
+        private readonly List<Transform> m_SpawnedRoots = new(512);
+        private readonly List<Transform> m_TopCornerRoots = new(4);
 
 
         private void Awake()
@@ -46,12 +39,8 @@ namespace _Game._Scripts.MapSystem
         {
             // 1) Main grid (your intended bounds)
             for (var x = 0; x < _settings.Width; x++)
-            {
-                for (var y = 0; y < _settings.Height; y++)
-                {
-                    SpawnGroundAt(x, y);
-                }
-            }
+            for (var y = 0; y < _settings.Height; y++)
+                SpawnGroundAt(x, y);
 
             // 2) Extra padding outside the bounds (to avoid camera empty space)
             if (_settings.ExtraPaddingCells <= 0)
@@ -63,15 +52,13 @@ namespace _Game._Scripts.MapSystem
             var endY = _settings.Height + _settings.ExtraPaddingCells;
 
             for (var x = startX; x < endX; x++)
+            for (var y = startY; y < endY; y++)
             {
-                for (var y = startY; y < endY; y++)
-                {
-                    // Skip cells that are inside the main grid.
-                    if (x >= 0 && x < _settings.Width && y >= 0 && y < _settings.Height)
-                        continue;
+                // Skip cells that are inside the main grid.
+                if (x >= 0 && x < _settings.Width && y >= 0 && y < _settings.Height)
+                    continue;
 
-                    SpawnGroundAt(x, y);
-                }
+                SpawnGroundAt(x, y);
             }
         }
 
@@ -204,10 +191,7 @@ namespace _Game._Scripts.MapSystem
                 }
             }
 
-            if (last != null)
-            {
-                last.enabled = false;
-            }
+            if (last) last.enabled = false;
         }
 
         private void ApplySortingForRoot(Transform root, ref int globalOrder)
@@ -252,7 +236,7 @@ namespace _Game._Scripts.MapSystem
             for (var i = 0; i < _settings.GroundVariants.Length; i++)
             {
                 var w = _settings.GroundVariants[i]._weight;
-                if (w > 0 && _settings.GroundVariants[i]._prefab != null)
+                if (w > 0 && _settings.GroundVariants[i]._prefab)
                     totalWeight += w;
             }
 
@@ -262,7 +246,7 @@ namespace _Game._Scripts.MapSystem
                 return null;
             }
 
-            var roll = UnityEngine.Random.Range(0, totalWeight);
+            var roll = Random.Range(0, totalWeight);
             for (var i = 0; i < _settings.GroundVariants.Length; i++)
             {
                 var entry = _settings.GroundVariants[i];
@@ -276,6 +260,13 @@ namespace _Game._Scripts.MapSystem
 
             // Fallback (should never happen)
             return _settings.GroundVariants[0]._prefab;
+        }
+
+        [Serializable]
+        public struct WeightedPrefab
+        {
+            [Min(0)] public int _weight;
+            public Transform _prefab;
         }
     }
 }

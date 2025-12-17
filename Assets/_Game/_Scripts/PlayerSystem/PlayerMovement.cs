@@ -5,17 +5,17 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField] private PlayerMovementSettingsSO _settings;
+        [Header("Settings")] [SerializeField] private PlayerMovementSettingsSO _settings;
 
-        [Header("Runtime References")]
-        [SerializeField] private Rigidbody2D _rigidbody2D;
+        [Header("Runtime References")] [SerializeField]
+        private Rigidbody2D _rigidbody2D;
+
         [SerializeField] private Transform _visualsTransform;
 
         private Vector2 m_MovementInput;
         private bool m_MovementLocked;
 
-        
+
         private void Awake()
         {
             if (_settings == null)
@@ -37,6 +37,12 @@ namespace _Game._Scripts.PlayerSystem
             HandleFacingDirection();
         }
 
+        private void OnValidate()
+        {
+            if (!_rigidbody2D)
+                _rigidbody2D = GetComponent<Rigidbody2D>();
+        }
+
         private void InitializeRigidbody()
         {
             if (!_rigidbody2D)
@@ -50,7 +56,7 @@ namespace _Game._Scripts.PlayerSystem
 
         private void ApplyMove()
         {
-            Vector2 targetVelocity = m_MovementInput * _settings.MoveSpeed;
+            var targetVelocity = m_MovementInput * _settings.MoveSpeed;
             _rigidbody2D.velocity = targetVelocity;
         }
 
@@ -81,12 +87,6 @@ namespace _Game._Scripts.PlayerSystem
         private void UnlockMovement()
         {
             m_MovementLocked = false;
-        }
-
-        private void OnValidate()
-        {
-            if (!_rigidbody2D)
-                _rigidbody2D = GetComponent<Rigidbody2D>();
         }
     }
 }

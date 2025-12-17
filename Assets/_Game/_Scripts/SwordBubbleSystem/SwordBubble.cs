@@ -7,11 +7,14 @@ namespace _Game._Scripts.SwordBubbleSystem
 {
     public class SwordBubble : MonoBehaviour, IPoolable
     {
-        [Header("Sword Visual")]
-        [SerializeField] private Transform _swordTransform;
+        [Header("Sword Visual")] [SerializeField]
+        private Transform _swordTransform;
+
         [SerializeField] private float _rotationSpeed = 180f;
-        [Header("Pickup Animation")]
-        [SerializeField] private Collider2D _triggerCollider;
+
+        [Header("Pickup Animation")] [SerializeField]
+        private Collider2D _triggerCollider;
+
         [SerializeField] private Transform _scaleTarget;
         [SerializeField] private float _defaultPushDistance = 0.35f;
         [SerializeField] private float _defaultPushDuration = 0.15f;
@@ -21,14 +24,19 @@ namespace _Game._Scripts.SwordBubbleSystem
         [SerializeField] private bool _disableColliderOnPickup = true;
         [SerializeField] private AnimationCurve _moveEase;
         [SerializeField] private AnimationCurve _scaleEase;
-
-        private Sequence m_PickupSequence;
         private Vector3 m_InitialScale;
 
-        
+        private Sequence m_PickupSequence;
+
+
         private void Awake()
         {
             m_InitialScale = GetScaleTarget().localScale;
+        }
+
+        private void Update()
+        {
+            RotateSword();
         }
 
         private void OnDisable()
@@ -36,9 +44,14 @@ namespace _Game._Scripts.SwordBubbleSystem
             KillPickupSequence();
         }
 
-        private void Update()
+        public void OnSpawnedFromPool()
         {
-            RotateSword();
+            ResetPickupVisuals();
+        }
+
+        public void OnDespawnedToPool()
+        {
+            ResetPickupVisuals();
         }
 
         private void RotateSword()
@@ -50,13 +63,12 @@ namespace _Game._Scripts.SwordBubbleSystem
         }
 
         /// <summary>
-        /// Plays a pickup sequence:
-        /// 1) Pushes outward along radial direction from targetCenter,
-        /// 2) Optional hold,
-        /// 3) Pulls into targetCenter while shrinking.
-        /// Calls onCompleted after the sequence finishes.
-        /// 
-        /// Each bubble runs its own animation, so multiple bubbles can be collected simultaneously.
+        ///     Plays a pickup sequence:
+        ///     1) Pushes outward along radial direction from targetCenter,
+        ///     2) Optional hold,
+        ///     3) Pulls into targetCenter while shrinking.
+        ///     Calls onCompleted after the sequence finishes.
+        ///     Each bubble runs its own animation, so multiple bubbles can be collected simultaneously.
         /// </summary>
         public void PlayPickupToCenter(
             Transform targetCenter,
@@ -86,7 +98,7 @@ namespace _Game._Scripts.SwordBubbleSystem
             var startPos = transform.position;
             var centerPosAtStart = targetCenter.position;
 
-            var dir = (startPos - centerPosAtStart);
+            var dir = startPos - centerPosAtStart;
             if (dir.sqrMagnitude < 0.0001f)
                 dir = Vector3.right;
             dir.Normalize();
@@ -131,7 +143,7 @@ namespace _Game._Scripts.SwordBubbleSystem
                     () => 0f,
                     t =>
                     {
-                        var currentTarget = targetCenter != null ? targetCenter.position : pullStartPos;
+                        var currentTarget = targetCenter ? targetCenter.position : pullStartPos;
                         transform.position = Vector3.LerpUnclamped(pullStartPos, currentTarget, t);
                     },
                     1f,
@@ -156,7 +168,7 @@ namespace _Game._Scripts.SwordBubbleSystem
 
             m_PickupSequence.OnComplete(() =>
             {
-                if (targetCenter != null)
+                if (targetCenter)
                     transform.position = targetCenter.position;
 
                 scaleTarget.localScale = endScale;
@@ -168,7 +180,7 @@ namespace _Game._Scripts.SwordBubbleSystem
         public void SetColliderEnabled(bool isEnabled)
         {
             var col = GetTriggerCollider();
-            if (col != null)
+            if (col)
                 col.enabled = isEnabled;
         }
 
@@ -201,7 +213,7 @@ namespace _Game._Scripts.SwordBubbleSystem
 
         private Collider2D GetTriggerCollider()
         {
-            if (_triggerCollider != null)
+            if (_triggerCollider)
                 return _triggerCollider;
 
             _triggerCollider = GetComponent<Collider2D>();
@@ -210,21 +222,11 @@ namespace _Game._Scripts.SwordBubbleSystem
 
         private Transform GetScaleTarget()
         {
-            if (_scaleTarget != null)
+            if (_scaleTarget)
                 return _scaleTarget;
 
             _scaleTarget = transform;
             return _scaleTarget;
-        }
-
-        public void OnSpawnedFromPool()
-        {
-            ResetPickupVisuals();
-        }
-
-        public void OnDespawnedToPool()
-        {
-            ResetPickupVisuals();
         }
     }
 }

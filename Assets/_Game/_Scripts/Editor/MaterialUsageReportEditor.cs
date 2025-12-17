@@ -34,19 +34,14 @@ namespace _Game._Scripts.Editor
                 var mats = r.sharedMaterials;
                 if (mats == null) continue;
 
-                for (int i = 0; i < mats.Length; i++)
-                {
-                    Add(mats[i], r.gameObject, $"{r.GetType().Name}[{i}]");
-                }
+                for (var i = 0; i < mats.Length; i++) Add(mats[i], r.gameObject, $"{r.GetType().Name}[{i}]");
             }
 
             // UI Graphics (Image, Text, TMP components are also Graphic-derived if using TMP UGUI)
             foreach (var g in Object.FindObjectsByType<Graphic>(FindObjectsSortMode.None))
-            {
                 // Graphic.material is instanced sometimes; sharedMaterial isn't always exposed.
                 // We still report whatever is assigned.
                 Add(g.material, g.gameObject, $"{g.GetType().Name} (Graphic.material)");
-            }
 
             if (materialToUsers.Count == 0)
             {
@@ -78,12 +73,12 @@ namespace _Game._Scripts.Editor
         private static string GetHierarchyPath(Object owner)
         {
             if (owner is not GameObject go)
-                return owner != null ? owner.name : "<null>";
+                return owner ? owner.name : "<null>";
 
             var t = go.transform;
             var parts = new List<string> { t.name };
 
-            while (t.parent != null)
+            while (t.parent)
             {
                 t = t.parent;
                 parts.Add(t.name);

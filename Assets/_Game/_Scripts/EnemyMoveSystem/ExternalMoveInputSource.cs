@@ -13,6 +13,12 @@ namespace _Game._Scripts.EnemyMoveSystem
                 _movement = GetComponent<PlayerMovement>();
         }
 
+        private void OnValidate()
+        {
+            if (!_movement)
+                _movement = GetComponent<PlayerMovement>();
+        }
+
         public void PushInput(Vector2 input)
         {
             if (_movement)
@@ -23,12 +29,6 @@ namespace _Game._Scripts.EnemyMoveSystem
         {
             if (_movement)
                 _movement.SetMoveInput(Vector2.zero);
-        }
-
-        private void OnValidate()
-        {
-            if (!_movement)
-                _movement = GetComponent<PlayerMovement>();
         }
     }
 }

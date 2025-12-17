@@ -1,26 +1,27 @@
 using _Game._Scripts.GameEvents;
 using _Game._Scripts.Patterns.EventBusPattern;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 namespace _Game._Scripts
 {
     public class PlayableEndCardController : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private Canvas _canvas;          
-        [SerializeField] private Button _ctaButton;         
+        [SerializeField] private Canvas _canvas;
+        [SerializeField] private Button _ctaButton;
         [SerializeField] private Canvas _floatingJoystickCanvas;
         [SerializeField] private CanvasGroup _canvasGroup;
 
         [Header("Settings")]
         [SerializeField] private string _editorFallbackUrl = "";
 
+        private int m_DeadAiCount;
         private bool m_IsShown;
         private EventBinding<PlayerDiedEvent> m_PlayerDiedEventBinding;
-        private int m_DeadAiCount;
 
+        
         private void Awake()
         {
             if (_ctaButton)
@@ -40,6 +41,7 @@ namespace _Game._Scripts
             EventBus<PlayerDiedEvent>.Unsubscribe(m_PlayerDiedEventBinding);
         }
 
+        
         private void HandlePlayerDied(PlayerDiedEvent playerDiedEvent)
         {
             var isPlayer = playerDiedEvent.isPlayer;
@@ -61,14 +63,15 @@ namespace _Game._Scripts
             }
         }
 
-        public void Show()
+        
+        private void Show()
         {
             if (m_IsShown) return;
             m_IsShown = true;
 
             _floatingJoystickCanvas.enabled = false;
             if (_canvas) _canvas.enabled = true;
-            
+
             if (_canvasGroup)
             {
                 _canvasGroup.alpha = 0f;
@@ -81,19 +84,7 @@ namespace _Game._Scripts
             Luna.Unity.LifeCycle.GameEnded();
 #endif
         }
-
-        public void Hide()
-        {
-            m_IsShown = false;
-            if (_canvasGroup)
-            {
-                _canvasGroup.alpha = 0f;
-                _canvasGroup.blocksRaycasts = false;
-                _canvasGroup.interactable = false;
-            }
-            if (_canvas) _canvas.enabled = false;
-        }
-
+        
         private void HideImmediate()
         {
             m_IsShown = false;
@@ -103,10 +94,11 @@ namespace _Game._Scripts
                 _canvasGroup.blocksRaycasts = false;
                 _canvasGroup.interactable = false;
             }
+
             if (_canvas) _canvas.enabled = false;
         }
 
-        public void OnCtaClicked()
+        private void OnCtaClicked()
         {
             // Store click / CTA
 #if UNITY_WEBGL && !UNITY_EDITOR
@@ -119,7 +111,8 @@ namespace _Game._Scripts
                 return;
             }
 
-            Debug.LogWarning("CTA clicked, but Luna InstallFullGame is only implemented in the Playworks WebGL export. Provide _editorFallbackUrl for local testing.");
+            Debug.LogWarning(
+                "CTA clicked, but Luna InstallFullGame is only implemented in the Playworks WebGL export. Provide _editorFallbackUrl for local testing.");
 #endif
         }
     }

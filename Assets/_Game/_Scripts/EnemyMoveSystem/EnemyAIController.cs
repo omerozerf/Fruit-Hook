@@ -20,31 +20,31 @@ namespace _Game._Scripts.EnemyMoveSystem
             Flee
         }
 
-        [Header("References")]
-        [SerializeField] private ExternalMoveInputSource _externalMoveInputSource;
+        [Header("References")] [SerializeField]
+        private ExternalMoveInputSource _externalMoveInputSource;
+
         [SerializeField] private SwordOrbitController _swordOrbitController;
 
-        [Header("Settings")]
-        [SerializeField] private EnemyAISettingsSO _settings;
+        [Header("Settings")] [SerializeField] private EnemyAISettingsSO _settings;
 
-        private float m_ScanTimer;
-        private float m_WanderTimer;
-
-        private Collider2D[] m_EnemyHits;
-        private Collider2D[] m_SwordHits;
+        private Vector2 m_AvoidVector;
 
         private Transform m_ClosestEnemy;
         private Transform m_ClosestSword;
 
-        private Vector2 m_AvoidVector;
-        private Vector2 m_WanderVector;
+        private Collider2D[] m_EnemyHits;
         private Vector2 m_FinalMoveInput;
 
-        private AIState m_State;
+        private float m_ScanTimer;
 
         private Collider2D[] m_SelfColliders;
 
-        
+        private AIState m_State;
+        private Collider2D[] m_SwordHits;
+        private float m_WanderTimer;
+        private Vector2 m_WanderVector;
+
+
         private void Awake()
         {
             if (_settings == null)
@@ -59,7 +59,7 @@ namespace _Game._Scripts.EnemyMoveSystem
             m_SelfColliders = GetComponentsInChildren<Collider2D>(true);
         }
 
-        
+
         private void Update()
         {
             TickScanTimer();
@@ -77,6 +77,75 @@ namespace _Game._Scripts.EnemyMoveSystem
 
             if (_externalMoveInputSource)
                 _externalMoveInputSource.PushInput(m_FinalMoveInput);
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (_settings == null || !_settings.DrawGizmos) return;
+
+            var p = transform.position;
+
+            // Scan radii
+            Gizmos.color = Color.gray;
+            Gizmos.DrawWireSphere(p, _settings.EnemyScanRadius);
+
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(p, _settings.SwordScanRadius);
+
+            // Attack range
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(p, _settings.AttackRange);
+
+            // Threat range (enter/exit)
+            Gizmos.color = new Color(1f, 0.5f, 0f, 1f);
+            Gizmos.DrawWireSphere(p, _settings.ThreatEnterRange);
+
+            Gizmos.color = new Color(1f, 0.5f, 0f, 0.45f);
+            Gizmos.DrawWireSphere(p, _settings.ThreatExitRange);
+
+            // Targets
+            if (m_ClosestEnemy)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawLine(p, m_ClosestEnemy.position);
+                Gizmos.DrawSphere(m_ClosestEnemy.position, 0.12f);
+            }
+
+            if (m_ClosestSword)
+            {
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawLine(p, m_ClosestSword.position);
+                Gizmos.DrawSphere(m_ClosestSword.position, 0.10f);
+            }
+
+            // Vectors
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(p, p + (Vector3)m_AvoidVector);
+
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(p, p + (Vector3)m_FinalMoveInput);
+
+            if (m_FinalMoveInput.sqrMagnitude > 0.0001f)
+            {
+                var dir = (Vector3)m_FinalMoveInput.normalized;
+                var perp = Vector3.Cross(dir, Vector3.forward).normalized;
+
+                var forwardLength = Mathf.Max(_settings.EnemyScanRadius, _settings.SwordScanRadius);
+                var halfWidth = 0.35f;
+
+                var start = p;
+                var end = p + dir * forwardLength;
+
+                Gizmos.color = Color.magenta;
+                Gizmos.DrawLine(start + perp * halfWidth, end + perp * halfWidth);
+                Gizmos.DrawLine(start - perp * halfWidth, end - perp * halfWidth);
+            }
+#if UNITY_EDITOR
+            // State label above enemy
+            var labelPos = p + Vector3.up * 1.2f;
+            Handles.color = Color.white;
+            Handles.Label(labelPos, m_State.ToString());
+#endif
         }
 
 
@@ -105,8 +174,10 @@ namespace _Game._Scripts.EnemyMoveSystem
         {
             Vector2 pos = transform.position;
 
-            m_ClosestEnemy = ScanClosestByLayer(pos, _settings.EnemyScanRadius, _settings.EnemyLayer, m_EnemyHits, out var _);
-            m_ClosestSword = ScanClosestByLayer(pos, _settings.SwordScanRadius, _settings.SwordLayer, m_SwordHits, out var _);
+            m_ClosestEnemy = ScanClosestByLayer(pos, _settings.EnemyScanRadius, _settings.EnemyLayer, m_EnemyHits,
+                out var _);
+            m_ClosestSword = ScanClosestByLayer(pos, _settings.SwordScanRadius, _settings.SwordLayer, m_SwordHits,
+                out var _);
 
             m_AvoidVector = ComputeAvoidVector(pos, m_ClosestEnemy, m_State == AIState.Flee);
         }
@@ -120,19 +191,19 @@ namespace _Game._Scripts.EnemyMoveSystem
         {
             closestDistSqr = float.PositiveInfinity;
 
-            int count = Physics2D.OverlapCircleNonAlloc(center, radius, buffer, layerMask);
+            var count = Physics2D.OverlapCircleNonAlloc(center, radius, buffer, layerMask);
             Transform closest = null;
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
-                Collider2D c = buffer[i];
+                var c = buffer[i];
                 if (!c) continue;
 
                 if (IsSelfCollider(c))
                     continue;
 
-                Transform t = c.transform;
-                float dSqr = ((Vector2)t.position - center).sqrMagnitude;
+                var t = c.transform;
+                var dSqr = ((Vector2)t.position - center).sqrMagnitude;
 
                 if (dSqr < closestDistSqr)
                 {
@@ -153,11 +224,9 @@ namespace _Game._Scripts.EnemyMoveSystem
 
             if (m_SelfColliders == null) return false;
 
-            for (int i = 0; i < m_SelfColliders.Length; i++)
-            {
+            for (var i = 0; i < m_SelfColliders.Length; i++)
                 if (m_SelfColliders[i] == c)
                     return true;
-            }
 
             return false;
         }
@@ -166,7 +235,7 @@ namespace _Game._Scripts.EnemyMoveSystem
         {
             if (!enemy) return Vector2.zero;
 
-            float dist = Vector2.Distance(myPos, enemy.position);
+            var dist = Vector2.Distance(myPos, enemy.position);
 
             if (isCurrentlyFleeing)
             {
@@ -177,17 +246,17 @@ namespace _Game._Scripts.EnemyMoveSystem
                 if (dist > _settings.ThreatEnterRange) return Vector2.zero;
             }
 
-            int mySwords = GetMySwordCount();
-            int enemySwords = GetEnemySwordCount(enemy);
+            var mySwords = GetMySwordCount();
+            var enemySwords = GetEnemySwordCount(enemy);
 
             if (enemySwords <= mySwords)
                 return Vector2.zero;
 
-            Vector2 away = (myPos - (Vector2)enemy.position);
+            var away = myPos - (Vector2)enemy.position;
             if (away.sqrMagnitude < 0.0001f) away = Random.insideUnitCircle;
             away = away.normalized;
-            
-            float strength = Mathf.InverseLerp(_settings.ThreatExitRange, _settings.ThreatEnterRange, dist);
+
+            var strength = Mathf.InverseLerp(_settings.ThreatExitRange, _settings.ThreatEnterRange, dist);
             strength = Mathf.Clamp01(strength);
 
             if (isCurrentlyFleeing)
@@ -204,12 +273,14 @@ namespace _Game._Scripts.EnemyMoveSystem
             bool hasEnemy = m_ClosestEnemy;
             bool hasSword = m_ClosestSword;
 
-            int mySwords = GetMySwordCount();
-            int enemySwords = hasEnemy ? GetEnemySwordCount(m_ClosestEnemy) : 0;
+            var mySwords = GetMySwordCount();
+            var enemySwords = hasEnemy ? GetEnemySwordCount(m_ClosestEnemy) : 0;
 
-            float enemyDist = hasEnemy ? Vector2.Distance(myPos, m_ClosestEnemy.position) : float.PositiveInfinity;
-            bool enemyIsThreatClose = hasEnemy && (m_State == AIState.Flee ? enemyDist <= _settings.ThreatExitRange : enemyDist <= _settings.ThreatEnterRange);
-            bool enemyInAttackRange = hasEnemy && enemyDist <= _settings.AttackRange;
+            var enemyDist = hasEnemy ? Vector2.Distance(myPos, m_ClosestEnemy.position) : float.PositiveInfinity;
+            var enemyIsThreatClose = hasEnemy && (m_State == AIState.Flee
+                ? enemyDist <= _settings.ThreatExitRange
+                : enemyDist <= _settings.ThreatEnterRange);
+            var enemyInAttackRange = hasEnemy && enemyDist <= _settings.AttackRange;
 
             // 1) Kaçınma (bariz tehdit)
             if (enemyIsThreatClose && enemySwords > mySwords)
@@ -265,7 +336,7 @@ namespace _Game._Scripts.EnemyMoveSystem
 
         private Vector2 ComposeSteering(Vector2 seekDir, Vector2 avoidDir)
         {
-            Vector2 v = (seekDir * _settings.SeekWeight) + (avoidDir * _settings.AvoidWeight);
+            var v = seekDir * _settings.SeekWeight + avoidDir * _settings.AvoidWeight;
             if (v.sqrMagnitude < 0.0001f) return Vector2.zero;
             return Vector2.ClampMagnitude(v, 1f);
         }
@@ -273,97 +344,28 @@ namespace _Game._Scripts.EnemyMoveSystem
         private Vector2 GetDirTo(Vector2 from, Transform target)
         {
             if (!target) return Vector2.zero;
-            Vector2 d = (Vector2)target.position - from;
+            var d = (Vector2)target.position - from;
             if (d.sqrMagnitude < 0.0001f) return Vector2.zero;
             return d.normalized;
         }
-        
+
         private int GetMySwordCount()
         {
             return _swordOrbitController.GetSwordCount();
         }
-        
+
         private int GetEnemySwordCount(Transform enemy)
         {
             var playerCollisionController = enemy.GetComponent<PlayerCollisionController>();
             var orbitController = playerCollisionController.GetSwordOrbitController();
             return orbitController.GetSwordCount();
         }
-        
+
         private void RequestAttack(Transform enemy)
         {
             if (!enemy) return;
 
             // TODO: For attacking
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (_settings == null || !_settings.DrawGizmos) return;
-
-            Vector3 p = transform.position;
-
-            // Scan radii
-            Gizmos.color = Color.gray;
-            Gizmos.DrawWireSphere(p, _settings.EnemyScanRadius);
-
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawWireSphere(p, _settings.SwordScanRadius);
-
-            // Attack range
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(p, _settings.AttackRange);
-
-            // Threat range (enter/exit)
-            Gizmos.color = new Color(1f, 0.5f, 0f, 1f);
-            Gizmos.DrawWireSphere(p, _settings.ThreatEnterRange);
-
-            Gizmos.color = new Color(1f, 0.5f, 0f, 0.45f);
-            Gizmos.DrawWireSphere(p, _settings.ThreatExitRange);
-
-            // Targets
-            if (m_ClosestEnemy)
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawLine(p, m_ClosestEnemy.position);
-                Gizmos.DrawSphere(m_ClosestEnemy.position, 0.12f);
-            }
-
-            if (m_ClosestSword)
-            {
-                Gizmos.color = Color.cyan;
-                Gizmos.DrawLine(p, m_ClosestSword.position);
-                Gizmos.DrawSphere(m_ClosestSword.position, 0.10f);
-            }
-
-            // Vectors
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(p, p + (Vector3)m_AvoidVector);
-
-            Gizmos.color = Color.green;
-            Gizmos.DrawLine(p, p + (Vector3)m_FinalMoveInput);
-
-            if (m_FinalMoveInput.sqrMagnitude > 0.0001f)
-            {
-                Vector3 dir = (Vector3)m_FinalMoveInput.normalized;
-                Vector3 perp = Vector3.Cross(dir, Vector3.forward).normalized;
-
-                float forwardLength = Mathf.Max(_settings.EnemyScanRadius, _settings.SwordScanRadius);
-                float halfWidth = 0.35f;
-
-                Vector3 start = p;
-                Vector3 end = p + dir * forwardLength;
-
-                Gizmos.color = Color.magenta;
-                Gizmos.DrawLine(start + perp * halfWidth, end + perp * halfWidth);
-                Gizmos.DrawLine(start - perp * halfWidth, end - perp * halfWidth);
-            }
-#if UNITY_EDITOR
-            // State label above enemy
-            Vector3 labelPos = p + Vector3.up * 1.2f;
-            Handles.color = Color.white;
-            Handles.Label(labelPos, m_State.ToString());
-#endif
         }
     }
 }

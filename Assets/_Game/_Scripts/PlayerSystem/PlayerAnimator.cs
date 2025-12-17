@@ -6,22 +6,22 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerAnimator : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField] private PlayerAnimatorSettingsSO _settings;
+        [Header("Settings")] [SerializeField] private PlayerAnimatorSettingsSO _settings;
 
-        [Header("References")]
-        [SerializeField] private Transform _bodyTransform;
+        [Header("References")] [SerializeField]
+        private Transform _bodyTransform;
+
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Transform _leftFootTransform;
         [SerializeField] private Transform _rightFootTransform;
+        private Sequence m_FeetStepSequence;
 
         private Tween m_IdleTween;
-        private Sequence m_FeetStepSequence;
         private bool m_IsMoving;
-        private Vector3 m_LeftFootStartLocalPos;
-        private Vector3 m_RightFootStartLocalPos;
         private Vector3 m_LeftFootStartLocalEuler;
+        private Vector3 m_LeftFootStartLocalPos;
         private Vector3 m_RightFootStartLocalEuler;
+        private Vector3 m_RightFootStartLocalPos;
 
         private void Awake()
         {
@@ -42,15 +42,21 @@ namespace _Game._Scripts.PlayerSystem
             StartIdleAnimation();
         }
 
-        private void OnValidate()
+        private void Update()
         {
-            if (!_rigidbody2D) _rigidbody2D = GetComponent<Rigidbody2D>();
+            UpdateIdleSpeedByMovement();
+            UpdateFeetAnimationByMovement();
         }
 
         private void OnDisable()
         {
             StopIdleAnimation();
             StopFeetStepAnimation();
+        }
+
+        private void OnValidate()
+        {
+            if (!_rigidbody2D) _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
         private void CacheFootDefaults()
@@ -179,12 +185,6 @@ namespace _Game._Scripts.PlayerSystem
                 : 1f;
 
             m_IdleTween.timeScale = speed;
-        }
-
-        private void Update()
-        {
-            UpdateIdleSpeedByMovement();
-            UpdateFeetAnimationByMovement();
         }
 
         private void StartIdleAnimation()

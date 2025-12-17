@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using _Game._Scripts.GameEvents;
 using _Game._Scripts.ObjectPoolSystem;
@@ -11,20 +10,21 @@ namespace _Game._Scripts.SwordBubbleSystem
 {
     public sealed class SwordBubbleCreator : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField] private SwordBubbleCreatorSettingsSO _settings;
+        [Header("Settings")] [SerializeField] private SwordBubbleCreatorSettingsSO _settings;
 
-        [Header("Prefab & Pool")]
-        [SerializeField] private Transform _swordBubblePrefab;
+        [Header("Prefab & Pool")] [SerializeField]
+        private Transform _swordBubblePrefab;
+
         [SerializeField] private Transform _poolParent;
 
-        [Header("References")]
-        [SerializeField] private Transform _player;
+        [Header("References")] [SerializeField]
+        private Transform _player;
+
+        private bool m_IsRunning;
+        private EventBinding<PlayerDiedEvent> m_PlayerDiedEventBinding;
 
         private ObjectPool<Transform> m_Pool;
         private Coroutine m_SpawnRoutine;
-        private bool m_IsRunning;
-        private EventBinding<PlayerDiedEvent> m_PlayerDiedEventBinding;
         private EventBinding<SwordBubbleTaken> m_SwordBubbleTakenEventBinding;
 
 
@@ -32,7 +32,8 @@ namespace _Game._Scripts.SwordBubbleSystem
         {
             if (!_settings)
             {
-                Debug.LogError($"{nameof(SwordBubbleCreator)} on '{name}' has no {nameof(SwordBubbleCreatorSettingsSO)} assigned.");
+                Debug.LogError(
+                    $"{nameof(SwordBubbleCreator)} on '{name}' has no {nameof(SwordBubbleCreatorSettingsSO)} assigned.");
                 enabled = false;
                 return;
             }
@@ -45,11 +46,17 @@ namespace _Game._Scripts.SwordBubbleSystem
             }
 
             m_Pool = new ObjectPool<Transform>(
-                prefab: _swordBubblePrefab,
-                parent: _poolParent,
-                prewarmCount: Mathf.Max(0, _settings.PrewarmCount),
-                keepWorldPositionWhenParenting: false
+                _swordBubblePrefab,
+                _poolParent,
+                Mathf.Max(0, _settings.PrewarmCount),
+                false
             );
+        }
+
+        private void Start()
+        {
+            if (_settings.SpawnOnStart)
+                StartSpawning();
         }
 
         private void OnEnable()
@@ -60,28 +67,22 @@ namespace _Game._Scripts.SwordBubbleSystem
             EventBus<SwordBubbleTaken>.Subscribe(m_SwordBubbleTakenEventBinding);
         }
 
-        private void Start()
-        {
-            if (_settings.SpawnOnStart)
-                StartSpawning();
-        }
-
         private void OnDisable()
         {
             StopSpawning();
-            
+
             EventBus<PlayerDiedEvent>.Unsubscribe(m_PlayerDiedEventBinding);
             EventBus<SwordBubbleTaken>.Unsubscribe(m_SwordBubbleTakenEventBinding);
         }
-        
-        
+
+
         private void HandlePlayerDied(PlayerDiedEvent obj)
         {
             if (obj.isPlayer) return;
-            
+
             SpawnCluster(obj.transform.position, _settings.DropCount, _settings.DropRadius);
         }
-        
+
         private void HandleSwordBubbleTaken(SwordBubbleTaken obj)
         {
             Release(obj.transform);
@@ -128,10 +129,10 @@ namespace _Game._Scripts.SwordBubbleSystem
 
             radius = Mathf.Max(0f, radius);
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
-                Vector2 offset = Random.insideUnitCircle * radius;
-                Vector3 pos = centerPosition + new Vector3(offset.x, offset.y, 0f);
+                var offset = Random.insideUnitCircle * radius;
+                var pos = centerPosition + new Vector3(offset.x, offset.y, 0f);
                 SpawnAt(pos);
             }
         }

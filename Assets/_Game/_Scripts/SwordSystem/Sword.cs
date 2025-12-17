@@ -8,10 +8,10 @@ namespace _Game._Scripts.SwordSystem
     {
         [SerializeField] private SwordCollisionController _collisionController;
         [SerializeField] private Collider2D _collider;
-        
+
         private SwordOrbitController m_SwordOrbitController;
-        
-        
+
+
         private void OnValidate()
         {
             if (!_collisionController) _collisionController = GetComponentInChildren<SwordCollisionController>();
@@ -19,32 +19,6 @@ namespace _Game._Scripts.SwordSystem
         }
 
 
-        public void SetSwordOrbitController(SwordOrbitController controller)
-        {
-            m_SwordOrbitController = controller;
-        }
-        
-        public SwordOrbitController GetSwordOrbitController()
-        {
-            return m_SwordOrbitController;
-        }
-        
-        public SwordCollisionController GetCollisionController()
-        {
-            return _collisionController;
-        }
-        
-        public Collider2D GetCollider()
-        {
-            return _collider;
-        }
-
-        public void SetColliderEnabled(bool isEnabled)
-        {
-            _collider.enabled = isEnabled;
-        }
-
-        
         public void OnSpawnedFromPool()
         {
             SetColliderEnabled(true);
@@ -53,6 +27,32 @@ namespace _Game._Scripts.SwordSystem
         public void OnDespawnedToPool()
         {
             SetColliderEnabled(false);
+        }
+
+
+        public void SetSwordOrbitController(SwordOrbitController controller)
+        {
+            m_SwordOrbitController = controller;
+        }
+
+        public SwordOrbitController GetSwordOrbitController()
+        {
+            return m_SwordOrbitController;
+        }
+
+        public SwordCollisionController GetCollisionController()
+        {
+            return _collisionController;
+        }
+
+        public Collider2D GetCollider()
+        {
+            return _collider;
+        }
+
+        public void SetColliderEnabled(bool isEnabled)
+        {
+            _collider.enabled = isEnabled;
         }
     }
 }

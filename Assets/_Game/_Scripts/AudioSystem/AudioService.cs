@@ -12,29 +12,33 @@ namespace _Game._Scripts.AudioSystem
             SwordHit = 2
         }
 
-        [Header("Clips (3 SFX)")]
-        [SerializeField] private AudioClip _bubbleSword;
-        [SerializeField] private AudioClip _damageHit;
-        [SerializeField] private AudioClip _swordHit;
-
-        [Header("Music (Optional)")]
-        [SerializeField] private AudioClip _music;
-        [SerializeField] private bool _playMusicOnStart = true;
-
-        [Header("Volumes")]
-        [SerializeField, Range(0f, 1f)] private float _sfxVolume = 1f;
-        [SerializeField, Range(0f, 1f)] private float _musicVolume = 0.5f;
-
-        [Header("Random Pitch (Optional)")]
-        [SerializeField] private bool _randomizePitch = true;
-        [SerializeField, Range(0.8f, 1.2f)] private float _pitchMin = 0.95f;
-        [SerializeField, Range(0.8f, 1.2f)] private float _pitchMax = 1.05f;
-
         private const string PrefSfx = "audio_sfx_01";
         private const string PrefMusic = "audio_music_01";
 
-        private AudioSource _sfxSource;
+        [Header("Clips (3 SFX)")] [SerializeField]
+        private AudioClip _bubbleSword;
+
+        [SerializeField] private AudioClip _damageHit;
+        [SerializeField] private AudioClip _swordHit;
+
+        [Header("Music (Optional)")] [SerializeField]
+        private AudioClip _music;
+
+        [SerializeField] private bool _playMusicOnStart = true;
+
+        [Header("Volumes")] [SerializeField] [Range(0f, 1f)]
+        private float _sfxVolume = 1f;
+
+        [SerializeField] [Range(0f, 1f)] private float _musicVolume = 0.5f;
+
+        [Header("Random Pitch (Optional)")] [SerializeField]
+        private bool _randomizePitch = true;
+
+        [SerializeField] [Range(0.8f, 1.2f)] private float _pitchMin = 0.95f;
+        [SerializeField] [Range(0.8f, 1.2f)] private float _pitchMax = 1.05f;
         private AudioSource _musicSource;
+
+        private AudioSource _sfxSource;
 
         private bool _unlocked;
 

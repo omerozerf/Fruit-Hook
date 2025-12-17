@@ -5,7 +5,7 @@ namespace _Game._Scripts.Patterns.SingletonPattern
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         private static T ms_Instance;
-        private static readonly object LOCK = new ();
+        private static readonly object LOCK = new();
         private static bool ms_IsShuttingDown;
 
         public static T Instance

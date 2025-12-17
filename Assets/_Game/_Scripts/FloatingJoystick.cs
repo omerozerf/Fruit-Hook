@@ -1,5 +1,5 @@
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
 namespace _Game._Scripts
 {
@@ -26,13 +26,12 @@ namespace _Game._Scripts
         [SerializeField] private Camera _uiCamera;
 
         private int m_ActiveFingerId = -1;
-        private bool m_IsActive;
-        private Vector2 m_Input;
         private Vector2 m_CenterLocalPos;
-
-        private Tween m_HintTween;
         private bool m_HintDismissed;
         private float m_HintT;
+        private Tween m_HintTween;
+        private Vector2 m_Input;
+        private bool m_IsActive;
 
         public float Horizontal => m_Input.x;
         public float Vertical => m_Input.y;
@@ -44,7 +43,7 @@ namespace _Game._Scripts
             if (_canvas == null)
                 _canvas = GetComponentInParent<Canvas>();
 
-            if (_uiCamera == null && _canvas != null && _canvas.renderMode != RenderMode.ScreenSpaceOverlay)
+            if (!_uiCamera && _canvas && _canvas.renderMode != RenderMode.ScreenSpaceOverlay)
                 _uiCamera = _canvas.worldCamera;
 
             SetVisualActive(false);
@@ -82,7 +81,7 @@ namespace _Game._Scripts
             _hintLoopDuration = Mathf.Max(0.01f, _hintLoopDuration);
         }
 
-        
+
         private void UpdatePointerState()
         {
             if (Input.GetMouseButtonDown(0))
@@ -126,7 +125,7 @@ namespace _Game._Scripts
                 .To(() => m_HintT, x =>
                 {
                     m_HintT = x;
-                    if (_handle != null)
+                    if (_handle)
                         _handle.anchoredPosition = GetInfinityHintPos(m_HintT);
                 }, 1f, Mathf.Max(0.01f, _hintLoopDuration))
                 .SetEase(Ease.Linear)
@@ -136,12 +135,12 @@ namespace _Game._Scripts
 
         private Vector2 GetInfinityHintPos(float t01)
         {
-            float a = Mathf.Abs(_hintAmplitude);
-            float b = a * Mathf.Max(0f, _hintVerticalScale);
+            var a = Mathf.Abs(_hintAmplitude);
+            var b = a * Mathf.Max(0f, _hintVerticalScale);
 
-            float theta = t01 * Mathf.PI * 2f;
-            float x = a * Mathf.Sin(theta);
-            float y = b * Mathf.Sin(theta) * Mathf.Cos(theta);
+            var theta = t01 * Mathf.PI * 2f;
+            var x = a * Mathf.Sin(theta);
+            var y = b * Mathf.Sin(theta) * Mathf.Cos(theta);
 
             return new Vector2(x, y);
         }
@@ -159,15 +158,11 @@ namespace _Game._Scripts
 
         private void KillHintTween()
         {
-            if (m_HintTween != null && m_HintTween.IsActive())
-            {
-                m_HintTween.Kill();
-            }
+            if (m_HintTween != null && m_HintTween.IsActive()) m_HintTween.Kill();
 
             m_HintTween = null;
         }
-
-
+        
         private void UpdateHandleAndInput()
         {
             if (!m_IsActive)
@@ -182,7 +177,7 @@ namespace _Game._Scripts
                 return;
             }
 
-            Vector2 screenPos = GetActiveScreenPosition();
+            var screenPos = GetActiveScreenPosition();
 
             var parent = _background.parent as RectTransform;
             if (parent == null)
@@ -207,20 +202,18 @@ namespace _Game._Scripts
             _handle.anchoredPosition = clamped;
 
             var raw = clamped / Mathf.Max(1f, _radius);
-            m_Input = (raw.magnitude < _deadZone) ? Vector2.zero : raw;
+            m_Input = raw.magnitude < _deadZone ? Vector2.zero : raw;
         }
 
         private Vector2 GetActiveScreenPosition()
         {
             if (Input.touchCount > 0 && m_ActiveFingerId >= 0)
-            {
-                for (int i = 0; i < Input.touchCount; i++)
+                for (var i = 0; i < Input.touchCount; i++)
                 {
                     var t = Input.GetTouch(i);
                     if (t.fingerId == m_ActiveFingerId)
                         return t.position;
                 }
-            }
 
             return Input.mousePosition;
         }
@@ -273,16 +266,16 @@ namespace _Game._Scripts
 
         private void ResetHandle()
         {
-            if (_handle != null)
+            if (_handle)
                 _handle.anchoredPosition = Vector2.zero;
         }
 
         private void SetVisualActive(bool active)
         {
-            if (_background != null)
+            if (_background)
                 _background.gameObject.SetActive(active);
 
-            if (_handle != null)
+            if (_handle)
                 _handle.gameObject.SetActive(active);
         }
     }

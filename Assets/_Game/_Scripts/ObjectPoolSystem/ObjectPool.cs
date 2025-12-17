@@ -1,28 +1,25 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace _Game._Scripts.ObjectPoolSystem
 {
     /// <summary>
-    /// General purpose object pool (Queue-based).
-    /// - Uses SetActive for lifecycle
-    /// - If no inactive instance is available, instantiates a new one
-    /// - No "auto expand" toggle: it always creates when needed
+    ///     General purpose object pool (Queue-based).
+    ///     - Uses SetActive for lifecycle
+    ///     - If no inactive instance is available, instantiates a new one
+    ///     - No "auto expand" toggle: it always creates when needed
     /// </summary>
     public sealed class ObjectPool<T> where T : Component
     {
-        private readonly T m_Prefab;
-        private readonly Transform m_Parent;
+        private readonly HashSet<int> m_ActiveInstanceIds = new();
+        private readonly HashSet<int> m_InactiveInstanceIds = new();
+
+        private readonly Queue<T> m_InactiveQueue = new(64);
         private readonly bool m_KeepWorldPositionWhenParenting;
-
-        private readonly Queue<T> m_InactiveQueue = new Queue<T>(64);
-        private readonly HashSet<int> m_InactiveInstanceIds = new HashSet<int>();
-        private readonly HashSet<int> m_ActiveInstanceIds = new HashSet<int>();
-
-        public int TotalCreated { get; private set; }
-        public int ActiveCount => m_ActiveInstanceIds.Count;
-        public int InactiveCount => m_InactiveQueue.Count;
+        private readonly Transform m_Parent;
+        private readonly T m_Prefab;
 
         public ObjectPool(
             T prefab,
@@ -40,6 +37,10 @@ namespace _Game._Scripts.ObjectPoolSystem
                 Prewarm(prewarmCount);
         }
 
+        public int TotalCreated { get; private set; }
+        public int ActiveCount => m_ActiveInstanceIds.Count;
+        public int InactiveCount => m_InactiveQueue.Count;
+
         public void Prewarm(int count)
         {
             if (count <= 0) return;
@@ -54,10 +55,7 @@ namespace _Game._Scripts.ObjectPoolSystem
         public T Get(Vector3 position, Quaternion rotation)
         {
             var instance = TryDequeueInactive();
-            if (instance == null)
-            {
-                instance = CreateNewInstance();
-            }
+            if (instance == null) instance = CreateNewInstance();
 
             ActivateInstance(instance, position, rotation);
             return instance;
@@ -66,10 +64,7 @@ namespace _Game._Scripts.ObjectPoolSystem
         public T Get(Transform followParent, bool worldPositionStays = true)
         {
             var instance = TryDequeueInactive();
-            if (instance == null)
-            {
-                instance = CreateNewInstance();
-            }
+            if (instance == null) instance = CreateNewInstance();
 
             instance.transform.SetParent(followParent, worldPositionStays);
             instance.gameObject.SetActive(true);
@@ -92,7 +87,7 @@ namespace _Game._Scripts.ObjectPoolSystem
             CallPoolableDespawned(instance);
 
             // Optional: reset parent back to pool parent.
-            if (m_Parent != null)
+            if (m_Parent)
                 instance.transform.SetParent(m_Parent, m_KeepWorldPositionWhenParenting);
 
             DeactivateAndEnqueue(instance);
@@ -130,7 +125,7 @@ namespace _Game._Scripts.ObjectPoolSystem
 
         private T CreateNewInstance()
         {
-            var instance = UnityEngine.Object.Instantiate(m_Prefab, m_Parent);
+            var instance = Object.Instantiate(m_Prefab, m_Parent);
             TotalCreated++;
 
             instance.gameObject.SetActive(false);
@@ -144,7 +139,7 @@ namespace _Game._Scripts.ObjectPoolSystem
             tr.SetPositionAndRotation(position, rotation);
 
             // Parent it to pool parent (optional) without breaking world transform if requested.
-            if (m_Parent != null)
+            if (m_Parent)
                 tr.SetParent(m_Parent, m_KeepWorldPositionWhenParenting);
 
             instance.gameObject.SetActive(true);

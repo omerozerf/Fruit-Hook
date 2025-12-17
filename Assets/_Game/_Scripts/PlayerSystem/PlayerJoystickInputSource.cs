@@ -22,9 +22,15 @@ namespace _Game._Scripts.PlayerSystem
             if (!_isEnabled)
                 return;
 
-            Vector2 input = ReadJoystick();
+            var input = ReadJoystick();
             if (_movement)
                 _movement.SetMoveInput(input);
+        }
+
+        private void OnValidate()
+        {
+            if (!_movement)
+                _movement = GetComponent<PlayerMovement>();
         }
 
         private Vector2 ReadJoystick()
@@ -44,12 +50,6 @@ namespace _Game._Scripts.PlayerSystem
 
             if (!_isEnabled && _movement)
                 _movement.SetMoveInput(Vector2.zero);
-        }
-
-        private void OnValidate()
-        {
-            if (!_movement)
-                _movement = GetComponent<PlayerMovement>();
         }
     }
 }

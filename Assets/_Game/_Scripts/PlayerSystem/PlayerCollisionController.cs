@@ -4,8 +4,8 @@ using _Game._Scripts.Patterns.EventBusPattern;
 using _Game._Scripts.ScriptableObjects;
 using _Game._Scripts.SwordBubbleSystem;
 using _Game._Scripts.SwordOrbitSystem;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
 namespace _Game._Scripts.PlayerSystem
 {
@@ -13,11 +13,11 @@ namespace _Game._Scripts.PlayerSystem
     {
         [SerializeField] private bool _isPlayer;
 
-        [Header("Settings")]
-        [SerializeField] private PlayerCollisionSettingsSO _settings;
+        [Header("Settings")] [SerializeField] private PlayerCollisionSettingsSO _settings;
 
-        [Header("References")]
-        [SerializeField] private PlayerMovement _playerMovement;
+        [Header("References")] [SerializeField]
+        private PlayerMovement _playerMovement;
+
         [SerializeField] private PlayerVisualController _playerVisualController;
         [SerializeField] private PlayerHealthController _playerHealthController;
         [SerializeField] private SwordOrbitController _swordOrbitController;
@@ -29,7 +29,8 @@ namespace _Game._Scripts.PlayerSystem
         {
             if (!_settings)
             {
-                Debug.LogError($"{nameof(PlayerCollisionController)} on '{name}' has no PlayerCollisionSettings assigned.");
+                Debug.LogError(
+                    $"{nameof(PlayerCollisionController)} on '{name}' has no PlayerCollisionSettings assigned.");
                 enabled = false;
                 return;
             }
@@ -46,7 +47,7 @@ namespace _Game._Scripts.PlayerSystem
             HandleSwordBubbleCollision(other);
             HandleSwordCollision(other);
         }
-        
+
         private void OnValidate()
         {
             if (!_playerHealthController) _playerHealthController = GetComponentInParent<PlayerHealthController>();
@@ -55,7 +56,7 @@ namespace _Game._Scripts.PlayerSystem
             if (!_playerVisualController) _playerVisualController = GetComponentInParent<PlayerVisualController>();
         }
 
-        
+
         private void HandleSwordCollision(Collider2D other)
         {
             if (!IsInLayerMask(other.gameObject, _settings.SwordLayerMask)) return;
@@ -66,7 +67,7 @@ namespace _Game._Scripts.PlayerSystem
             if (_isPlayer) PlayCameraShake();
             AudioService.Instance.PlaySfx(AudioService.SfxId.DamageHit);
         }
-        
+
         private void HandleSwordBubbleCollision(Collider2D other)
         {
             if (!IsInLayerMask(other.gameObject, _settings.BubbleSwordLayerMask)) return;
@@ -81,7 +82,6 @@ namespace _Game._Scripts.PlayerSystem
                 });
                 if (_isPlayer) AudioService.Instance.PlaySfx(AudioService.SfxId.BubbleSword);
             });
-            
         }
 
         private bool IsInLayerMask(GameObject obj, LayerMask mask)
@@ -92,7 +92,7 @@ namespace _Game._Scripts.PlayerSystem
 
         private void ApplyKnockback(Collider2D other)
         {
-            if (_rigidbody2D == null) return;
+            if (!_rigidbody2D) return;
 
             Vector2 knockbackDirection = (transform.position - other.transform.position).normalized;
             _rigidbody2D.AddForce(knockbackDirection * _settings.KnockbackForce, ForceMode2D.Impulse);
@@ -101,10 +101,10 @@ namespace _Game._Scripts.PlayerSystem
 
         private void PlayCameraShake()
         {
-            Camera cam = Camera.main;
+            var cam = Camera.main;
             if (!cam) return;
 
-            Transform camTransform = cam.transform;
+            var camTransform = cam.transform;
 
             m_CameraShakeTween?.Kill();
 
@@ -112,9 +112,7 @@ namespace _Game._Scripts.PlayerSystem
                 .DOShakePosition(
                     _settings.ShakeDuration,
                     new Vector3(_settings.ShakeStrength, _settings.ShakeStrength, 0f),
-                    vibrato: 20,
-                    randomness: 90f,
-                    fadeOut: true
+                    20
                 )
                 .SetUpdate(true);
         }

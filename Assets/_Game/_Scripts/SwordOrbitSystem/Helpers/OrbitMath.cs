@@ -26,7 +26,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
         {
             if (cam == null)
             {
-                var dirFallback = (fromWorldPos - centerWorld);
+                var dirFallback = fromWorldPos - centerWorld;
                 if (dirFallback.sqrMagnitude < 0.0001f)
                     dirFallback = Vector3.right;
 
@@ -34,7 +34,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
                 return fromWorldPos + dirFallback * (fallbackRadius + offscreenMargin + 5f);
             }
 
-            var dir = (fromWorldPos - centerWorld);
+            var dir = fromWorldPos - centerWorld;
             if (dir.sqrMagnitude < 0.0001f)
                 dir = Vector3.right;
 
@@ -49,11 +49,11 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
             var needX = halfWidth + offscreenMargin;
             var needY = halfHeight + offscreenMargin;
 
-            var tx = (Mathf.Abs(dir.x) < 0.0001f) ? float.PositiveInfinity : (needX / Mathf.Abs(dir.x));
-            var ty = (Mathf.Abs(dir.y) < 0.0001f) ? float.PositiveInfinity : (needY / Mathf.Abs(dir.y));
+            var tx = Mathf.Abs(dir.x) < 0.0001f ? float.PositiveInfinity : needX / Mathf.Abs(dir.x);
+            var ty = Mathf.Abs(dir.y) < 0.0001f ? float.PositiveInfinity : needY / Mathf.Abs(dir.y);
             var t = Mathf.Min(tx, ty);
 
-            var edgePos = camCenter + (dir * t);
+            var edgePos = camCenter + dir * t;
             return edgePos + dir * offscreenMargin;
         }
     }

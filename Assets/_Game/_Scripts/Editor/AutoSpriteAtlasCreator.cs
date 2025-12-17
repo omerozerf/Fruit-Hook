@@ -5,7 +5,7 @@ using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.U2D;
 
-namespace _Scripts.Editor
+namespace _Game._Scripts.Editor
 {
     public static class AutoSpriteAtlasCreator
     {
@@ -33,7 +33,7 @@ namespace _Scripts.Editor
             var existingAtlas = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(atlasPath);
 
             // If atlas exists, ask user whether to overwrite its contents.
-            if (existingAtlas != null)
+            if (existingAtlas)
             {
                 var overwrite = EditorUtility.DisplayDialog(
                     "Sprite Atlas",
@@ -46,7 +46,7 @@ namespace _Scripts.Editor
             }
 
             // Create new or reuse existing
-            var atlas = existingAtlas != null ? existingAtlas : new SpriteAtlas();
+            var atlas = existingAtlas ? existingAtlas : new SpriteAtlas();
 
             // 1) Apply safe packing/texture settings (playable-friendly defaults)
             ApplyAtlasSettings(atlas);
@@ -58,10 +58,7 @@ namespace _Scripts.Editor
             OverwritePackables(atlas, sprites);
 
             // 4) Create asset if needed
-            if (existingAtlas == null)
-            {
-                AssetDatabase.CreateAsset(atlas, atlasPath);
-            }
+            if (existingAtlas == null) AssetDatabase.CreateAsset(atlas, atlasPath);
 
             // 5) Ensure importer flags (Include in Build etc.) are set
             EnsureImporterSettings(atlasPath);
@@ -126,7 +123,7 @@ namespace _Scripts.Editor
                 return new Sprite[0];
 
             var sprites = new Sprite[guids.Length];
-            for (int i = 0; i < guids.Length; i++)
+            for (var i = 0; i < guids.Length; i++)
             {
                 var path = AssetDatabase.GUIDToAssetPath(guids[i]);
                 sprites[i] = AssetDatabase.LoadAssetAtPath<Sprite>(path);
@@ -139,10 +136,7 @@ namespace _Scripts.Editor
         {
             // Remove existing packables (true overwrite)
             var currentPackables = atlas.GetPackables();
-            if (currentPackables != null && currentPackables.Length > 0)
-            {
-                atlas.Remove(currentPackables);
-            }
+            if (currentPackables is { Length: > 0 }) atlas.Remove(currentPackables);
 
             if (sprites == null || sprites.Length == 0)
             {
@@ -153,7 +147,7 @@ namespace _Scripts.Editor
             // Add all sprites in the folder
             // SpriteAtlas.Add accepts UnityEngine.Object[]; Sprite is an Object.
             var objects = new Object[sprites.Length];
-            for (int i = 0; i < sprites.Length; i++)
+            for (var i = 0; i < sprites.Length; i++)
                 objects[i] = sprites[i];
 
             atlas.Add(objects);
@@ -171,7 +165,8 @@ namespace _Scripts.Editor
 
             if (importer == null)
             {
-                Debug.LogWarning($"SpriteAtlasImporter not found for '{atlasAssetPath}'. Include-in-build may not be enforced here.");
+                Debug.LogWarning(
+                    $"SpriteAtlasImporter not found for '{atlasAssetPath}'. Include-in-build may not be enforced here.");
                 return;
             }
 

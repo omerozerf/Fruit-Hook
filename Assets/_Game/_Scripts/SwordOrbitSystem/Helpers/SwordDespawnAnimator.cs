@@ -7,8 +7,8 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
     internal sealed class SwordDespawnAnimator
     {
         private readonly MonoBehaviour m_Host;
-        private readonly SwordOrbitController.DespawnSettings m_Settings;
         private readonly Action<Transform> m_OnDespawnCompleted;
+        private readonly SwordOrbitController.DespawnSettings m_Settings;
         private Camera m_Cam;
 
         public SwordDespawnAnimator(
@@ -26,7 +26,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
             m_Cam = Camera.main;
         }
 
-        
+
         public void StartDespawn(Transform sword, Vector3 centerWorld, float orbitRadius)
         {
             if (!sword || !m_Host)
@@ -40,10 +40,10 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
             var startPos = sword.position;
             var targetPos = OrbitMath.GetOffscreenTargetPosition(
                 m_Cam,
-                fromWorldPos: startPos,
-                centerWorld: centerWorld,
-                fallbackRadius: orbitRadius,
-                offscreenMargin: m_Settings._offscreenMargin
+                startPos,
+                centerWorld,
+                orbitRadius,
+                m_Settings._offscreenMargin
             );
 
             var duration = Mathf.Max(0.01f, m_Settings._duration);
@@ -61,7 +61,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
 
                 sword.position = Vector3.Lerp(startPos, targetPos, eased);
 
-                var z = baseZ + (m_Settings._spinSpeed * elapsed);
+                var z = baseZ + m_Settings._spinSpeed * elapsed;
                 sword.rotation = Quaternion.Euler(0f, 0f, z);
 
                 yield return null;

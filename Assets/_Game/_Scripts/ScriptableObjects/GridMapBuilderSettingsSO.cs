@@ -6,26 +6,30 @@ namespace _Game._Scripts.ScriptableObjects
     [CreateAssetMenu(fileName = "GridMapBuilderSettings", menuName = "Game/Map/Grid Map Builder Settings", order = 0)]
     public class GridMapBuilderSettingsSO : ScriptableObject
     {
-        [Header("Grid")]
-        [Min(1)] [SerializeField] private int _width = 10;
+        [Header("Grid")] [Min(1)] [SerializeField]
+        private int _width = 10;
+
         [Min(1)] [SerializeField] private int _height = 10;
         [Min(0.01f)] [SerializeField] private float _cellSize = 1f;
 
-        [Header("Ground Prefabs (Weighted)")]
-        [SerializeField] private GridMapBuilder.WeightedPrefab[] _groundVariants;
+        [Header("Ground Prefabs (Weighted)")] [SerializeField]
+        private GridMapBuilder.WeightedPrefab[] _groundVariants;
 
-        [Header("Fence")]
-        [SerializeField] private Transform _fenceVertical;
+        [Header("Fence")] [SerializeField] private Transform _fenceVertical;
+
         [SerializeField] private Transform _fenceHorizontal;
         [SerializeField] private Transform _fenceCorner;
 
         [Header("Global Sorting")]
         [Tooltip("Assigned in decreasing order. Example: 0, -1, -2 ... (negative values are OK).")]
-        [SerializeField] private int _startSortingOrder = 0;
+        [SerializeField]
+        private int _startSortingOrder;
 
         [Header("Extra Padding")]
         [Tooltip("Number of extra tile rows/columns to generate outside the main grid on each side.")]
-        [Min(0)] [SerializeField] private int _extraPaddingCells = 0;
+        [Min(0)]
+        [SerializeField]
+        private int _extraPaddingCells;
 
         public int Width => _width;
         public int Height => _height;
