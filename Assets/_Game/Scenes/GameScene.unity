@@ -1641,6 +1641,7 @@ MonoBehaviour:
   _fenceHorizontal: {fileID: 6743821381425734164, guid: 555ca7db1c0e6495d879c29959e23c08, type: 3}
   _fenceCorner: {fileID: 6743821381425734164, guid: f149173e3ef2743b1857b479093805ef, type: 3}
   _startSortingOrder: 0
+  _extraPaddingCells: 20
 --- !u!4 &1113936022
 Transform:
   m_ObjectHideFlags: 0

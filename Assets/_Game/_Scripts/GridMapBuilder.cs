@@ -30,6 +30,10 @@ namespace _Game._Scripts
         [Tooltip("Assigned in decreasing order. Example: 0, -1, -2 ... (negative values are OK).")]
         [SerializeField] private int _startSortingOrder = 0;
 
+        [Header("Extra Padding")]
+        [Tooltip("Number of extra tile rows/columns to generate outside the main grid on each side.")]
+        [Min(0)] [SerializeField] private int _extraPaddingCells = 0;
+
         private readonly List<Transform> m_SpawnedRoots = new List<Transform>(512);
 
         
@@ -46,18 +50,45 @@ namespace _Game._Scripts
         
         private void BuildGround()
         {
+            // 1) Main grid (your intended bounds)
             for (var x = 0; x < _width; x++)
             {
                 for (var y = 0; y < _height; y++)
                 {
-                    var prefab = GetRandomWeightedGround();
-                    if (!prefab)
-                        continue;
-
-                    var instance = Instantiate(prefab, GridToWorld(x, y), Quaternion.identity, transform);
-                    m_SpawnedRoots.Add(instance);
+                    SpawnGroundAt(x, y);
                 }
             }
+
+            // 2) Extra padding outside the bounds (to avoid camera empty space)
+            if (_extraPaddingCells <= 0)
+                return;
+
+            var startX = -_extraPaddingCells;
+            var endX = _width + _extraPaddingCells;
+            var startY = -_extraPaddingCells;
+            var endY = _height + _extraPaddingCells;
+
+            for (var x = startX; x < endX; x++)
+            {
+                for (var y = startY; y < endY; y++)
+                {
+                    // Skip cells that are inside the main grid.
+                    if (x >= 0 && x < _width && y >= 0 && y < _height)
+                        continue;
+
+                    SpawnGroundAt(x, y);
+                }
+            }
+        }
+
+        private void SpawnGroundAt(int x, int y)
+        {
+            var prefab = GetRandomWeightedGround();
+            if (!prefab)
+                return;
+
+            var instance = Instantiate(prefab, GridToWorld(x, y), Quaternion.identity, transform);
+            m_SpawnedRoots.Add(instance);
         }
 
         private void BuildFence()
@@ -71,32 +102,29 @@ namespace _Game._Scripts
                 return;
             }
 
-            // Corners (4)
-            var c0 = Instantiate(_fenceCorner, GridToWorld(-1, -1), Quaternion.identity, transform);
-            m_SpawnedRoots.Add(c0);
-            var c1 = Instantiate(_fenceCorner, GridToWorld(_width, -1), Quaternion.identity, transform);
-            m_SpawnedRoots.Add(c1);
-            var c2 = Instantiate(_fenceCorner, GridToWorld(-1, _height), Quaternion.identity, transform);
-            m_SpawnedRoots.Add(c2);
-            var c3 = Instantiate(_fenceCorner, GridToWorld(_width, _height), Quaternion.identity, transform);
-            m_SpawnedRoots.Add(c3);
+            var minX = 0;
+            var maxX = _width - 1;
+            var minY = 0;
+            var maxY = _height - 1;
 
-            // Bottom & Top edges (horizontal) - exclude corners
-            for (var x = 0; x < _width; x++)
+            // Corners
+            m_SpawnedRoots.Add(Instantiate(_fenceCorner, GridToWorld(minX - 1, minY - 1), Quaternion.identity, transform));
+            m_SpawnedRoots.Add(Instantiate(_fenceCorner, GridToWorld(maxX + 1, minY - 1), Quaternion.identity, transform));
+            m_SpawnedRoots.Add(Instantiate(_fenceCorner, GridToWorld(minX - 1, maxY + 1), Quaternion.identity, transform));
+            m_SpawnedRoots.Add(Instantiate(_fenceCorner, GridToWorld(maxX + 1, maxY + 1), Quaternion.identity, transform));
+
+            // Horizontal edges
+            for (var x = minX; x <= maxX; x++)
             {
-                var h0 = Instantiate(_fenceHorizontal, GridToWorld(x, -1), Quaternion.identity, transform);
-                m_SpawnedRoots.Add(h0);
-                var h1 = Instantiate(_fenceHorizontal, GridToWorld(x, _height), Quaternion.identity, transform);
-                m_SpawnedRoots.Add(h1);
+                Instantiate(_fenceHorizontal, GridToWorld(x, minY - 1), Quaternion.identity, transform);
+                Instantiate(_fenceHorizontal, GridToWorld(x, maxY + 1), Quaternion.identity, transform);
             }
 
-            // Left & Right edges (vertical) - exclude corners
-            for (var y = 0; y < _height; y++)
+            // Vertical edges
+            for (var y = minY; y <= maxY; y++)
             {
-                var v0 = Instantiate(_fenceVertical, GridToWorld(-1, y), Quaternion.identity, transform);
-                m_SpawnedRoots.Add(v0);
-                var v1 = Instantiate(_fenceVertical, GridToWorld(_width, y), Quaternion.identity, transform);
-                m_SpawnedRoots.Add(v1);
+                m_SpawnedRoots.Add(Instantiate(_fenceVertical, GridToWorld(minX - 1, y), Quaternion.identity, transform));
+                m_SpawnedRoots.Add(Instantiate(_fenceVertical, GridToWorld(maxX + 1, y), Quaternion.identity, transform));
             }
         }
 
@@ -117,8 +145,8 @@ namespace _Game._Scripts
         private void ApplySortingForRoot(Transform root, ref int globalOrder)
         {
             // Rule: for every prefab, skip its first child (index 0).
-            // Then, for each remaining child (in hierarchy order), if it has a SpriteRenderer,
-            // assign sortingOrder from a SINGLE global decreasing counter.
+            // Then, for each remaining child (in hierarchy order), assign sortingOrder using a SINGLE global decreasing counter
+            // to every SpriteRenderer found under that child (including grandchildren).
             var childCount = root.childCount;
             for (var i = 1; i < childCount; i++)
             {
@@ -126,11 +154,16 @@ namespace _Game._Scripts
                 if (!child)
                     continue;
 
-                if (!child.TryGetComponent<SpriteRenderer>(out var sr))
-                    continue;
+                var renderers = child.GetComponentsInChildren<SpriteRenderer>(true);
+                for (var r = 0; r < renderers.Length; r++)
+                {
+                    var sr = renderers[r];
+                    if (!sr)
+                        continue;
 
-                sr.sortingOrder = globalOrder;
-                globalOrder -= 1;
+                    sr.sortingOrder = globalOrder;
+                    globalOrder -= 1;
+                }
             }
         }
 
