@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f7313945bd542efbab21b430515f662, type: 3}
-  m_Name: PlayerVisualSettingsSO
+  m_Script: {fileID: 11500000, guid: 13736dd38b454c358aeb2b7ed4920c9e, type: 3}
+  m_Name: CommonMovementSettingsSO
   m_EditorClassIdentifier: 
-  _damageFlashDuration: 0.15
+  _moveSpeed: 5
+  _knockbackDisableDuration: 0.15

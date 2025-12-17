@@ -10,20 +10,35 @@ namespace _Game._Scripts.PlayerSystem
     public class PlayerCollisionController : MonoBehaviour
     {
         [SerializeField] private bool _isPlayer;
+
+        [Header("Settings")]
+        [SerializeField] private PlayerCollisionSettingsSO _settings;
+
+        [Header("References")]
         [SerializeField] private PlayerMovement _playerMovement;
         [SerializeField] private PlayerVisualController _playerVisualController;
         [SerializeField] private PlayerHealthController _playerHealthController;
         [SerializeField] private SwordBubbleCreator _swordBubbleCreator;
         [SerializeField] private SwordOrbitController _swordOrbitController;
-        [SerializeField] private LayerMask _bubbleSwordLayerMask;
-        [SerializeField] private LayerMask _swordLayerMask;
         [SerializeField] private Rigidbody2D _rigidbody2D;
-        [SerializeField] private float _knockbackForce = 5f;
-        [SerializeField] private float _shakeDuration = 0.3f;
-        [SerializeField] private float _shakeStrength = 0.7f;
 
         private Tween m_CameraShakeTween;
 
+        private void Awake()
+        {
+            if (!_settings)
+            {
+                Debug.LogError($"{nameof(PlayerCollisionController)} on '{name}' has no PlayerCollisionSettings assigned.");
+                enabled = false;
+                return;
+            }
+
+            // Runtime safety if OnValidate didn't run (e.g., in builds)
+            if (!_playerHealthController) _playerHealthController = GetComponentInParent<PlayerHealthController>();
+            if (!_rigidbody2D) _rigidbody2D = GetComponentInParent<Rigidbody2D>();
+            if (!_playerMovement) _playerMovement = GetComponentInParent<PlayerMovement>();
+            if (!_playerVisualController) _playerVisualController = GetComponentInParent<PlayerVisualController>();
+        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -42,7 +57,7 @@ namespace _Game._Scripts.PlayerSystem
         
         private void HandleSwordCollision(Collider2D other)
         {
-            if (!IsInLayerMask(other.gameObject, _swordLayerMask)) return;
+            if (!IsInLayerMask(other.gameObject, _settings.SwordLayerMask)) return;
 
             _playerHealthController.TakeDamage(1);
             _playerVisualController.PlayDamageFlash();
@@ -53,7 +68,7 @@ namespace _Game._Scripts.PlayerSystem
         
         private void HandleSwordBubbleCollision(Collider2D other)
         {
-            if (!IsInLayerMask(other.gameObject, _bubbleSwordLayerMask)) return;
+            if (!IsInLayerMask(other.gameObject, _settings.BubbleSwordLayerMask)) return;
             if (!other.TryGetComponent(out SwordBubbleCollision swordBubbleCollision)) return;
 
             swordBubbleCollision.GetSwordBubble().PlayPickupToCenter(transform, () =>
@@ -76,7 +91,7 @@ namespace _Game._Scripts.PlayerSystem
             if (_rigidbody2D == null) return;
 
             Vector2 knockbackDirection = (transform.position - other.transform.position).normalized;
-            _rigidbody2D.AddForce(knockbackDirection * _knockbackForce, ForceMode2D.Impulse);
+            _rigidbody2D.AddForce(knockbackDirection * _settings.KnockbackForce, ForceMode2D.Impulse);
             _playerMovement.LockMovementTemporarily();
         }
 
@@ -91,8 +106,8 @@ namespace _Game._Scripts.PlayerSystem
 
             m_CameraShakeTween = camTransform
                 .DOShakePosition(
-                    _shakeDuration,
-                    new Vector3(_shakeStrength, _shakeStrength, 0f),
+                    _settings.ShakeDuration,
+                    new Vector3(_settings.ShakeStrength, _settings.ShakeStrength, 0f),
                     vibrato: 20,
                     randomness: 90f,
                     fadeOut: true

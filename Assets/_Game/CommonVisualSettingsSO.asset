@@ -9,13 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c451c80281441ba97034b558404de20, type: 3}
-  m_Name: PlayerAnimatorSettingsSO
+  m_Script: {fileID: 11500000, guid: 9f7313945bd542efbab21b430515f662, type: 3}
+  m_Name: CommonVisualSettingsSO
   m_EditorClassIdentifier: 
-  _idleMoveY: 0.95
-  _idleMoveX: 1.05
-  _idleDuration: 0.45
-  _movingIdleSpeedMultiplier: 4
-  _footStepAngle: 12
-  _footStepDuration: 0.2
-  _footStepMoveX: 0.3
+  _damageFlashDuration: 0.15

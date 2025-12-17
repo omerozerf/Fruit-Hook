@@ -11,24 +11,12 @@ namespace _Game._Scripts.SwordOrbitSystem
     public sealed class SwordOrbitController : MonoBehaviour
     {
         [SerializeField] private bool _isPlayer;
-        [Header("Orbit Settings")]
-        [SerializeField] private OrbitSettings _orbit = OrbitSettings.Default;
 
-        [Header("Despawn Settings")]
-        [SerializeField] private DespawnSettings _despawn = DespawnSettings.Default;
+        [Header("Settings")]
+        [SerializeField] private SwordOrbitSettingsSO _settings;
 
         [Header("References")]
         [SerializeField] private OrbitReferences _references = OrbitReferences.Default;
-
-        [Header("Pooling")]
-        [SerializeField] private int _prewarmCount = 8;
-
-        [Header("Test Settings")]
-        [SerializeField] private TestSettings _test = TestSettings.Default;
-        
-        [Header("Camera Shake")]
-        [SerializeField] private float _shakeDuration = 0.3f;
-        [SerializeField] private float _shakeStrength = 0.7f;
 
         private Tween m_CameraShakeTween;
 
@@ -43,26 +31,33 @@ namespace _Game._Scripts.SwordOrbitSystem
 
         private void Awake()
         {
+            if (!_settings)
+            {
+                Debug.LogError($"{nameof(SwordOrbitController)} on '{name}' has no SwordOrbitSettings assigned.");
+                enabled = false;
+                return;
+            }
+
             m_Cam = Camera.main;
             if (_references._swordPrefab != null)
             {
                 m_SwordPool = new ObjectPool<Transform>(
                     prefab: _references._swordPrefab,
                     parent: transform,
-                    prewarmCount: Mathf.Max(0, _prewarmCount),
+                    prewarmCount: Mathf.Max(0, _settings.PrewarmCount),
                     keepWorldPositionWhenParenting: false
                 );
             }
 
-            m_DespawnAnimator = new SwordDespawnAnimator(this, _despawn, OnSwordDespawnCompleted);
+            m_DespawnAnimator = new SwordDespawnAnimator(this, _settings.Despawn, OnSwordDespawnCompleted);
         }
 
         private void Update()
         {
-            if (_test._enableTestSpawning)
+            if (_settings.Test._enableTestSpawning)
                 TickTestSpawning();
 
-            if (_test._enableTestRemoval)
+            if (_settings.Test._enableTestRemoval)
                 TickTestRemoval();
 
             TickOrbit();
@@ -106,7 +101,7 @@ namespace _Game._Scripts.SwordOrbitSystem
             var sword = swordTransform.GetComponent<Sword>();
             sword.SetSwordOrbitController(null);
             sword.SetColliderEnabled(false);
-            m_DespawnAnimator.StartDespawn(swordTransform, transform.position, _orbit._radius);
+            m_DespawnAnimator.StartDespawn(swordTransform, transform.position, _settings.Orbit._radius);
 
             if (_isPlayer) PlayCameraShake();
         }
@@ -121,8 +116,8 @@ namespace _Game._Scripts.SwordOrbitSystem
 
             m_CameraShakeTween = camTransform
                 .DOShakePosition(
-                    _shakeDuration,
-                    new Vector3(_shakeStrength, _shakeStrength, 0f),
+                    _settings.ShakeDuration,
+                    new Vector3(_settings.ShakeStrength, _settings.ShakeStrength, 0f),
                     vibrato: 20,
                     randomness: 90f,
                     fadeOut: true
@@ -144,7 +139,7 @@ namespace _Game._Scripts.SwordOrbitSystem
         private void AddSwordToOrbit(Transform sword)
         {
             sword.GetComponent<Sword>().SetSwordOrbitController(this);
-            m_OrbitList.Add(sword, _orbit._spawnGrowDuration);
+            m_OrbitList.Add(sword, _settings.Orbit._spawnGrowDuration);
             m_OrbitList.RecalculateTargetAngles();
         }
 
@@ -154,7 +149,7 @@ namespace _Game._Scripts.SwordOrbitSystem
                 return;
 
             m_SpawnTimer += Time.deltaTime;
-            if (m_SpawnTimer < _test._spawnInterval)
+            if (m_SpawnTimer < _settings.Test._spawnInterval)
                 return;
 
             m_SpawnTimer = 0f;
@@ -167,7 +162,7 @@ namespace _Game._Scripts.SwordOrbitSystem
                 return;
 
             m_RemoveTimer += Time.deltaTime;
-            if (m_RemoveTimer < _test._removeInterval)
+            if (m_RemoveTimer < _settings.Test._removeInterval)
                 return;
 
             m_RemoveTimer = 0f;
@@ -181,17 +176,17 @@ namespace _Game._Scripts.SwordOrbitSystem
         {
             m_OrbitList.TickOrbit(
                 deltaTime: Time.deltaTime,
-                radius: _orbit._radius,
-                smoothSpeed: _orbit._smoothSpeed
+                radius: _settings.Orbit._radius,
+                smoothSpeed: _settings.Orbit._smoothSpeed
             );
         }
 
         private void TickRotation()
         {
-            if (Mathf.Abs(_orbit._rotationSpeed) < 0.0001f)
+            if (Mathf.Abs(_settings.Orbit._rotationSpeed) < 0.0001f)
                 return;
 
-            transform.Rotate(0f, 0f, -_orbit._rotationSpeed * Time.deltaTime);
+            transform.Rotate(0f, 0f, -_settings.Orbit._rotationSpeed * Time.deltaTime);
         }
         
         public int GetSwordCount()
@@ -200,7 +195,7 @@ namespace _Game._Scripts.SwordOrbitSystem
         }
 
         [Serializable]
-        private struct OrbitSettings
+        public struct OrbitSettings
         {
             public float _radius;
             public float _rotationSpeed;
@@ -245,7 +240,7 @@ namespace _Game._Scripts.SwordOrbitSystem
         }
 
         [Serializable]
-        private struct TestSettings
+        public struct TestSettings
         {
             public bool _enableTestSpawning;
             public float _spawnInterval;
