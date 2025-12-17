@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 8956030094511625429}
   - component: {fileID: 49963136931663661}
   m_Layer: 0
-  m_Name: visual_vertical_connectir
+  m_Name: visual_vertical_connector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

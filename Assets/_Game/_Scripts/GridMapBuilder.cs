@@ -35,16 +35,19 @@ namespace _Game._Scripts
         [Min(0)] [SerializeField] private int _extraPaddingCells = 0;
 
         private readonly List<Transform> m_SpawnedRoots = new List<Transform>(512);
+        private readonly List<Transform> m_TopCornerRoots = new List<Transform>(4);
 
         
         private void Awake()
         {
             m_SpawnedRoots.Clear();
+            m_TopCornerRoots.Clear();
 
             BuildGround();
             BuildFence();
 
             ApplyGlobalSorting();
+            DisableTopCornerLastRenderers();
         }
 
         
@@ -108,10 +111,22 @@ namespace _Game._Scripts
             var maxY = _height - 1;
 
             // Corners
-            m_SpawnedRoots.Add(Instantiate(_fenceCorner, GridToWorld(minX - 1, minY - 1), Quaternion.identity, transform));
-            m_SpawnedRoots.Add(Instantiate(_fenceCorner, GridToWorld(maxX + 1, minY - 1), Quaternion.identity, transform));
-            m_SpawnedRoots.Add(Instantiate(_fenceCorner, GridToWorld(minX - 1, maxY + 1), Quaternion.identity, transform));
-            m_SpawnedRoots.Add(Instantiate(_fenceCorner, GridToWorld(maxX + 1, maxY + 1), Quaternion.identity, transform));
+            var bottomLeft = Instantiate(_fenceCorner, GridToWorld(minX - 1, minY - 1), Quaternion.identity, transform);
+            m_SpawnedRoots.Add(bottomLeft);
+
+            // Bottom-right corner should be vertical (no corner prefab)
+            var bottomRight = Instantiate(_fenceVertical, GridToWorld(maxX + 1, minY - 1), Quaternion.identity, transform);
+            m_SpawnedRoots.Add(bottomRight);
+
+            // Top-left corner should be vertical
+            var topLeft = Instantiate(_fenceVertical, GridToWorld(minX - 1, maxY + 1), Quaternion.identity, transform);
+            m_SpawnedRoots.Add(topLeft);
+            m_TopCornerRoots.Add(topLeft);
+
+            // Top-right corner should be vertical
+            var topRight = Instantiate(_fenceVertical, GridToWorld(maxX + 1, maxY + 1), Quaternion.identity, transform);
+            m_SpawnedRoots.Add(topRight);
+            m_TopCornerRoots.Add(topRight);
 
             // Horizontal edges
             for (var x = minX; x <= maxX; x++)
@@ -132,13 +147,69 @@ namespace _Game._Scripts
         {
             var order = _startSortingOrder;
 
+            // 1) Sort everything EXCEPT top corners first
             for (var i = 0; i < m_SpawnedRoots.Count; i++)
             {
                 var root = m_SpawnedRoots[i];
                 if (!root)
                     continue;
 
+                if (m_TopCornerRoots.Contains(root))
+                    continue;
+
                 ApplySortingForRoot(root, ref order);
+            }
+
+            // 2) Sort top corners LAST, continuing from the remaining global order
+            for (var i = 0; i < m_TopCornerRoots.Count; i++)
+            {
+                var root = m_TopCornerRoots[i];
+                if (!root)
+                    continue;
+
+                ApplySortingForRoot(root, ref order);
+            }
+        }
+
+        private void DisableTopCornerLastRenderers()
+        {
+            for (var i = 0; i < m_TopCornerRoots.Count; i++)
+            {
+                var root = m_TopCornerRoots[i];
+                if (!root)
+                    continue;
+
+                DisableLastRendererInSortingTraversal(root);
+            }
+        }
+
+        private void DisableLastRendererInSortingTraversal(Transform root)
+        {
+            // “Last” means: the last SpriteRenderer encountered by the SAME traversal order we use for sorting
+            // (skip child(0), then walk children in order, then GetComponentsInChildren order).
+            SpriteRenderer last = null;
+
+            var childCount = root.childCount;
+            for (var i = 1; i < childCount; i++)
+            {
+                var child = root.GetChild(i);
+                if (!child)
+                    continue;
+
+                var renderers = child.GetComponentsInChildren<SpriteRenderer>(true);
+                for (var r = 0; r < renderers.Length; r++)
+                {
+                    var sr = renderers[r];
+                    if (!sr)
+                        continue;
+
+                    last = sr;
+                }
+            }
+
+            if (last != null)
+            {
+                last.enabled = false;
             }
         }
 
