@@ -1,3 +1,6 @@
+using System;
+using _Game._Scripts.GameEvents;
+using _Game._Scripts.Patterns.EventBusPattern;
 using DG.Tweening;
 using UnityEngine;
 
@@ -19,7 +22,6 @@ namespace _Game._Scripts
         [SerializeField] private float _hintAmplitude = 45f;
         [SerializeField] private float _hintVerticalScale = 0.5f;
         [SerializeField] private float _hintLoopDuration = 1.2f;
-        [SerializeField] private Ease _hintEase = Ease.InOutSine;
 
         [Header("Optional")]
         [SerializeField] private Canvas _canvas;
@@ -32,6 +34,7 @@ namespace _Game._Scripts
         private Tween m_HintTween;
         private Vector2 m_Input;
         private bool m_IsActive;
+        private EventBinding<EndCardShowed> m_EndCardShowedEventBinding;
 
         public float Horizontal => m_Input.x;
         public float Vertical => m_Input.y;
@@ -40,14 +43,17 @@ namespace _Game._Scripts
 
         private void Awake()
         {
-            if (!_canvas)
-                _canvas = GetComponentInParent<Canvas>();
-
             if (!_uiCamera && _canvas && _canvas.renderMode != RenderMode.ScreenSpaceOverlay)
                 _uiCamera = _canvas.worldCamera;
 
             SetVisualActive(false);
             ResetHandle();
+        }
+
+        private void OnEnable()
+        {
+            m_EndCardShowedEventBinding = new EventBinding<EndCardShowed>(HandleEndCardShowed);
+            EventBus<EndCardShowed>.Subscribe(m_EndCardShowedEventBinding);
         }
 
         private void Start()
@@ -64,6 +70,7 @@ namespace _Game._Scripts
         private void OnDisable()
         {
             KillHintTween();
+            EventBus<EndCardShowed>.Unsubscribe(m_EndCardShowedEventBinding);
         }
 
         private void OnDestroy()
@@ -73,6 +80,9 @@ namespace _Game._Scripts
 
         private void OnValidate()
         {
+            if (!_canvas)
+                _canvas = GetComponentInParent<Canvas>();
+            
             _radius = Mathf.Max(1f, _radius);
             _deadZone = Mathf.Clamp01(_deadZone);
 
@@ -82,6 +92,12 @@ namespace _Game._Scripts
         }
 
 
+        private void HandleEndCardShowed()
+        {
+            _canvas.enabled = false;
+        }
+        
+        
         private void UpdatePointerState()
         {
             if (Input.GetMouseButtonDown(0))

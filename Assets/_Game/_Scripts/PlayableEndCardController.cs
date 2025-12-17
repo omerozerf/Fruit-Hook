@@ -11,7 +11,6 @@ namespace _Game._Scripts
         [Header("References")]
         [SerializeField] private Canvas _canvas;
         [SerializeField] private Button _ctaButton;
-        [SerializeField] private Canvas _floatingJoystickCanvas;
         [SerializeField] private CanvasGroup _canvasGroup;
 
         [Header("Settings")]
@@ -69,7 +68,6 @@ namespace _Game._Scripts
             if (m_IsShown) return;
             m_IsShown = true;
 
-            _floatingJoystickCanvas.enabled = false;
             if (_canvas) _canvas.enabled = true;
 
             if (_canvasGroup)
@@ -83,6 +81,7 @@ namespace _Game._Scripts
 #if UNITY_WEBGL && !UNITY_EDITOR
             Luna.Unity.LifeCycle.GameEnded();
 #endif
+            EventBus<EndCardShowed>.Publish(new EndCardShowed());
         }
 
         private void HideImmediate()

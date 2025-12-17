@@ -9,8 +9,6 @@ namespace _Game._Scripts.SwordSystem
         [SerializeField] private bool _isPlayer;
         [SerializeField] private Sword _sword;
         [SerializeField] private LayerMask _swordLayerMask;
-        [SerializeField] private float _shakeDuration = 0.3f;
-        [SerializeField] private float _shakeStrength = 0.7f;
 
         private Tween m_CameraShakeTween;
 
