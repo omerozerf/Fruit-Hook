@@ -2340,10 +2340,6 @@
                 "excluded": true
             },
             {
-                "name": "UnityEngine.MeshFilter",
-                "excluded": true
-            },
-            {
                 "name": "UnityEngine.ParticleSystem",
                 "excluded": true
             },
@@ -2433,10 +2429,6 @@
             },
             {
                 "name": "UnityEngine.MeshCollider",
-                "excluded": true
-            },
-            {
-                "name": "UnityEngine.MeshRenderer",
                 "excluded": true
             },
             {
@@ -10991,7 +10983,7 @@
                 "instanceMethods": [
                     {
                         "name": "init",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "getDefaultValue",
@@ -10999,7 +10991,7 @@
                     },
                     {
                         "name": "Current#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$Collections$IEnumerator$Current#get",
@@ -11019,7 +11011,7 @@
                     },
                     {
                         "name": "$ctor1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ctor",
@@ -11027,11 +11019,11 @@
                     },
                     {
                         "name": "moveNext",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Dispose",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$Collections$IEnumerator$reset",
@@ -14881,7 +14873,7 @@
                     },
                     {
                         "name": "Reset",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -15545,7 +15537,7 @@
                     },
                     {
                         "name": "xMin#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "xMin#set",
@@ -15569,7 +15561,7 @@
                     },
                     {
                         "name": "yMin#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "yMin#set",
@@ -15585,7 +15577,7 @@
                     },
                     {
                         "name": "$ctor1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ctor",
@@ -16877,7 +16869,7 @@
                     },
                     {
                         "name": "name#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "name#set",
@@ -16885,11 +16877,11 @@
                     },
                     {
                         "name": "width#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "height#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "filterMode#get",
@@ -16987,7 +16979,7 @@
                     },
                     {
                         "name": "mainTexture#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "color#get",
@@ -17003,7 +16995,7 @@
                     },
                     {
                         "name": "shader#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "passCount#get",
@@ -17051,7 +17043,7 @@
                     },
                     {
                         "name": "$ctor2",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "CopyPropertiesFromMaterial",
@@ -17155,7 +17147,7 @@
                     },
                     {
                         "name": "SetTexture$1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "SetTexture",
@@ -17325,7 +17317,7 @@
                     },
                     {
                         "name": "localToWorldMatrix#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "localPosition#get",
@@ -18379,7 +18371,7 @@
                     },
                     {
                         "name": "sharedMaterial#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "sharedMaterials#get",
@@ -18419,7 +18411,7 @@
                     },
                     {
                         "name": "sortingOrder#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "sortingOrder#set",
@@ -18427,15 +18419,15 @@
                     },
                     {
                         "name": "sortingLayerID#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "sortingLayerID#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "sortingLayerIndex#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "sortingLayerIndex#set",
@@ -18861,7 +18853,7 @@
                     },
                     {
                         "name": "sprite#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "sprite#set",
@@ -20593,7 +20585,7 @@
                     },
                     {
                         "name": "name#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "vertices#get",
@@ -20967,7 +20959,7 @@
                     },
                     {
                         "name": "pixelsPerUnit#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "packed#get",
@@ -20995,19 +20987,19 @@
                     },
                     {
                         "name": "rect#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "border#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "textureRect#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "bounds#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "textureRectOffset#get",
@@ -21035,7 +21027,7 @@
                     },
                     {
                         "name": "pivot#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "associatedAlphaSplitTexture#get",
@@ -22571,7 +22563,7 @@
                     },
                     {
                         "name": "HandleEndOfFrame",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "MoveNext",
@@ -32167,7 +32159,7 @@
                 "instanceMethods": [
                     {
                         "name": "DOFade",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "DOFade$1",
@@ -33148,7 +33140,7 @@
                 ]
             },
             {
-                "className": "_Game._Scripts.EnemyMoveSystem.EnemyAISettingsSO",
+                "className": "_Game._Scripts.ScriptableObjects.EnemyAISettingsSO",
                 "staticMethods": [],
                 "instanceMethods": [
                     {
@@ -33185,11 +33177,11 @@
                     },
                     {
                         "name": "ThreatExitRange#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "MinFleeStrength#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "SeekWeight#get",
@@ -33218,7 +33210,7 @@
                 ]
             },
             {
-                "className": "_Game._Scripts.GridMapBuilderSettingsSO",
+                "className": "_Game._Scripts.ScriptableObjects.GridMapBuilderSettingsSO",
                 "staticMethods": [],
                 "instanceMethods": [
                     {
@@ -33264,7 +33256,7 @@
                 ]
             },
             {
-                "className": "_Game._Scripts.PlayerSystem.PlayerAnimatorSettingsSO",
+                "className": "_Game._Scripts.ScriptableObjects.PlayerAnimatorSettingsSO",
                 "staticMethods": [],
                 "instanceMethods": [
                     {
@@ -33298,7 +33290,7 @@
                 ]
             },
             {
-                "className": "_Game._Scripts.PlayerSystem.PlayerCollisionSettingsSO",
+                "className": "_Game._Scripts.ScriptableObjects.PlayerCollisionSettingsSO",
                 "staticMethods": [],
                 "instanceMethods": [
                     {
@@ -33311,15 +33303,15 @@
                     },
                     {
                         "name": "KnockbackForce#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ShakeDuration#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ShakeStrength#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "init",
@@ -33328,7 +33320,7 @@
                 ]
             },
             {
-                "className": "_Game._Scripts.PlayerSystem.PlayerHealthSettingsSO",
+                "className": "_Game._Scripts.ScriptableObjects.PlayerHealthSettingsSO",
                 "staticMethods": [],
                 "instanceMethods": [
                     {
@@ -33337,11 +33329,11 @@
                     },
                     {
                         "name": "WhiteBarDelay#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "WhiteBarTweenDuration#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "FullHealthColor#get",
@@ -33349,23 +33341,23 @@
                     },
                     {
                         "name": "MidHealthColor#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "LowHealthColor#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "DeathMoveDistance#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "DeathDuration#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "DeathEase#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "init",
@@ -33374,7 +33366,7 @@
                 ]
             },
             {
-                "className": "_Game._Scripts.PlayerSystem.PlayerMovementSettingsSO",
+                "className": "_Game._Scripts.ScriptableObjects.PlayerMovementSettingsSO",
                 "staticMethods": [],
                 "instanceMethods": [
                     {
@@ -33383,22 +33375,22 @@
                     },
                     {
                         "name": "KnockbackDisableDuration#get",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
             {
-                "className": "_Game._Scripts.PlayerSystem.PlayerVisualSettingsSO",
+                "className": "_Game._Scripts.ScriptableObjects.PlayerVisualSettingsSO",
                 "staticMethods": [],
                 "instanceMethods": [
                     {
                         "name": "DamageFlashDuration#get",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
             {
-                "className": "_Game._Scripts.SwordBubbleSystem.SwordBubbleCreatorSettingsSO",
+                "className": "_Game._Scripts.ScriptableObjects.SwordBubbleCreatorSettingsSO",
                 "staticMethods": [],
                 "instanceMethods": [
                     {
@@ -33440,7 +33432,7 @@
                 ]
             },
             {
-                "className": "_Game._Scripts.SwordOrbitSystem.SwordOrbitSettingsSO",
+                "className": "_Game._Scripts.ScriptableObjects.SwordOrbitSettingsSO",
                 "staticMethods": [],
                 "instanceMethods": [
                     {
@@ -33461,15 +33453,199 @@
                     },
                     {
                         "name": "ShakeDuration#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ShakeStrength#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "init",
                         "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.MeshFilter",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "mesh#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "mesh#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "sharedMesh#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "sharedMesh#set",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdateMeshInHandle",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.MeshRenderer",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDidApplyAnimationProperties",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.Rendering.SpriteMapBaker",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "CollectSpriteRenderers",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GroupByTextureAndSorting",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GroupByTextureOnly",
+                        "excluded": true
+                    },
+                    {
+                        "name": "CreateSpriteMaterial",
+                        "excluded": false
+                    },
+                    {
+                        "name": "AddSimpleQuad",
+                        "excluded": false
+                    },
+                    {
+                        "name": "AddSliced9Patch",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetQuadFromSpriteBounds",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetQuadUVFromSpriteRect",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Start",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Bake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ValidateReferences",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ClearPreviousBake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BakeGroupToChunks",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetCellBounds",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CollectChunkRenderers",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CreateChunkMesh",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BuildMesh",
+                        "excluded": false
+                    },
+                    {
+                        "name": "WorldToCell",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PostBakeCleanup",
+                        "excluded": false
+                    },
+                    {
+                        "name": "EstimateVertexCount",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SplitByVertexBudget",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BakeAfterDelay",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.Rendering.SpriteMapBaker.GroupKey",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "inherits",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getDefaultValue",
+                        "excluded": false
+                    },
+                    {
+                        "name": "$ctor1",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "equalsT",
+                        "excluded": false
+                    },
+                    {
+                        "name": "equals",
+                        "excluded": true
+                    },
+                    {
+                        "name": "getHashCode",
+                        "excluded": false
+                    },
+                    {
+                        "name": "$clone",
+                        "excluded": true
                     }
                 ]
             }

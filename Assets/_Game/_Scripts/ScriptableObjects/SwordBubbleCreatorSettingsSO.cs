@@ -24,6 +24,10 @@ namespace _Game._Scripts.ScriptableObjects
         [SerializeField] private float _minDistanceFromPlayer = 1.5f;
         [SerializeField] private int _positionTryCount = 12;
 
+        [Header("Enemy Died")]
+        [SerializeField] private int _dropCount;
+        [SerializeField] private float _dropRadius;
+
         public int PrewarmCount => _prewarmCount;
 
         public float BaseSpawnInterval => _baseSpawnInterval;
@@ -35,5 +39,8 @@ namespace _Game._Scripts.ScriptableObjects
 
         public float MinDistanceFromPlayer => _minDistanceFromPlayer;
         public int PositionTryCount => _positionTryCount;
+        
+        public int DropCount => _dropCount;
+        public float DropRadius => _dropRadius;
     }
 }

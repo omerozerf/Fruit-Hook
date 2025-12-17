@@ -23,7 +23,7 @@ namespace _Game._Scripts
         
         private void Awake()
         {
-            if (_settings == null)
+            if (!_settings)
             {
                 Debug.LogError($"{nameof(GridMapBuilder)} on '{name}' has no {nameof(GridMapBuilderSettingsSO)} assigned.", this);
                 enabled = false;

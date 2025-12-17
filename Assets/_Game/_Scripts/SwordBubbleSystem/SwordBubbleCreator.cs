@@ -1,7 +1,11 @@
+using System;
 using System.Collections;
+using _Game._Scripts.GameEvents;
 using _Game._Scripts.ObjectPoolSystem;
+using _Game._Scripts.Patterns.EventBusPattern;
 using _Game._Scripts.ScriptableObjects;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace _Game._Scripts.SwordBubbleSystem
 {
@@ -20,11 +24,12 @@ namespace _Game._Scripts.SwordBubbleSystem
         private ObjectPool<Transform> m_Pool;
         private Coroutine m_SpawnRoutine;
         private bool m_IsRunning;
+        private EventBinding<PlayerDiedEvent> m_PlayerDiedEventBinding;
 
 
         private void Awake()
         {
-            if (_settings == null)
+            if (!_settings)
             {
                 Debug.LogError($"{nameof(SwordBubbleCreator)} on '{name}' has no {nameof(SwordBubbleCreatorSettingsSO)} assigned.");
                 enabled = false;
@@ -46,6 +51,12 @@ namespace _Game._Scripts.SwordBubbleSystem
             );
         }
 
+        private void OnEnable()
+        {
+            m_PlayerDiedEventBinding = new EventBinding<PlayerDiedEvent>(HandlePlayerDied);
+            EventBus<PlayerDiedEvent>.Subscribe(m_PlayerDiedEventBinding);
+        }
+
         private void Start()
         {
             if (_settings.SpawnOnStart)
@@ -55,6 +66,16 @@ namespace _Game._Scripts.SwordBubbleSystem
         private void OnDisable()
         {
             StopSpawning();
+            
+            EventBus<PlayerDiedEvent>.Unsubscribe(m_PlayerDiedEventBinding);
+        }
+        
+        
+        private void HandlePlayerDied(PlayerDiedEvent obj)
+        {
+            if (obj.isPlayer) return;
+            
+            SpawnCluster(obj.transform.position, _settings.DropCount, _settings.DropRadius);
         }
 
         // ---- Public API ----
@@ -84,6 +105,26 @@ namespace _Game._Scripts.SwordBubbleSystem
         {
             var pos = GetRandomSpawnPosition();
             return m_Pool.Get(pos, Quaternion.identity);
+        }
+
+        public Transform SpawnAt(Vector3 position)
+        {
+            return m_Pool.Get(position, Quaternion.identity);
+        }
+
+        public void SpawnCluster(Vector3 centerPosition, int count, float radius)
+        {
+            if (count <= 0)
+                return;
+
+            radius = Mathf.Max(0f, radius);
+
+            for (int i = 0; i < count; i++)
+            {
+                Vector2 offset = Random.insideUnitCircle * radius;
+                Vector3 pos = centerPosition + new Vector3(offset.x, offset.y, 0f);
+                SpawnAt(pos);
+            }
         }
 
         public void Release(Transform instance)
@@ -118,7 +159,7 @@ namespace _Game._Scripts.SwordBubbleSystem
             {
                 var candidate = GetRandomPointInsideArea();
 
-                if (_player == null || _settings.MinDistanceFromPlayer <= 0f)
+                if (!_player || _settings.MinDistanceFromPlayer <= 0f)
                     return candidate;
 
                 var dist = Vector2.Distance(candidate, _player.position);

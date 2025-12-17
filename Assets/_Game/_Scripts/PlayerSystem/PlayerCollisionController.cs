@@ -75,9 +75,9 @@ namespace _Game._Scripts.PlayerSystem
             {
                 _swordOrbitController.SpawnSword();
                 _swordBubbleCreator.Release(swordBubbleCollision.GetSwordBubble().transform);
+                if (_isPlayer) AudioService.Instance.PlaySfx(AudioService.SfxId.BubbleSword);
             });
             
-            AudioService.Instance.PlaySfx(AudioService.SfxId.BubbleSword);
         }
 
         private bool IsInLayerMask(GameObject obj, LayerMask mask)

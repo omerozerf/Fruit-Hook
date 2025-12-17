@@ -2,6 +2,7 @@ using System;
 using _Game._Scripts.GameEvents;
 using _Game._Scripts.Patterns.EventBusPattern;
 using _Game._Scripts.ScriptableObjects;
+using _Game._Scripts.SwordBubbleSystem;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -106,10 +107,12 @@ namespace _Game._Scripts.PlayerSystem
         {
             if (_collider)
                 _collider.enabled = false;
-
+            
             EventBus<PlayerDiedEvent>.Publish(new PlayerDiedEvent
             {
-                isPlayer = _isPlayer
+                isPlayer = _isPlayer,
+                transform = this.transform,
+                
             });
             
             Vector3 startPos = transform.position;
