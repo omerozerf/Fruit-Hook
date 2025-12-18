@@ -52,7 +52,7 @@ namespace _Game._Scripts.PlayerSystem
             UpdateHealthColor();
         }
 
-        public void TakeDamage(int amount)
+        public void TakeDamage(int amount, Transform damageSourceTransform)
         {
             if (m_IsDead)
                 return;
@@ -60,10 +60,10 @@ namespace _Game._Scripts.PlayerSystem
             if (amount <= 0)
                 return;
 
-            SetHealth(m_CurrentHealth - amount);
+            SetHealth(m_CurrentHealth - amount, damageSourceTransform);
         }
 
-        private void SetHealth(int newHealth)
+        private void SetHealth(int newHealth, Transform damageSourceTransform)
         {
             newHealth = Mathf.Clamp(newHealth, 0, _settings.MaxHealth);
 
@@ -78,7 +78,7 @@ namespace _Game._Scripts.PlayerSystem
             AnimateWhiteIndicatorTo(targetFill);
             UpdateHealthColor();
 
-            UpdateDeadState();
+            UpdateDeadState(damageSourceTransform);
         }
 
         public bool IsDead()
@@ -86,7 +86,7 @@ namespace _Game._Scripts.PlayerSystem
             return m_IsDead;
         }
 
-        private void UpdateDeadState()
+        private void UpdateDeadState(Transform damageSourceTransform)
         {
             if (m_IsDead)
                 return;
@@ -95,10 +95,10 @@ namespace _Game._Scripts.PlayerSystem
                 return;
 
             m_IsDead = true;
-            HandleDeath();
+            HandleDeath(damageSourceTransform);
         }
 
-        private void HandleDeath()
+        private void HandleDeath(Transform damageSourceTransform)
         {
             if (_collider)
                 _collider.enabled = false;
@@ -110,12 +110,21 @@ namespace _Game._Scripts.PlayerSystem
             });
 
             var startPos = transform.position;
-            var targetPos = startPos + Vector3.down * _settings.DeathMoveDistance;
+
+            var deathDirection = Vector3.down;
+
+            if (damageSourceTransform)
+            {
+                var hitDirection = (transform.position - damageSourceTransform.position).normalized;
+                deathDirection = hitDirection;
+            }
+
+            var targetPos = startPos + deathDirection * _settings.DeathMoveDistance;
 
             
             var deathSequence = DOTween.Sequence();
             deathSequence
-                .Append(transform.DOMoveY(targetPos.y, _settings.DeathDuration).SetEase(_settings.DeathEase))
+                .Append(transform.DOMove(targetPos, _settings.DeathDuration).SetEase(_settings.DeathEase))
                 .Join(transform.DOScale(Vector3.zero, _settings.DeathDuration).SetEase(_settings.DeathEase))
                 .Join(transform.DORotate(
                     new Vector3(0f, 0f, 360f),

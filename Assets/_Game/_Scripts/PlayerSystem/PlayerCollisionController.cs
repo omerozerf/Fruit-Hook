@@ -72,7 +72,7 @@ namespace _Game._Scripts.PlayerSystem
             if (!CanTakeDamageFrom(other))
                 return;
 
-            _playerHealthController.TakeDamage(1);
+            _playerHealthController.TakeDamage(1, other.transform);
             _playerVisualController.PlayDamageFlash();
             ApplyKnockback(other);
             if (_isPlayer) PlayCameraShake();
