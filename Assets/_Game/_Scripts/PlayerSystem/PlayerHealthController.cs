@@ -112,10 +112,16 @@ namespace _Game._Scripts.PlayerSystem
             var startPos = transform.position;
             var targetPos = startPos + Vector3.down * _settings.DeathMoveDistance;
 
+            
             var deathSequence = DOTween.Sequence();
             deathSequence
                 .Append(transform.DOMoveY(targetPos.y, _settings.DeathDuration).SetEase(_settings.DeathEase))
                 .Join(transform.DOScale(Vector3.zero, _settings.DeathDuration).SetEase(_settings.DeathEase))
+                .Join(transform.DORotate(
+                    new Vector3(0f, 0f, 360f),
+                    _settings.DeathDuration,
+                    RotateMode.FastBeyond360
+                ).SetEase(_settings.DeathEase))
                 .OnComplete(() => { gameObject.SetActive(false); });
         }
 
