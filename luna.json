@@ -10935,7 +10935,7 @@
                     },
                     {
                         "name": "ctor",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "moveNext",
@@ -10959,7 +10959,7 @@
                     },
                     {
                         "name": "$clone",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -33488,47 +33488,7 @@
                 "staticMethods": [],
                 "instanceMethods": [
                     {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
                         "name": "Awake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "BuildGround",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SpawnGroundAt",
-                        "excluded": false
-                    },
-                    {
-                        "name": "BuildFence",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ApplyGlobalSorting",
-                        "excluded": false
-                    },
-                    {
-                        "name": "DisableTopCornerLastRenderers",
-                        "excluded": false
-                    },
-                    {
-                        "name": "DisableLastRendererInSortingTraversal",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ApplySortingForRoot",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GridToWorld",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetRandomWeightedGround",
                         "excluded": false
                     },
                     {
@@ -33536,57 +33496,15 @@
                         "excluded": false
                     },
                     {
-                        "name": "GetOrCreateChunkRoot",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GridToChunkKey",
-                        "excluded": false
-                    },
-                    {
-                        "name": "UpdateChunkCulling",
-                        "excluded": false
-                    },
-                    {
-                        "name": "BuildBoundaryColliders",
-                        "excluded": false
-                    },
-                    {
-                        "name": "CreateBoundaryBox",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ClearBoundaryColliders",
-                        "excluded": false
-                    },
-                    {
                         "name": "OnDisable",
                         "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "_Game._Scripts.MapSystem.GridMapBuilder.WeightedPrefab",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "getDefaultValue",
-                        "excluded": true
                     },
                     {
-                        "name": "ctor",
+                        "name": "ValidateSettings",
                         "excluded": false
                     },
                     {
-                        "name": "getHashCode",
-                        "excluded": true
-                    },
-                    {
-                        "name": "equals",
-                        "excluded": true
-                    },
-                    {
-                        "name": "$clone",
+                        "name": "BuildAll",
                         "excluded": false
                     }
                 ]
@@ -35502,6 +35420,220 @@
                     {
                         "name": "CalculateWheelParams",
                         "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.MapSystem.Helpers.BoundaryColliderBuilder",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Build",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Clear",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CreateBoundaryBox",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.MapSystem.Helpers.BuildContext",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Reset",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.MapSystem.Helpers.ChunkCullingController",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ForceRefreshIfEnabled",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Tick",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Update",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.MapSystem.Helpers.ChunkRootProvider",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ChunkRoots#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetOrCreateChunkRoot",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GridToWorld",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GridToChunkKey",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.MapSystem.Helpers.FenceBuilder",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Build",
+                        "excluded": false
+                    },
+                    {
+                        "name": "AreFencePrefabsValid",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SpawnCorners",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SpawnHorizontalEdges",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SpawnVerticalEdges",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.MapSystem.Helpers.GroundBuilder",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Build",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BuildMainGrid",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BuildPaddingIfAny",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IsInsideMainGrid",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SpawnGroundAt",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.MapSystem.Helpers.SortingService",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ApplyGlobalSorting",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DisableTopCornerLastRenderers",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ApplySortingForRoot",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DisableLastRendererInSortingTraversal",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.MapSystem.Helpers.WeightedGroundSelector",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Pick",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.MapSystem.WeightedPrefab",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "getDefaultValue",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getHashCode",
+                        "excluded": true
+                    },
+                    {
+                        "name": "equals",
+                        "excluded": true
+                    },
+                    {
+                        "name": "$clone",
+                        "excluded": false
                     }
                 ]
             }

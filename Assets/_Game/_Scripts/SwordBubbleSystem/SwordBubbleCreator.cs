@@ -1,5 +1,6 @@
 using System.Collections;
 using _Game._Scripts.GameEvents;
+using _Game._Scripts.MapSystem;
 using _Game._Scripts.ObjectPoolSystem;
 using _Game._Scripts.Patterns.EventBusPattern;
 using _Game._Scripts.ScriptableObjects;
@@ -127,8 +128,8 @@ namespace _Game._Scripts.SwordBubbleSystem
 
         private Vector3 GetRandomPointInsideArea()
         {
-            var rx = Random.Range(_settings.FallbackMin.x, _settings.FallbackMax.x);
-            var ry = Random.Range(_settings.FallbackMin.y, _settings.FallbackMax.y);
+            var rx = Random.Range(1 , GridMapManager.Instance.GetWidth() - 1);
+            var ry = Random.Range(1, GridMapManager.Instance.GetHeight() - 1);
             return new Vector3(rx, ry, 0f);
         }
         

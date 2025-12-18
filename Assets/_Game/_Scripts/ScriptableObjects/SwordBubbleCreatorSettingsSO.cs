@@ -16,10 +16,6 @@ namespace _Game._Scripts.ScriptableObjects
         [SerializeField] private float _intervalVariation = 1.5f; // final = base + Random(-variation, +variation)
         [SerializeField] private bool _spawnOnStart = true;
 
-        [Header("Spawn Area")]
-        [SerializeField] private Vector2 _fallbackMin = new(-8f, -4f);
-        [SerializeField] private Vector2 _fallbackMax = new(8f, 4f);
-
         [Header("Spawn Rules")]
         [SerializeField] private float _minDistanceFromPlayer = 1.5f;
         [SerializeField] private int _positionTryCount = 12;
@@ -33,10 +29,7 @@ namespace _Game._Scripts.ScriptableObjects
         public float BaseSpawnInterval => _baseSpawnInterval;
         public float IntervalVariation => _intervalVariation;
         public bool SpawnOnStart => _spawnOnStart;
-
         
-        public Vector2 FallbackMin => _fallbackMin;
-        public Vector2 FallbackMax => _fallbackMax;
         public float MinDistanceFromPlayer => _minDistanceFromPlayer;
         public int PositionTryCount => _positionTryCount;
         public int DropCount => _dropCount;
