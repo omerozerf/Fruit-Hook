@@ -58,6 +58,15 @@ SpriteAtlas:
     secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
+    - {fileID: 21300000, guid: 0571516a7199e4900920d4a812c4e555, type: 3}
+    - {fileID: 21300000, guid: 7412e450d0fe34955875e31ba0a3e293, type: 3}
+    - {fileID: 21300000, guid: 10c6b1c394e6e419a8ae54c605861c45, type: 3}
+    - {fileID: 21300000, guid: d140f0e86725b4803a181b7eae28e6e3, type: 3}
+    - {fileID: 21300000, guid: fb6a558aff0bb4d7ea0d379a7855dbe7, type: 3}
+    - {fileID: 21300000, guid: 13c43bee3bb164458bcd746bdf656435, type: 3}
+    - {fileID: 21300000, guid: b374baee1816a4cf28e8f4a2ea3add99, type: 3}
+    - {fileID: 21300000, guid: 39a688d5de5664bab8321b33d1f85ea5, type: 3}
+    - {fileID: 21300000, guid: 640f36e31f91647a8ae53296b5d42040, type: 3}
     - {fileID: 21300000, guid: 596ca85ca7dca42b084859e4082265ba, type: 3}
     - {fileID: 21300000, guid: 12cb43f2e5e294100a6451e6e75cfa31, type: 3}
     - {fileID: 21300000, guid: 24fc2157e0cf04154bb83890f3b50d83, type: 3}
@@ -80,17 +89,24 @@ SpriteAtlas:
     isAtlasV2: 0
     cachedData: {fileID: 0}
     packedSpriteRenderDataKeys:
+    - 7412e450d0fe34955875e31ba0a3e293: 21300000
     - ccfa54b14fb9c493bad08b3be35d506c: 21300000
     - 38c287b1a297142549e3ee11565a64a0: 21300000
     - 1196fbc13819f4440ae3fd6d728a4890: 21300000
     - 12cb43f2e5e294100a6451e6e75cfa31: 21300000
+    - 10c6b1c394e6e419a8ae54c605861c45: 21300000
+    - 640f36e31f91647a8ae53296b5d42040: 21300000
     - 471b30e4cbe50416a9966c5c2dd45ba3: 21300000
     - 095452753aec8476497aa0901bebd8c9: 21300000
+    - 39a688d5de5664bab8321b33d1f85ea5: 21300000
     - 8e143be613c054424a32302110166e2a: 21300000
     - 24fc2157e0cf04154bb83890f3b50d83: 21300000
+    - d140f0e86725b4803a181b7eae28e6e3: 21300000
     - 66f36b19960264dd3b60d8e8dde2115a: 21300000
     - 0dd8de59160ff452bad25535d0e89bc0: 21300000
     - 1fadca5aa66f64f0a9d1b424805ac93e: 21300000
+    - 0571516a7199e4900920d4a812c4e555: 21300000
+    - fb6a558aff0bb4d7ea0d379a7855dbe7: 21300000
     - 596ca85ca7dca42b084859e4082265ba: 21300000
     - c0a7becc6e8f84e26ab842b011ddc464: 21300000
     - 1ae1f60df8c004337b5e11a0a60f1d10: 21300000
@@ -98,19 +114,28 @@ SpriteAtlas:
     - 4875ca9d39ab64153a5928ceb3d5b66f: 21300000
     - fc2404ed6c260439d9e79d540a3dd0f9: 21300000
     - 32f4186e7fb4347ef978e9395bafee73: 21300000
+    - b374baee1816a4cf28e8f4a2ea3add99: 21300000
+    - 13c43bee3bb164458bcd746bdf656435: 21300000
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: 7412e450d0fe34955875e31ba0a3e293, type: 3}
   - {fileID: 21300000, guid: ccfa54b14fb9c493bad08b3be35d506c, type: 3}
   - {fileID: 21300000, guid: 38c287b1a297142549e3ee11565a64a0, type: 3}
   - {fileID: 21300000, guid: 1196fbc13819f4440ae3fd6d728a4890, type: 3}
   - {fileID: 21300000, guid: 12cb43f2e5e294100a6451e6e75cfa31, type: 3}
+  - {fileID: 21300000, guid: 10c6b1c394e6e419a8ae54c605861c45, type: 3}
+  - {fileID: 21300000, guid: 640f36e31f91647a8ae53296b5d42040, type: 3}
   - {fileID: 21300000, guid: 471b30e4cbe50416a9966c5c2dd45ba3, type: 3}
   - {fileID: 21300000, guid: 095452753aec8476497aa0901bebd8c9, type: 3}
+  - {fileID: 21300000, guid: 39a688d5de5664bab8321b33d1f85ea5, type: 3}
   - {fileID: 21300000, guid: 8e143be613c054424a32302110166e2a, type: 3}
   - {fileID: 21300000, guid: 24fc2157e0cf04154bb83890f3b50d83, type: 3}
+  - {fileID: 21300000, guid: d140f0e86725b4803a181b7eae28e6e3, type: 3}
   - {fileID: 21300000, guid: 66f36b19960264dd3b60d8e8dde2115a, type: 3}
   - {fileID: 21300000, guid: 0dd8de59160ff452bad25535d0e89bc0, type: 3}
   - {fileID: 21300000, guid: 1fadca5aa66f64f0a9d1b424805ac93e, type: 3}
+  - {fileID: 21300000, guid: 0571516a7199e4900920d4a812c4e555, type: 3}
+  - {fileID: 21300000, guid: fb6a558aff0bb4d7ea0d379a7855dbe7, type: 3}
   - {fileID: 21300000, guid: 596ca85ca7dca42b084859e4082265ba, type: 3}
   - {fileID: 21300000, guid: c0a7becc6e8f84e26ab842b011ddc464, type: 3}
   - {fileID: 21300000, guid: 1ae1f60df8c004337b5e11a0a60f1d10, type: 3}
@@ -118,18 +143,27 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 4875ca9d39ab64153a5928ceb3d5b66f, type: 3}
   - {fileID: 21300000, guid: fc2404ed6c260439d9e79d540a3dd0f9, type: 3}
   - {fileID: 21300000, guid: 32f4186e7fb4347ef978e9395bafee73, type: 3}
+  - {fileID: 21300000, guid: b374baee1816a4cf28e8f4a2ea3add99, type: 3}
+  - {fileID: 21300000, guid: 13c43bee3bb164458bcd746bdf656435, type: 3}
   m_PackedSpriteNamesToIndex:
+  - apple-gun-character-enemy-3-left-leg
   - cn
   - jp
   - button
   - apple-gun-character-player-1-left-leg
+  - apple-gun-character-enemy-3-right-leg
+  - apple-gun-character-enemy-4-right-leg
   - us
   - tile-ground
+  - apple-gun-character-enemy-4-left-leg
   - apple-gun-gameplay-pickup-item-weapon-bubble-2
   - apple-gun-character-player-1-right-leg
+  - apple-gun-character-enemy-2-body
   - apple-gun-weapon-red-sword
   - tile-grass-2
   - tile-stone-7
+  - apple-gun-character-enemy-3-body
+  - apple-gun-character-enemy-2-left-leg
   - apple-gun-character-player-1-body
   - tile-grass-9
   - map-decoration-fence-connector-vertical
@@ -137,6 +171,8 @@ SpriteAtlas:
   - map-decoration-fence-connector-horizontal
   - map-decoration-fence-corner
   - logo
+  - apple-gun-character-enemy-4-body
+  - apple-gun-character-enemy-2-right-leg
   m_RenderDataMap: {}
   m_Tag: atlas__Art
   m_IsVariant: 0
