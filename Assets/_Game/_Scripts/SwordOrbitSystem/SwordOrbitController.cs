@@ -47,6 +47,14 @@ namespace _Game._Scripts.SwordOrbitSystem
             m_DespawnAnimator = new SwordDespawnAnimator(this, _settings.Despawn, OnSwordDespawnCompleted);
         }
 
+        private void Start()
+        {
+            for (int i = 0; i < _settings.StartCount; i++)
+            {
+                SpawnSword();
+            }
+        }
+
         private void Update()
         {
             if (_settings.Test._enableTestSpawning)
