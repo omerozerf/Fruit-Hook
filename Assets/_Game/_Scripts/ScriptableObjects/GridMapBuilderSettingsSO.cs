@@ -15,7 +15,7 @@ namespace _Game._Scripts.ScriptableObjects
         [Min(0.01f)] [SerializeField] private float _cellSize = 1f;
 
         [Header("Ground Prefabs (Weighted)")]
-        [SerializeField] private GridMapBuilder.WeightedPrefab[] _groundVariants;
+        [SerializeField] private WeightedPrefab[] _groundVariants;
 
         [Header("Fence")]
         [SerializeField] private Transform _fenceVertical;
@@ -28,12 +28,21 @@ namespace _Game._Scripts.ScriptableObjects
         [Header("Extra Padding")]
         [Min(0)] [SerializeField] private int _extraPaddingCells;
 
+        [Header("Chunk Culling")]
+        [SerializeField] private bool _enableChunkCulling = true;
+        [SerializeField, Min(1)] private int _chunkSizeInCells = 8;
+        [SerializeField, Min(0f)] private float _cullPaddingWorld = 1f;
+
+        [Header("Boundary Colliders")]
+        [SerializeField] private bool _enableBoundaryColliders = true;
+        [SerializeField, Min(0.01f)] private float _boundaryThicknessWorld = 0.5f;
+
         
         public int Width => _width;
         public int Height => _height;
         public float CellSize => _cellSize;
 
-        public GridMapBuilder.WeightedPrefab[] GroundVariants => _groundVariants;
+        public WeightedPrefab[] GroundVariants => _groundVariants;
 
         public Transform FenceVertical => _fenceVertical;
         public Transform FenceHorizontal => _fenceHorizontal;
@@ -41,5 +50,12 @@ namespace _Game._Scripts.ScriptableObjects
 
         public int StartSortingOrder => _startSortingOrder;
         public int ExtraPaddingCells => _extraPaddingCells;
+
+        public bool EnableChunkCulling => _enableChunkCulling;
+        public int ChunkSizeInCells => _chunkSizeInCells;
+        public float CullPaddingWorld => _cullPaddingWorld;
+
+        public bool EnableBoundaryColliders => _enableBoundaryColliders;
+        public float BoundaryThicknessWorld => _boundaryThicknessWorld;
     }
 }

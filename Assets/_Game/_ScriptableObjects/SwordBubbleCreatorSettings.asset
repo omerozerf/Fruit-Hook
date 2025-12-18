@@ -17,7 +17,7 @@ MonoBehaviour:
   _intervalVariation: 0.5
   _spawnOnStart: 1
   _fallbackMin: {x: 1, y: 1}
-  _fallbackMax: {x: 49, y: 49}
+  _fallbackMax: {x: 29, y: 49}
   _minDistanceFromPlayer: 3
   _positionTryCount: 12
   _dropCount: 5

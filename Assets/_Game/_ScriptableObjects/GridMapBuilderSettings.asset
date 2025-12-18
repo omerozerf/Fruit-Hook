@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960f99a267984c31afa23c2668d8acab, type: 3}
   m_Name: GridMapBuilderSettings
   m_EditorClassIdentifier: 
-  _width: 50
+  _width: 30
   _height: 50
   _cellSize: 1
   _groundVariants:
@@ -29,3 +29,8 @@ MonoBehaviour:
   _fenceCorner: {fileID: 6743821381425734164, guid: f149173e3ef2743b1857b479093805ef, type: 3}
   _startSortingOrder: 0
   _extraPaddingCells: 20
+  _enableChunkCulling: 1
+  _chunkSizeInCells: 8
+  _cullPaddingWorld: 1
+  _enableBoundaryColliders: 1
+  _boundaryThicknessWorld: 0.5
