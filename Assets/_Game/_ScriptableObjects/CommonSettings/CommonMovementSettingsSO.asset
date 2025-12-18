@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13736dd38b454c358aeb2b7ed4920c9e, type: 3}
   m_Name: CommonMovementSettingsSO
   m_EditorClassIdentifier: 
-  _moveSpeed: 5
+  _moveSpeed: 7.5
   _knockbackDisableDuration: 0.15

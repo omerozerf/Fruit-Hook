@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prewarmCount: 48
   _baseSpawnInterval: 1
-  _intervalVariation: 1.5
+  _intervalVariation: 0.5
   _spawnOnStart: 1
   _fallbackMin: {x: 1, y: 1}
   _fallbackMax: {x: 49, y: 49}

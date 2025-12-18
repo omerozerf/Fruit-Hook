@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fb5a6679a294742950ccae55572ab1e, type: 3}
   m_Name: SwordBubbleSettings
   m_EditorClassIdentifier: 
-  _rotationSpeed: -75
+  _rotationSpeed: -50
   _defaultPushDistance: 0.35
   _defaultPushDuration: 0.15
   _defaultHoldDuration: 0.06
-  _defaultPullDuration: 0.28
+  _defaultPullDuration: 0.225
   _defaultEndScaleMultiplier: 0.15
   _disableColliderOnPickup: 1
   _moveEase:

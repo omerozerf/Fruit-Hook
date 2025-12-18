@@ -18,6 +18,6 @@ MonoBehaviour:
   _swordLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  _knockbackForce: 5
+  _knockbackForce: 7.5
   _shakeDuration: 0.3
   _shakeStrength: 0.7

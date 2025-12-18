@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: CommonOrbitSettingsSO
   m_EditorClassIdentifier: 
   _orbit:
-    _radius: 2.3
-    _rotationSpeed: 200
+    _radius: 2.25
+    _rotationSpeed: 225
     _smoothSpeed: 8
-    _spawnGrowDuration: 0.45
+    _spawnGrowDuration: 0.1
   _despawn:
-    _duration: 1
+    _duration: 0.75
     _spinSpeed: 1080
-    _offscreenMargin: 15
+    _offscreenMargin: 20
   _prewarmCount: 8
   _test:
     _enableTestSpawning: 0
-    _spawnInterval: 5
+    _spawnInterval: 1
     _enableTestRemoval: 0
     _removeInterval: 5
   _shakeDuration: 0.3
