@@ -21,4 +21,4 @@ MonoBehaviour:
   _minDistanceFromPlayer: 3
   _positionTryCount: 12
   _dropCount: 5
-  _dropRadius: 1
+  _dropRadius: 0.75

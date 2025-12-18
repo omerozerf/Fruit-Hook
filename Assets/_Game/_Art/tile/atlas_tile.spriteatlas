@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: atlas_tile
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 0
+      compressionQuality: 0
+      maxTextureSize: 0
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_IgnorePlatformSupport: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    - serializedVersion: 3
+      m_BuildTarget: WebGL
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_IgnorePlatformSupport: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 8
+      blockOffset: 0
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 21300000, guid: 095452753aec8476497aa0901bebd8c9, type: 3}
+    - {fileID: 21300000, guid: c0a7becc6e8f84e26ab842b011ddc464, type: 3}
+    - {fileID: 21300000, guid: 1fadca5aa66f64f0a9d1b424805ac93e, type: 3}
+    - {fileID: 21300000, guid: 0dd8de59160ff452bad25535d0e89bc0, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+    packedSpriteRenderDataKeys:
+    - 095452753aec8476497aa0901bebd8c9: 21300000
+    - 0dd8de59160ff452bad25535d0e89bc0: 21300000
+    - 1fadca5aa66f64f0a9d1b424805ac93e: 21300000
+    - c0a7becc6e8f84e26ab842b011ddc464: 21300000
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 095452753aec8476497aa0901bebd8c9, type: 3}
+  - {fileID: 21300000, guid: 0dd8de59160ff452bad25535d0e89bc0, type: 3}
+  - {fileID: 21300000, guid: 1fadca5aa66f64f0a9d1b424805ac93e, type: 3}
+  - {fileID: 21300000, guid: c0a7becc6e8f84e26ab842b011ddc464, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - tile-ground
+  - tile-grass-2
+  - tile-stone-7
+  - tile-grass-9
+  m_RenderDataMap: {}
+  m_Tag: atlas_tile
+  m_IsVariant: 0

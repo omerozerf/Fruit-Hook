@@ -11065,11 +11065,11 @@
                     },
                     {
                         "name": "ctor",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetEnumerator",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$Collections$Generic$IEnumerable$1$GetEnumerator",
@@ -11115,7 +11115,7 @@
                     },
                     {
                         "name": "Current#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$Collections$IEnumerator$Current#get",
@@ -11123,11 +11123,11 @@
                     },
                     {
                         "name": "init",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "$ctor1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ctor",
@@ -11135,11 +11135,11 @@
                     },
                     {
                         "name": "Dispose",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "moveNext",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$Collections$IEnumerator$reset",
@@ -17485,7 +17485,7 @@
                     },
                     {
                         "name": "TransformPoint$1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "TransformPoint",
@@ -18185,7 +18185,7 @@
                     },
                     {
                         "name": "ViewportToWorldPoint",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ViewportPointToRay",
@@ -20677,7 +20677,7 @@
                     },
                     {
                         "name": "bounds#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "bounds#set",
@@ -26118,14 +26118,6 @@
                         "excluded": true
                     },
                     {
-                        "name": "HandleRange#get",
-                        "excluded": true
-                    },
-                    {
-                        "name": "HandleRange#set",
-                        "excluded": true
-                    },
-                    {
                         "name": "DeadZone#get",
                         "excluded": true
                     },
@@ -26174,10 +26166,6 @@
                         "excluded": true
                     },
                     {
-                        "name": "HandleInput",
-                        "excluded": true
-                    },
-                    {
                         "name": "FormatInput",
                         "excluded": true
                     },
@@ -26191,6 +26179,18 @@
                     },
                     {
                         "name": "ScreenPointToAnchoredPosition",
+                        "excluded": true
+                    },
+                    {
+                        "name": "KnobRange#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "KnobRange#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ProcessInput",
                         "excluded": true
                     }
                 ]
@@ -27435,7 +27435,7 @@
                     },
                     {
                         "name": "InitState",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -33617,11 +33617,11 @@
                 "instanceMethods": [
                     {
                         "name": "CollectSpriteRenderers",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GroupByTextureAndSorting",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GroupByTextureOnly",
@@ -33629,31 +33629,31 @@
                     },
                     {
                         "name": "CreateSpriteMaterial",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "AddSimpleQuad",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "AddSliced9Patch",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetQuadFromSpriteBounds",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetQuadUVFromSpriteRect",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "EstimateVertexCount",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "SplitByVertexBudget",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "init",
@@ -33661,51 +33661,51 @@
                     },
                     {
                         "name": "Start",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "BakeAfterDelay",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ValidateReferences",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ClearPreviousBake",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "BakeGroupToChunks",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetCellBounds",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "CollectChunkRenderers",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "CreateChunkMesh",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "BuildMesh",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "WorldToCell",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "PostBakeCleanup",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Bake",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -33719,19 +33719,19 @@
                     },
                     {
                         "name": "getDefaultValue",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "$ctor1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ctor",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "equalsT",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "equals",
@@ -33739,7 +33739,7 @@
                     },
                     {
                         "name": "getHashCode",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "$clone",
@@ -33829,6 +33829,186 @@
                     },
                     {
                         "name": "$clone",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.MapSystem.ChunkMeshTileRenderer",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Update",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RebuildAll",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetTile",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ValidateInputs",
+                        "excluded": false
+                    },
+                    {
+                        "name": "LoadTilesFromCsv",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ParseCsvIntoTiles",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ClearChunks",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BuildChunks",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ApplyMaterialTextureOnce",
+                        "excluded": false
+                    },
+                    {
+                        "name": "FindFirstValidTexture",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BuildAllChunkMeshes",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BuildChunkMesh",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetSpriteForId",
+                        "excluded": false
+                    },
+                    {
+                        "name": "AddTileQuad",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdateChunkCulling",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IsInBounds",
+                        "excluded": true
+                    },
+                    {
+                        "name": "FindChunk",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Encapsulate",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ValidateSpriteTextures",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GenerateRandomTilesWeighted",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PickWeightedTileId",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ClearMaterialCache",
+                        "excluded": false
+                    },
+                    {
+                        "name": "HasMultipleSpriteTextures",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetOrCreateMaterialForTexture",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.MapSystem.ChunkMeshTileRenderer.Chunk",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ChunkX#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ChunkY#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GameObject#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "WorldBounds#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdateWorldBounds",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Destroy",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetOrCreateSubRenderer",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DisableAllExcept$1",
+                        "excluded": true
+                    },
+                    {
+                        "name": "DisableAllExcept",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.MapSystem.ChunkMeshTileRenderer.MeshBuildBucket",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.MapSystem.ChunkMeshTileRenderer.SubRenderer",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ctor",
                         "excluded": false
                     }
                 ]
