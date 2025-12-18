@@ -24843,7 +24843,7 @@
                     },
                     {
                         "name": "DORotate",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "DORotateQuaternion",
@@ -27923,6 +27923,10 @@
                     },
                     {
                         "name": "GetSwordCount",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Start",
                         "excluded": false
                     }
                 ]
@@ -33434,6 +33438,10 @@
                     {
                         "name": "init",
                         "excluded": false
+                    },
+                    {
+                        "name": "StartCount#get",
+                        "excluded": false
                     }
                 ]
             },
@@ -33866,10 +33874,6 @@
                         "excluded": false
                     },
                     {
-                        "name": "ParseCsvIntoTiles",
-                        "excluded": true
-                    },
-                    {
                         "name": "ClearChunks",
                         "excluded": false
                     },
@@ -33985,7 +33989,7 @@
                     },
                     {
                         "name": "DisableAllExcept$1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "DisableAllExcept",
