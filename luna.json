@@ -32958,6 +32958,14 @@
                     {
                         "name": "OnCtaClicked",
                         "excluded": false
+                    },
+                    {
+                        "name": "NotifyGameEnded",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RequestInstall",
+                        "excluded": false
                     }
                 ]
             },
