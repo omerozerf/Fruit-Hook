@@ -62,6 +62,33 @@ namespace _Game._Scripts
             }
         }
 
+        private void NotifyGameEnded()
+        {
+#if !UNITY_EDITOR
+            // Required by some ad networks to properly mark the playable as finished.
+            Luna.Unity.LifeCycle.GameEnded();
+#endif
+        }
+
+        private void RequestInstall()
+        {
+#if !UNITY_EDITOR
+            // Required by some ad networks for CTA/install tracking.
+            Luna.Unity.Playable.InstallFullGame();
+#else
+            // Outside a Playworks/Luna runtime, this API is not implemented; use a normal URL for testing.
+            if (!string.IsNullOrWhiteSpace(_editorFallbackUrl))
+            {
+                Application.OpenURL(_editorFallbackUrl);
+                return;
+            }
+
+            Debug.LogWarning(
+                "CTA clicked, but Luna InstallFullGame is only implemented in the Playworks WebGL export." +
+                "Provide _editorFallbackUrl for local testing.");
+#endif
+        }
+
 
         private void Show()
         {
@@ -78,9 +105,7 @@ namespace _Game._Scripts
                 _canvasGroup.DOFade(1f, 0.3f);
             }
 
-#if UNITY_WEBGL && !UNITY_EDITOR
-            Luna.Unity.LifeCycle.GameEnded();
-#endif
+            NotifyGameEnded();
             EventBus<EndCardShowed>.Publish(new EndCardShowed());
         }
 
@@ -100,19 +125,7 @@ namespace _Game._Scripts
         private void OnCtaClicked()
         {
             // Store click / CTA
-#if UNITY_WEBGL && !UNITY_EDITOR
-            Luna.Unity.Playable.InstallFullGame();
-#else
-            // Outside of a Playworks/Luna runtime this API is not implemented; use a normal URL for testing.
-            if (!string.IsNullOrWhiteSpace(_editorFallbackUrl))
-            {
-                Application.OpenURL(_editorFallbackUrl);
-                return;
-            }
-
-            Debug.LogWarning(
-                "CTA clicked, but Luna InstallFullGame is only implemented in the Playworks WebGL export. Provide _editorFallbackUrl for local testing.");
-#endif
+            RequestInstall();
         }
     }
 }
