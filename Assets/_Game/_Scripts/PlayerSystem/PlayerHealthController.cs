@@ -13,6 +13,7 @@ namespace _Game._Scripts.PlayerSystem
         [SerializeField] private bool _isPlayer;
 
         [Header("UI")]
+        [SerializeField] private Transform _playerInfoCanvas;
         [SerializeField] private Image _healthBar;
         [SerializeField] private Image _healthWhiteIndicatorBar;
 
@@ -108,6 +109,8 @@ namespace _Game._Scripts.PlayerSystem
                 isPlayer = _isPlayer,
                 transform = transform
             });
+            
+            _playerInfoCanvas.gameObject.SetActive(false);
 
             var startPos = transform.position;
 

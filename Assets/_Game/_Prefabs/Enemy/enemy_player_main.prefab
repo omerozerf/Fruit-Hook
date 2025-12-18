@@ -229,6 +229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isPlayer: 0
+  _playerInfoCanvas: {fileID: 8159205916495200043}
   _healthBar: {fileID: 4666836775319453733}
   _healthWhiteIndicatorBar: {fileID: 2790164262749984303}
   _settings: {fileID: 11400000, guid: 5b16f3ef0d40341c883b558f55af4113, type: 2}
