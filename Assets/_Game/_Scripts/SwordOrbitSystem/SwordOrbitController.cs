@@ -21,6 +21,26 @@ namespace _Game._Scripts.SwordOrbitSystem
 
         [SerializeField] private OrbitReferences _references = OrbitReferences.Default;
 
+        [Header("Scratch Erase")] [SerializeField]
+        private bool _enableSwordScratchErase = true;
+
+        [SerializeField] [Range(0.01f, 1f)] private float _scratchPressure = 1f;
+
+        [SerializeField] [Min(0.001f)] private float _scratchWidth = 0.5f;
+
+        [SerializeField] [Min(0.01f)] private float _scratchLength = 2.5f;
+
+
+        [Header("Orbit Center Erase")] [SerializeField]
+        private bool _enableOrbitCenterErase;
+
+        [SerializeField] [Min(0.001f)] private float _orbitCenterEraseRadius = 0.5f;
+        [SerializeField] [Range(0.01f, 1f)] private float _orbitCenterErasePressure = 1f;
+
+
+        private readonly List<Transform> m_ActiveSwords = new();
+        private readonly Dictionary<int, Vector2> m_LastScratchPosBySwordId = new();
+
         private readonly SwordOrbitList m_OrbitList = new();
         private Camera m_Cam;
         private Tween m_CameraShakeTween;
@@ -28,26 +48,6 @@ namespace _Game._Scripts.SwordOrbitSystem
         private float m_RemoveTimer;
         private float m_SpawnTimer;
         private ObjectPool<Transform> m_SwordPool;
-
-        [Header("Scratch Erase")] [SerializeField]
-        private bool _enableSwordScratchErase = true;
-
-        [SerializeField, Range(0.01f, 1f)] private float _scratchPressure = 1f;
-
-        [SerializeField, Min(0.001f)] private float _scratchWidth = 0.5f;
-
-        [SerializeField, Min(0.01f)] private float _scratchLength = 2.5f;
-
-
-        [Header("Orbit Center Erase")] [SerializeField]
-        private bool _enableOrbitCenterErase = false;
-
-        [SerializeField, Min(0.001f)] private float _orbitCenterEraseRadius = 0.5f;
-        [SerializeField, Range(0.01f, 1f)] private float _orbitCenterErasePressure = 1f;
-
-
-        private readonly List<Transform> m_ActiveSwords = new();
-        private readonly Dictionary<int, Vector2> m_LastScratchPosBySwordId = new();
 
 
         private void Awake()
@@ -72,10 +72,7 @@ namespace _Game._Scripts.SwordOrbitSystem
 
         private void Start()
         {
-            for (int i = 0; i < _settings.StartCount; i++)
-            {
-                SpawnSword();
-            }
+            for (var i = 0; i < _settings.StartCount; i++) SpawnSword();
         }
 
         private void Update()
@@ -245,7 +242,7 @@ namespace _Game._Scripts.SwordOrbitSystem
         private void ScratchWithActiveSwords()
         {
             // Iterate without allocations.
-            for (int i = 0; i < m_ActiveSwords.Count; i++)
+            for (var i = 0; i < m_ActiveSwords.Count; i++)
             {
                 var sword = m_ActiveSwords[i];
                 if (!sword)

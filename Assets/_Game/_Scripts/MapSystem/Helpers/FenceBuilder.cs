@@ -16,7 +16,7 @@ namespace _Game._Scripts.MapSystem.Helpers
             m_Ctx = ctx;
         }
 
-        
+
         public void Build()
         {
             if (!AreFencePrefabsValid())

@@ -9,7 +9,7 @@ namespace _Game._Scripts.MapSystem.Helpers
         private readonly ChunkRootProvider m_Roots;
         private readonly GridMapBuilderSettingsSO m_Settings;
 
-        
+
         public ChunkCullingController(GridMapBuilderSettingsSO settings, Camera camera, ChunkRootProvider roots)
         {
             m_Settings = settings;
@@ -17,7 +17,7 @@ namespace _Game._Scripts.MapSystem.Helpers
             m_Roots = roots;
         }
 
-        
+
         public void ForceRefreshIfEnabled()
         {
             if (!m_Settings.EnableChunkCulling)

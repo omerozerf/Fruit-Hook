@@ -10,12 +10,12 @@ namespace _Game._Scripts.EnemyMoveSystem
 {
     public class EnemyAIController : MonoBehaviour
     {
-        [Header("References")]
-        [SerializeField] private ExternalMoveInputSource _externalMoveInputSource;
+        [Header("References")] [SerializeField]
+        private ExternalMoveInputSource _externalMoveInputSource;
+
         [SerializeField] private SwordOrbitController _swordOrbitController;
-        
-        [Header("Settings")]
-        [SerializeField] private EnemyAISettingsSO _settings;
+
+        [Header("Settings")] [SerializeField] private EnemyAISettingsSO _settings;
 
         private Vector2 m_AvoidVector;
         private Transform m_ClosestEnemy;
@@ -43,7 +43,7 @@ namespace _Game._Scripts.EnemyMoveSystem
             m_SwordHits = new Collider2D[Mathf.Max(4, _settings.MaxScanHits)];
             m_SelfColliders = GetComponentsInChildren<Collider2D>(true);
         }
-        
+
         private void Update()
         {
             TickScanTimer();
@@ -152,7 +152,7 @@ namespace _Game._Scripts.EnemyMoveSystem
                 m_WanderVector = Random.insideUnitCircle.normalized * _settings.WanderStrength;
             }
         }
-        
+
         private void ScanEnvironment()
         {
             Vector2 pos = transform.position;
@@ -247,7 +247,7 @@ namespace _Game._Scripts.EnemyMoveSystem
 
             return away * strength;
         }
-        
+
         private AIState DecideState()
         {
             Vector2 myPos = transform.position;
@@ -287,7 +287,7 @@ namespace _Game._Scripts.EnemyMoveSystem
             // 6) Wander
             return AIState.Wander;
         }
-        
+
         private Vector2 ComputeMoveInput(AIState state)
         {
             Vector2 myPos = transform.position;

@@ -8,20 +8,23 @@ namespace _Game._Scripts.EnemyMoveSystem
 {
     public class EnemyCreateController : MonoBehaviour
     {
-        [Header("References")]
-        [SerializeField] private Transform _playerTransform;
+        [Header("References")] [SerializeField]
+        private Transform _playerTransform;
+
         [SerializeField] private Transform[] _enemyPrefabArray;
         [SerializeField] private ScratchCard _scratchCard;
 
-        [Header("Spawn Randomness")]
-        [SerializeField, Min(1)] private int _candidateSampleCount = 300;
-        [SerializeField, Min(1)] private int _topCandidatesToChooseFrom = 10;
+        [Header("Spawn Randomness")] [SerializeField] [Min(1)]
+        private int _candidateSampleCount = 300;
 
-        [Header("Constraints")]
-        [SerializeField, Min(0f)] private float _minEnemyDistance = 3f;
+        [SerializeField] [Min(1)] private int _topCandidatesToChooseFrom = 10;
 
-        [Header("Optional Determinism")]
-        [SerializeField] private bool _useFixedSeed;
+        [Header("Constraints")] [SerializeField] [Min(0f)]
+        private float _minEnemyDistance = 3f;
+
+        [Header("Optional Determinism")] [SerializeField]
+        private bool _useFixedSeed;
+
         [SerializeField] private int _fixedSeed = 12345;
 
         private readonly List<Vector3> m_SpawnedEnemyPositions = new();
@@ -29,18 +32,6 @@ namespace _Game._Scripts.EnemyMoveSystem
 
         private int m_MapHeight;
         private int m_MapWidth;
-
-        private struct ScoredPoint
-        {
-            public readonly Vector3 point;
-            public readonly float score;
-
-            public ScoredPoint(Vector3 point, float score)
-            {
-                this.point = point;
-                this.score = score;
-            }
-        }
 
         private void Awake()
         {
@@ -110,13 +101,11 @@ namespace _Game._Scripts.EnemyMoveSystem
 
             var insertIndex = m_TopCandidates.Count;
             for (var i = 0; i < m_TopCandidates.Count; i++)
-            {
                 if (score > m_TopCandidates[i].score)
                 {
                     insertIndex = i;
                     break;
                 }
-            }
 
             m_TopCandidates.Insert(insertIndex, sp);
 
@@ -167,6 +156,18 @@ namespace _Game._Scripts.EnemyMoveSystem
             }
 
             return bestPoint;
+        }
+
+        private struct ScoredPoint
+        {
+            public readonly Vector3 point;
+            public readonly float score;
+
+            public ScoredPoint(Vector3 point, float score)
+            {
+                this.point = point;
+                this.score = score;
+            }
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using _Game._Scripts.GameEvents;
 using _Game._Scripts.Patterns.EventBusPattern;
 using _Game._Scripts.ScriptableObjects;
@@ -12,16 +11,15 @@ namespace _Game._Scripts.PlayerSystem
     {
         [SerializeField] private bool _isPlayer;
 
-        [Header("UI")]
-        [SerializeField] private Transform _playerInfoCanvas;
+        [Header("UI")] [SerializeField] private Transform _playerInfoCanvas;
+
         [SerializeField] private Image _healthBar;
         [SerializeField] private Image _healthWhiteIndicatorBar;
 
-        [Header("Settings")]
-        [SerializeField] private PlayerHealthSettingsSO _settings;
+        [Header("Settings")] [SerializeField] private PlayerHealthSettingsSO _settings;
 
-        [Header("Death Settings")]
-        [SerializeField] private Collider2D _collider;
+        [Header("Death Settings")] [SerializeField]
+        private Collider2D _collider;
 
         private int m_CurrentHealth;
         private bool m_IsDead;
@@ -39,8 +37,8 @@ namespace _Game._Scripts.PlayerSystem
 
             InitializeHealth();
         }
-        
-        
+
+
         private void InitializeHealth()
         {
             m_CurrentHealth = _settings.MaxHealth;
@@ -109,7 +107,7 @@ namespace _Game._Scripts.PlayerSystem
                 isPlayer = _isPlayer,
                 transform = transform
             });
-            
+
             _playerInfoCanvas.gameObject.SetActive(false);
 
             var startPos = transform.position;
@@ -124,7 +122,7 @@ namespace _Game._Scripts.PlayerSystem
 
             var targetPos = startPos + deathDirection * _settings.DeathMoveDistance;
 
-            
+
             var deathSequence = DOTween.Sequence();
             deathSequence
                 .Append(transform.DOMove(targetPos, _settings.DeathDuration).SetEase(_settings.DeathEase))

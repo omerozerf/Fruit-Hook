@@ -9,7 +9,7 @@ namespace _Game._Scripts
         private Camera m_Camera;
         private EventBinding<PlayerDiedEvent> m_PlayerDiedEventBinding;
 
-        
+
         private void OnEnable()
         {
             m_PlayerDiedEventBinding = new EventBinding<PlayerDiedEvent>(HandlePlayerDied);

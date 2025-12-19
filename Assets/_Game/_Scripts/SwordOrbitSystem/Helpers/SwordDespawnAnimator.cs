@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
-using UnityEngine;
 using _Game._Scripts.SwordSystem;
+using UnityEngine;
 
 namespace _Game._Scripts.SwordOrbitSystem.Helpers
 {
@@ -12,7 +12,7 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
         private readonly SwordOrbitController.DespawnSettings m_Settings;
         private Camera m_Cam;
 
-        
+
         public SwordDespawnAnimator(
             MonoBehaviour host,
             SwordOrbitController.DespawnSettings settings,
@@ -22,8 +22,8 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
             m_Settings = settings;
             m_OnDespawnCompleted = onDespawnCompleted;
         }
-        
-        
+
+
         private IEnumerator DespawnRoutine(Transform sword, Vector3 centerWorld, float orbitRadius)
         {
             var startPos = sword.position;
@@ -59,8 +59,8 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
             if (sword)
                 m_OnDespawnCompleted?.Invoke(sword);
         }
-        
-        
+
+
         public void StartDespawn(Sword sword, Vector3 centerWorld, float orbitRadius)
         {
             if (!sword)
@@ -71,14 +71,10 @@ namespace _Game._Scripts.SwordOrbitSystem.Helpers
             MonoBehaviour runner = null;
 
             if (sword && sword.isActiveAndEnabled)
-            {
                 runner = sword;
-            }
             else if (m_Host && m_Host.isActiveAndEnabled)
-            {
                 // Fallback for cases where sword doesn't have a valid MonoBehaviour to host the coroutine.
                 runner = m_Host;
-            }
 
             if (!runner)
                 return;

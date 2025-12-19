@@ -1,4 +1,3 @@
-using System;
 using _Game._Scripts.GameEvents;
 using _Game._Scripts.Patterns.EventBusPattern;
 using DG.Tweening;
@@ -8,33 +7,34 @@ namespace _Game._Scripts
 {
     public class FloatingJoystick : MonoBehaviour
     {
-        [Header("UI")]
-        [SerializeField] private RectTransform _background;
+        [Header("UI")] [SerializeField] private RectTransform _background;
+
         [SerializeField] private RectTransform _handle;
 
-        [Header("Settings")]
-        [SerializeField] private float _radius = 80f;
+        [Header("Settings")] [SerializeField] private float _radius = 80f;
+
         [SerializeField] private float _deadZone = 0.05f;
         [SerializeField] private bool _followTouch = true;
 
-        [Header("Tutorial Hint")]
-        [SerializeField] private bool _showHintOnStart = true;
+        [Header("Tutorial Hint")] [SerializeField]
+        private bool _showHintOnStart = true;
+
         [SerializeField] private float _hintAmplitude = 45f;
         [SerializeField] private float _hintVerticalScale = 0.5f;
         [SerializeField] private float _hintLoopDuration = 1.2f;
 
-        [Header("Optional")]
-        [SerializeField] private Canvas _canvas;
+        [Header("Optional")] [SerializeField] private Canvas _canvas;
+
         [SerializeField] private Camera _uiCamera;
 
         private int m_ActiveFingerId = -1;
         private Vector2 m_CenterLocalPos;
+        private EventBinding<EndCardShowed> m_EndCardShowedEventBinding;
         private bool m_HintDismissed;
         private float m_HintT;
         private Tween m_HintTween;
         private Vector2 m_Input;
         private bool m_IsActive;
-        private EventBinding<EndCardShowed> m_EndCardShowedEventBinding;
 
         public float Horizontal => m_Input.x;
         public float Vertical => m_Input.y;
@@ -50,12 +50,6 @@ namespace _Game._Scripts
             ResetHandle();
         }
 
-        private void OnEnable()
-        {
-            m_EndCardShowedEventBinding = new EventBinding<EndCardShowed>(HandleEndCardShowed);
-            EventBus<EndCardShowed>.Subscribe(m_EndCardShowedEventBinding);
-        }
-
         private void Start()
         {
             TryStartHint();
@@ -65,6 +59,12 @@ namespace _Game._Scripts
         {
             UpdatePointerState();
             UpdateHandleAndInput();
+        }
+
+        private void OnEnable()
+        {
+            m_EndCardShowedEventBinding = new EventBinding<EndCardShowed>(HandleEndCardShowed);
+            EventBus<EndCardShowed>.Subscribe(m_EndCardShowedEventBinding);
         }
 
         private void OnDisable()
@@ -82,7 +82,7 @@ namespace _Game._Scripts
         {
             if (!_canvas)
                 _canvas = GetComponentInParent<Canvas>();
-            
+
             _radius = Mathf.Max(1f, _radius);
             _deadZone = Mathf.Clamp01(_deadZone);
 
@@ -96,8 +96,8 @@ namespace _Game._Scripts
         {
             _canvas.enabled = false;
         }
-        
-        
+
+
         private void UpdatePointerState()
         {
             if (Input.GetMouseButtonDown(0))

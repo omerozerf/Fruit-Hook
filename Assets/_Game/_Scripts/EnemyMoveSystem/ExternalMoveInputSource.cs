@@ -6,7 +6,7 @@ namespace _Game._Scripts.EnemyMoveSystem
     public class ExternalMoveInputSource : MonoBehaviour
     {
         [SerializeField] private PlayerMovement _movement;
-        
+
 
         private void OnValidate()
         {

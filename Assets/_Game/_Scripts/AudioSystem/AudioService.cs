@@ -5,16 +5,16 @@ namespace _Game._Scripts.AudioSystem
 {
     public class AudioService : Singleton<AudioService>
     {
-        [Header("Settings")]
-        [SerializeField] private AudioServiceSettingsSO _settings;
-
-        [Header("Runtime Volumes")]
-        [SerializeField, Range(0f, 1f)] private float _sfxVolume = 1f;
-        [SerializeField, Range(0f, 1f)] private float _musicVolume = 0.5f;
-
         private const string PREF_SFX = "audio_sfx_01";
         private const string PREF_MUSIC = "audio_music_01";
-        
+
+        [Header("Settings")] [SerializeField] private AudioServiceSettingsSO _settings;
+
+        [Header("Runtime Volumes")] [SerializeField] [Range(0f, 1f)]
+        private float _sfxVolume = 1f;
+
+        [SerializeField] [Range(0f, 1f)] private float _musicVolume = 0.5f;
+
         private AudioSource m_MusicSource;
         private AudioSource m_SfxSource;
         private bool m_Unlocked;
@@ -56,7 +56,7 @@ namespace _Game._Scripts.AudioSystem
             }
         }
 
-        
+
         public void PlaySfx(SfxId id)
         {
             UnlockAudio();

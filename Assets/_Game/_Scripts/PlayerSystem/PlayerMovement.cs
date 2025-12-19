@@ -5,11 +5,11 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField] private PlayerMovementSettingsSO _settings;
+        [Header("Settings")] [SerializeField] private PlayerMovementSettingsSO _settings;
 
-        [Header("Runtime References")]
-        [SerializeField] private Rigidbody2D _rigidbody2D;
+        [Header("Runtime References")] [SerializeField]
+        private Rigidbody2D _rigidbody2D;
+
         [SerializeField] private Transform _visualsTransform;
 
         private Vector2 m_MovementInput;
@@ -22,7 +22,6 @@ namespace _Game._Scripts.PlayerSystem
             {
                 Debug.LogError($"{nameof(PlayerMovement)} on '{name}' has no PlayerMovementSettings assigned.");
                 enabled = false;
-                return;
             }
         }
 
@@ -40,8 +39,8 @@ namespace _Game._Scripts.PlayerSystem
             if (!_rigidbody2D)
                 _rigidbody2D = GetComponent<Rigidbody2D>();
         }
-        
-        
+
+
         private void ApplyMove()
         {
             var targetVelocity = m_MovementInput * _settings.MoveSpeed;
@@ -67,8 +66,8 @@ namespace _Game._Scripts.PlayerSystem
         {
             m_MovementLocked = false;
         }
-        
-        
+
+
         public void SetMoveInput(Vector2 input)
         {
             m_MovementInput = Vector2.ClampMagnitude(input, 1f);

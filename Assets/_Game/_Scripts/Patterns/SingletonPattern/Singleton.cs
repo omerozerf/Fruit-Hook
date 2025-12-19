@@ -8,26 +8,7 @@ namespace _Game._Scripts.Patterns.SingletonPattern
         private static readonly object LOCK = new();
         private static bool ms_IsShuttingDown;
 
-        
-        protected virtual void Awake()
-        {
-            if (!ms_Instance)
-            {
-                ms_Instance = this as T;
-                DontDestroyOnLoad(gameObject);
-            }
-            else if (ms_Instance != this)
-            {
-                Destroy(gameObject);
-            }
-        }
 
-        protected virtual void OnApplicationQuit()
-        {
-            ms_IsShuttingDown = true;
-        }
-        
-        
         public static T Instance
         {
             get
@@ -51,6 +32,25 @@ namespace _Game._Scripts.Patterns.SingletonPattern
                     return ms_Instance;
                 }
             }
+        }
+
+
+        protected virtual void Awake()
+        {
+            if (!ms_Instance)
+            {
+                ms_Instance = this as T;
+                DontDestroyOnLoad(gameObject);
+            }
+            else if (ms_Instance != this)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        protected virtual void OnApplicationQuit()
+        {
+            ms_IsShuttingDown = true;
         }
     }
 }

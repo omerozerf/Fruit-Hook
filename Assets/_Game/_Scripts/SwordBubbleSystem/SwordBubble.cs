@@ -8,14 +8,14 @@ namespace _Game._Scripts.SwordBubbleSystem
 {
     public class SwordBubble : MonoBehaviour, IPoolable
     {
-        [Header("Settings")]
-        [SerializeField] private SwordBubbleSettingsSO _settings;
+        [Header("Settings")] [SerializeField] private SwordBubbleSettingsSO _settings;
 
-        [Header("Sword Visual")]
-        [SerializeField] private Transform _swordTransform;
+        [Header("Sword Visual")] [SerializeField]
+        private Transform _swordTransform;
 
-        [Header("Pickup Animation")]
-        [SerializeField] private Collider2D _triggerCollider;
+        [Header("Pickup Animation")] [SerializeField]
+        private Collider2D _triggerCollider;
+
         [SerializeField] private Transform _scaleTarget;
 
         private Vector3 m_InitialScale;

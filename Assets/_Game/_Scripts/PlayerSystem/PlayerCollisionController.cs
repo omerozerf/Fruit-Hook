@@ -11,28 +11,27 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerCollisionController : MonoBehaviour
     {
+        private const float SAME_COLLIDER_DAMAGE_COOLDOWN = 0.5f;
+        private const int COLLIDER_COOLDOWN_CACHE_SIZE = 16;
         [SerializeField] private bool _isPlayer;
-        
-        [Header("Settings")]
-        [SerializeField] private PlayerCollisionSettingsSO _settings;
 
-        [Header("References")]
-        [SerializeField] private PlayerMovement _playerMovement;
+        [Header("Settings")] [SerializeField] private PlayerCollisionSettingsSO _settings;
+
+        [Header("References")] [SerializeField]
+        private PlayerMovement _playerMovement;
+
         [SerializeField] private PlayerVisualController _playerVisualController;
         [SerializeField] private PlayerHealthController _playerHealthController;
         [SerializeField] private SwordOrbitController _swordOrbitController;
         [SerializeField] private Rigidbody2D _rigidbody2D;
+        private int m_CacheWriteIndex;
 
-        private const float SAME_COLLIDER_DAMAGE_COOLDOWN = 0.5f;
-        private const int COLLIDER_COOLDOWN_CACHE_SIZE = 16;
+        private Tween m_CameraShakeTween;
 
         private int[] m_ColliderIdCache;
         private float[] m_LastDamageTimeCache;
-        private int m_CacheWriteIndex;
-        
-        private Tween m_CameraShakeTween;
 
-        
+
         private void Awake()
         {
             if (!_settings)
@@ -46,7 +45,7 @@ namespace _Game._Scripts.PlayerSystem
             m_ColliderIdCache = new int[COLLIDER_COOLDOWN_CACHE_SIZE];
             m_LastDamageTimeCache = new float[COLLIDER_COOLDOWN_CACHE_SIZE];
 
-            for (int i = 0; i < m_ColliderIdCache.Length; i++)
+            for (var i = 0; i < m_ColliderIdCache.Length; i++)
                 m_ColliderIdCache[i] = int.MinValue;
         }
 
@@ -81,10 +80,10 @@ namespace _Game._Scripts.PlayerSystem
 
         private bool CanTakeDamageFrom(Collider2D other)
         {
-            int id = other.GetInstanceID();
-            float now = Time.time;
+            var id = other.GetInstanceID();
+            var now = Time.time;
 
-            for (int i = 0; i < m_ColliderIdCache.Length; i++)
+            for (var i = 0; i < m_ColliderIdCache.Length; i++)
             {
                 if (m_ColliderIdCache[i] != id) continue;
 
@@ -125,7 +124,7 @@ namespace _Game._Scripts.PlayerSystem
         {
             return (mask.value & (1 << obj.layer)) != 0;
         }
-        
+
         private void ApplyKnockback(Collider2D other)
         {
             if (!_rigidbody2D) return;
@@ -153,7 +152,7 @@ namespace _Game._Scripts.PlayerSystem
                 .SetUpdate(true);
         }
 
-        
+
         public SwordOrbitController GetSwordOrbitController()
         {
             return _swordOrbitController;

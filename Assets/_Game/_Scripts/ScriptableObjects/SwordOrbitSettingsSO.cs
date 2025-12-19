@@ -9,26 +9,25 @@ namespace _Game._Scripts.ScriptableObjects
         order = 0)]
     public class SwordOrbitSettingsSO : ScriptableObject
     {
-        [Header("Start")]
-        [SerializeField] private int _startCount;
-        
-        [Header("Orbit")]
-        [SerializeField] private SwordOrbitController.OrbitSettings _orbit = SwordOrbitController.OrbitSettings.Default;
+        [Header("Start")] [SerializeField] private int _startCount;
 
-        [Header("Despawn")]
-        [SerializeField] private SwordOrbitController.DespawnSettings _despawn = SwordOrbitController.DespawnSettings.Default;
+        [Header("Orbit")] [SerializeField]
+        private SwordOrbitController.OrbitSettings _orbit = SwordOrbitController.OrbitSettings.Default;
 
-        [Header("Pooling")]
-        [SerializeField] private int _prewarmCount = 8;
+        [Header("Despawn")] [SerializeField]
+        private SwordOrbitController.DespawnSettings _despawn = SwordOrbitController.DespawnSettings.Default;
 
-        [Header("Test")]
-        [SerializeField] private SwordOrbitController.TestSettings _test = SwordOrbitController.TestSettings.Default;
+        [Header("Pooling")] [SerializeField] private int _prewarmCount = 8;
 
-        [Header("Camera Shake")]
-        [SerializeField] private float _shakeDuration = 0.3f;
+        [Header("Test")] [SerializeField]
+        private SwordOrbitController.TestSettings _test = SwordOrbitController.TestSettings.Default;
+
+        [Header("Camera Shake")] [SerializeField]
+        private float _shakeDuration = 0.3f;
+
         [SerializeField] private float _shakeStrength = 0.7f;
 
-        
+
         public int StartCount => _startCount;
         public SwordOrbitController.OrbitSettings Orbit => _orbit;
         public SwordOrbitController.DespawnSettings Despawn => _despawn;

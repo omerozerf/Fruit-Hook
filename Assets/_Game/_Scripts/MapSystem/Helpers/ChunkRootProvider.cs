@@ -10,7 +10,7 @@ namespace _Game._Scripts.MapSystem.Helpers
         private readonly Transform m_Parent;
         private readonly GridMapBuilderSettingsSO m_Settings;
 
-        
+
         public ChunkRootProvider(Transform parent, GridMapBuilderSettingsSO settings)
         {
             m_Parent = parent;

@@ -8,23 +8,27 @@ namespace _Game._Scripts.AudioSystem
         order = 0)]
     public class AudioServiceSettingsSO : ScriptableObject
     {
-        [Header("Clips (3 SFX)")]
-        [SerializeField] private AudioClip _bubbleSword;
+        [Header("Clips (3 SFX)")] [SerializeField]
+        private AudioClip _bubbleSword;
+
         [SerializeField] private AudioClip _damageHit;
         [SerializeField] private AudioClip _swordHit;
 
-        [Header("Music (Optional)")]
-        [SerializeField] private AudioClip _music;
+        [Header("Music (Optional)")] [SerializeField]
+        private AudioClip _music;
+
         [SerializeField] private bool _playMusicOnStart = true;
 
-        [Header("Default Volumes")]
-        [SerializeField, Range(0f, 1f)] private float _defaultSfxVolume = 1f;
-        [SerializeField, Range(0f, 1f)] private float _defaultMusicVolume = 0.5f;
+        [Header("Default Volumes")] [SerializeField] [Range(0f, 1f)]
+        private float _defaultSfxVolume = 1f;
 
-        [Header("Random Pitch (Optional)")]
-        [SerializeField] private bool _randomizePitch = true;
-        [SerializeField, Range(0.8f, 1.2f)] private float _pitchMin = 0.95f;
-        [SerializeField, Range(0.8f, 1.2f)] private float _pitchMax = 1.05f;
+        [SerializeField] [Range(0f, 1f)] private float _defaultMusicVolume = 0.5f;
+
+        [Header("Random Pitch (Optional)")] [SerializeField]
+        private bool _randomizePitch = true;
+
+        [SerializeField] [Range(0.8f, 1.2f)] private float _pitchMin = 0.95f;
+        [SerializeField] [Range(0.8f, 1.2f)] private float _pitchMax = 1.05f;
 
         public AudioClip BubbleSword => _bubbleSword;
         public AudioClip DamageHit => _damageHit;

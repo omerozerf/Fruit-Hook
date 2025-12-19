@@ -11,16 +11,16 @@ namespace _Game._Scripts.SwordBubbleSystem
 {
     public sealed class SwordBubbleCreator : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField] private SwordBubbleCreatorSettingsSO _settings;
+        [Header("Settings")] [SerializeField] private SwordBubbleCreatorSettingsSO _settings;
 
-        [Header("Prefab & Pool")]
-        [SerializeField] private Transform _swordBubblePrefab;
+        [Header("Prefab & Pool")] [SerializeField]
+        private Transform _swordBubblePrefab;
+
         [SerializeField] private Transform _poolParent;
 
-        [Header("References")]
-        [SerializeField] private Transform _player;
-        
+        [Header("References")] [SerializeField]
+        private Transform _player;
+
         private bool m_IsRunning;
         private EventBinding<PlayerDiedEvent> m_PlayerDiedEventBinding;
         private ObjectPool<Transform> m_Pool;
@@ -62,7 +62,7 @@ namespace _Game._Scripts.SwordBubbleSystem
         {
             m_PlayerDiedEventBinding = new EventBinding<PlayerDiedEvent>(HandlePlayerDied);
             EventBus<PlayerDiedEvent>.Subscribe(m_PlayerDiedEventBinding);
-            
+
             m_SwordBubbleTakenEventBinding = new EventBinding<SwordBubbleTaken>(HandleSwordBubbleTaken);
             EventBus<SwordBubbleTaken>.Subscribe(m_SwordBubbleTakenEventBinding);
         }
@@ -88,7 +88,7 @@ namespace _Game._Scripts.SwordBubbleSystem
             Release(obj.transform);
         }
 
-        
+
         private IEnumerator SpawnLoop()
         {
             while (m_IsRunning)
@@ -128,11 +128,11 @@ namespace _Game._Scripts.SwordBubbleSystem
 
         private Vector3 GetRandomPointInsideArea()
         {
-            var rx = Random.Range(1 , GridMapManager.Instance.GetWidth() - 1);
+            var rx = Random.Range(1, GridMapManager.Instance.GetWidth() - 1);
             var ry = Random.Range(1, GridMapManager.Instance.GetHeight() - 1);
             return new Vector3(rx, ry, 0f);
         }
-        
+
         private void StartSpawning()
         {
             if (m_IsRunning) return;

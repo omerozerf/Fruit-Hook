@@ -6,13 +6,13 @@ namespace _Game._Scripts.MapSystem
 {
     public sealed class GridMapBuilder : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField] private GridMapBuilderSettingsSO _settings;
+        [Header("Settings")] [SerializeField] private GridMapBuilderSettingsSO _settings;
 
-        [Header("Scene References")]
-        [SerializeField] private Camera _cullCamera;
+        [Header("Scene References")] [SerializeField]
+        private Camera _cullCamera;
+
         [SerializeField] private Transform _areaTransform;
-        
+
         private BoundaryColliderBuilder m_BoundaryBuilder;
         private ChunkRootProvider m_ChunkRoots;
 
@@ -82,35 +82,35 @@ namespace _Game._Scripts.MapSystem
         }
 
         /// <summary>
-        /// Area'yı haritanın merkezine alır ve harita boyutuna göre scale eder
+        ///     Area'yı haritanın merkezine alır ve harita boyutuna göre scale eder
         /// </summary>
         private void UpdateAreaTransform()
         {
             if (!_areaTransform || !_settings.CanUpdateArea)
                 return;
 
-            Vector2 mapSizeWorld = GetMapWorldSize();
+            var mapSizeWorld = GetMapWorldSize();
 
-            Vector3 centerPos = new Vector3(
+            var centerPos = new Vector3(
                 mapSizeWorld.x * 0.5f,
                 mapSizeWorld.y * 0.5f,
                 _areaTransform.position.z
             );
 
-            float baseScale = Mathf.Max(mapSizeWorld.x, mapSizeWorld.y);
-            float finalScale = baseScale * _settings.AreaScaleMultiplier;
+            var baseScale = Mathf.Max(mapSizeWorld.x, mapSizeWorld.y);
+            var finalScale = baseScale * _settings.AreaScaleMultiplier;
 
             _areaTransform.position = centerPos;
             _areaTransform.localScale = Vector3.one * finalScale;
         }
 
         /// <summary>
-        /// Haritanın world space boyutunu döner
+        ///     Haritanın world space boyutunu döner
         /// </summary>
         private Vector2 GetMapWorldSize()
         {
-            float width = _settings.Width * _settings.CellSize;
-            float height = _settings.Height * _settings.CellSize;
+            var width = _settings.Width * _settings.CellSize;
+            var height = _settings.Height * _settings.CellSize;
             return new Vector2(width, height);
         }
     }

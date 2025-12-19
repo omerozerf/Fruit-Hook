@@ -14,7 +14,7 @@ namespace _Game._Scripts.ObjectPoolSystem
         private readonly Transform m_Parent;
         private readonly T m_Prefab;
 
-        
+
         public ObjectPool(
             T prefab,
             Transform parent = null,
@@ -31,12 +31,12 @@ namespace _Game._Scripts.ObjectPoolSystem
                 Prewarm(prewarmCount);
         }
 
-        
+
         public int TotalCreated { get; private set; }
         public int ActiveCount => m_ActiveInstanceIds.Count;
         public int InactiveCount => m_InactiveQueue.Count;
 
-        
+
         private static void CallPoolableSpawned(T instance)
         {
             if (instance.TryGetComponent<IPoolable>(out var poolable))
@@ -48,7 +48,7 @@ namespace _Game._Scripts.ObjectPoolSystem
             if (instance.TryGetComponent<IPoolable>(out var poolable))
                 poolable.OnDespawnedToPool();
         }
-        
+
 
         private T TryDequeueInactive()
         {
@@ -113,7 +113,7 @@ namespace _Game._Scripts.ObjectPoolSystem
             m_ActiveInstanceIds.Add(id);
         }
 
-        
+
         public void Prewarm(int count)
         {
             if (count <= 0) return;
