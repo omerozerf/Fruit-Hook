@@ -9,6 +9,8 @@ namespace _Game._Scripts
         private Camera m_Camera;
         private EventBinding<PlayerDiedEvent> m_PlayerDiedEventBinding;
 
+        private int m_EnemyDeathCount;
+
         
         private void OnEnable()
         {
@@ -33,6 +35,12 @@ namespace _Game._Scripts
 
             if (isPlayer)
                 transform.SetParent(null, true);
+            else
+            {
+                m_EnemyDeathCount++;
+                if (m_EnemyDeathCount >= 3)
+                    transform.SetParent(null, true);
+            }
         }
     }
 }
