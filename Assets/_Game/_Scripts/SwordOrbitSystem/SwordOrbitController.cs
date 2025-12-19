@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using _Game._Scripts.ObjectPoolSystem;
 using _Game._Scripts.ScriptableObjects;
 using _Game._Scripts.SwordOrbitSystem.Helpers;
 using _Game._Scripts.SwordSystem;
 using DG.Tweening;
+using ScratchCardAsset;
 using UnityEngine;
 
 namespace _Game._Scripts.SwordOrbitSystem
@@ -16,6 +18,7 @@ namespace _Game._Scripts.SwordOrbitSystem
         [SerializeField] private SwordOrbitSettingsSO _settings;
 
         [Header("References")]
+        [SerializeField] private ScratchCard _scratchCard;
         [SerializeField] private OrbitReferences _references = OrbitReferences.Default;
 
         private readonly SwordOrbitList m_OrbitList = new();
@@ -25,6 +28,14 @@ namespace _Game._Scripts.SwordOrbitSystem
         private float m_RemoveTimer;
         private float m_SpawnTimer;
         private ObjectPool<Transform> m_SwordPool;
+
+        [Header("Scratch Erase")]
+        [SerializeField] private bool _enableSwordScratchErase = true;
+        [SerializeField] private float _scratchBrushSize = 0.5f;
+        [SerializeField, Range(0.01f, 1f)] private float _scratchPressure = 1f;
+
+        private readonly List<Transform> m_ActiveSwords = new();
+        private readonly Dictionary<int, Vector2> m_LastScratchPosBySwordId = new();
 
         
         private void Awake()
@@ -65,6 +76,7 @@ namespace _Game._Scripts.SwordOrbitSystem
 
             TickOrbit();
             TickRotation();
+            TickSwordScratchErase();
         }
         
 
@@ -90,6 +102,9 @@ namespace _Game._Scripts.SwordOrbitSystem
             if (!sword)
                 return;
 
+            m_ActiveSwords.Remove(sword);
+            m_LastScratchPosBySwordId.Remove(sword.GetInstanceID());
+
             if (m_SwordPool != null)
                 m_SwordPool.Release(sword);
             else
@@ -101,6 +116,9 @@ namespace _Game._Scripts.SwordOrbitSystem
             sword.GetComponent<Sword>().SetSwordOrbitController(this);
             m_OrbitList.Add(sword, _settings.Orbit._spawnGrowDuration);
             m_OrbitList.RecalculateTargetAngles();
+
+            if (sword && !m_ActiveSwords.Contains(sword))
+                m_ActiveSwords.Add(sword);
         }
 
         private void TickTestSpawning()
@@ -149,6 +167,95 @@ namespace _Game._Scripts.SwordOrbitSystem
             transform.Rotate(0f, 0f, -_settings.Orbit._rotationSpeed * Time.deltaTime);
         }
 
+        private void TickSwordScratchErase()
+        {
+            if (!_enableSwordScratchErase)
+                return;
+
+            if (!_scratchCard)
+                return;
+
+            if (!_scratchCard.Initialized)
+                return;
+
+            if (_scratchCard.ScratchData == null)
+                return;
+
+            // Prefer the camera that ScratchCard was initialized with (SpriteRendererData/MeshRendererData).
+            var cam = _scratchCard.ScratchData.Camera ? _scratchCard.ScratchData.Camera : m_Cam;
+            if (!cam)
+                return;
+
+            // Ensure brush size is what we expect (designer-tunable).
+            if (Math.Abs(_scratchCard.BrushSize - _scratchBrushSize) > 0.0001f)
+                _scratchCard.BrushSize = Mathf.Max(0.001f, _scratchBrushSize);
+
+            ScratchWithActiveSwords();
+        }
+
+        private void ScratchWithActiveSwords()
+        {
+            // Iterate without allocations.
+            for (int i = 0; i < m_ActiveSwords.Count; i++)
+            {
+                var sword = m_ActiveSwords[i];
+                if (!sword)
+                    continue;
+
+                ScratchWithSwordTransform(sword);
+            }
+        }
+
+        private void ScratchWithSwordTransform(Transform sword)
+        {
+            if (!sword)
+                return;
+
+            if (_scratchCard.ScratchData == null)
+                return;
+
+            var cam = _scratchCard.ScratchData.Camera ? _scratchCard.ScratchData.Camera : m_Cam;
+            if (!cam)
+                return;
+
+            var surface = _scratchCard.SurfaceTransform;
+            if (!surface)
+                return;
+
+            // Project sword position onto the scratch surface plane to avoid depth/parallax offsets.
+            // For a SpriteRenderer surface, forward is typically the plane normal.
+            var projectedWorld = ProjectPointToPlane(sword.position, surface.position, surface.forward);
+
+            var screenPos3 = cam.WorldToScreenPoint(projectedWorld);
+            if (screenPos3.z <= 0f)
+                return;
+
+            var screenPos = new Vector2(screenPos3.x, screenPos3.y);
+
+            // Match the same pipeline as ScratchCardInput:
+            // screen -> ScratchData.GetScratchPosition -> renderer scratch.
+            var scratchPos = _scratchCard.ScratchData.GetScratchPosition(screenPos);
+
+            var id = sword.GetInstanceID();
+
+            if (m_LastScratchPosBySwordId.TryGetValue(id, out var lastScratchPos))
+            {
+                _scratchCard.ScratchLine(lastScratchPos, scratchPos, _scratchPressure, _scratchPressure);
+                m_LastScratchPosBySwordId[id] = scratchPos;
+            }
+            else
+            {
+                _scratchCard.ScratchHole(scratchPos, _scratchPressure);
+                m_LastScratchPosBySwordId.Add(id, scratchPos);
+            }
+        }
+
+        private static Vector3 ProjectPointToPlane(Vector3 point, Vector3 planePoint, Vector3 planeNormal)
+        {
+            var n = planeNormal.sqrMagnitude > 0.000001f ? planeNormal.normalized : Vector3.forward;
+            var dist = Vector3.Dot(point - planePoint, n);
+            return point - dist * n;
+        }
         
         public int GetSwordCount()
         {
@@ -183,6 +290,9 @@ namespace _Game._Scripts.SwordOrbitSystem
                 return;
 
             m_OrbitList.RecalculateTargetAngles();
+
+            m_ActiveSwords.Remove(swordTransform);
+            m_LastScratchPosBySwordId.Remove(swordTransform.GetInstanceID());
 
             swordTransform.SetParent(null, true);
             var sword = swordTransform.GetComponent<Sword>();

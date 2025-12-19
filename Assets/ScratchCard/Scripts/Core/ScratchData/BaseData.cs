@@ -4,7 +4,7 @@ namespace ScratchCardAsset.Core.ScratchData
 {
     public abstract class BaseData
     {
-	    public Camera Camera { protected get; set; }
+	    public Camera Camera { get; set; }
 	    public abstract Vector2 TextureSize { get; }
 	    protected abstract Vector2 Bounds { get; }
 	    protected virtual bool IsOrthographic => Camera.orthographic;

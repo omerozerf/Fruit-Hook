@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 205e9b26d0d24fe38c20ee5d0ae8ad83, type: 3}
   m_Name: CommonOrbitSettingsSO
   m_EditorClassIdentifier: 
-  _startCount: 2
+  _startCount: 0
   _orbit:
     _radius: 2.25
     _rotationSpeed: 225

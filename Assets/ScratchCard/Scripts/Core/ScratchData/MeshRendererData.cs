@@ -7,13 +7,23 @@ namespace ScratchCardAsset.Core.ScratchData
         private readonly MeshRenderer renderer;
         private readonly MeshFilter filter;
 
+        protected override Vector2 Bounds
+        {
+            get
+            {
+                // Prefer local-space mesh bounds via MeshFilter
+                if (filter != null && filter.sharedMesh != null)
+                    return (Vector2)filter.sharedMesh.bounds.size;
+
+                // Fallback: world-space renderer bounds (should rarely be needed)
+                if (renderer != null)
+                    return (Vector2)renderer.bounds.size;
+
+                return Vector2.zero;
+            }
+        }
+
         public override Vector2 TextureSize { get; }
-        protected override Vector2 Bounds => filter != null ? filter.sharedMesh.bounds.size : 
-#if UNITY_2021_2_OR_NEWER
-            renderer.localBounds.size;
-#else
-            renderer.bounds.size;
-#endif
 
         public MeshRendererData(Transform surface, Camera camera) : base(surface, camera)
         {

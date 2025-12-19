@@ -2,7 +2,6 @@
 using System.Collections;
 using ScratchCardAsset.Core;
 using ScratchCardAsset.Tools;
-using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Serialization;
@@ -51,25 +50,21 @@ namespace ScratchCardAsset
 			set
 			{
 				progressAccuracy = value;
-				UpdateAccuracy();
-				if (progressAccuracy == ProgressAccuracy.Default)
+
+				// Luna/WebGL: AsyncGPUReadback yolu derlenmiyor / desteklenmiyor.
+				// High seçilse bile Default akışa düş.
+				if (progressAccuracy == ProgressAccuracy.High)
 				{
-					updateProgress = false;
-					if (pixelsBuffer.IsCreated)
-					{
-						if (isCalculating)
-						{
-							AsyncGPUReadback.WaitAllRequests();
-						}
-						pixelsBuffer.Dispose();
-					}
+					Debug.LogWarning("ProgressAccuracy.High is not supported on this platform. Switching to ProgressAccuracy.Default.");
+					progressAccuracy = ProgressAccuracy.Default;
 				}
+
+				UpdateAccuracy();
+				updateProgress = false;
 			}
 		}
 
 		private ScratchMode scratchMode;
-		private NativeArray<byte> pixelsBuffer;
-		private int asyncGPUReadbackFrame;
 		private int updateProgressFrame;
 		private Color[] sourceSpritePixels;
 		private CommandBuffer commandBuffer;
@@ -79,7 +74,6 @@ namespace ScratchCardAsset
 		private Rect percentTextureRect;
 		private Texture2D progressTexture;
 		private float progress;
-		private int bitsPerPixel = 1;
 		private bool updateProgress;
 		private bool isCalculating;
 		private bool isCompleted;
@@ -95,16 +89,6 @@ namespace ScratchCardAsset
 
 		private void OnDestroy()
 		{
-			if (progressAccuracy == ProgressAccuracy.High && isCalculating)
-			{
-				AsyncGPUReadback.WaitAllRequests();
-			}
-			
-			if (pixelsBuffer.IsCreated)
-			{
-				pixelsBuffer.Dispose();
-			}
-
 			if (percentRenderTexture != null && percentRenderTexture.IsCreated())
 			{
 				percentRenderTexture.Release();
@@ -173,25 +157,24 @@ namespace ScratchCardAsset
 			scratchMode = card.Mode;
 			commandBuffer = new CommandBuffer {name = "EraseProgress"};
 			mesh = MeshGenerator.GenerateQuad(Vector3.one, Vector3.zero);
-			var renderTextureFormat = SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.R8) ? 
-				RenderTextureFormat.R8 : RenderTextureFormat.ARGB32;
+			var renderTextureFormat = RenderTextureFormat.ARGB32;
 			percentRenderTexture = new RenderTexture(1, 1, 0, renderTextureFormat);
 			percentTargetIdentifier = new RenderTargetIdentifier(percentRenderTexture);
 			percentTextureRect = new Rect(0, 0, percentRenderTexture.width, percentRenderTexture.height);
-			var textureFormat = SystemInfo.SupportsTextureFormat(TextureFormat.R8) ? TextureFormat.R8 : TextureFormat.ARGB32;
+			var textureFormat = TextureFormat.ARGB32;
 			progressTexture = new Texture2D(percentRenderTexture.width, percentRenderTexture.height, textureFormat, false, true);
 		}
 		
 		private void OnCardRenderTextureInitialized(RenderTexture renderTexture)
 		{
-			bitsPerPixel = renderTexture.format == RenderTextureFormat.R8 ? 1 : 4;
+			// No-op: High accuracy path disabled for Luna/WebGL compatibility.
 		}
 
 		private void UpdateAccuracy()
 		{
-			if (progressAccuracy == ProgressAccuracy.High && !SystemInfo.supportsAsyncGPUReadback)
+			// High accuracy yolu kapalı. Default dışında bir şey kalmasın.
+			if (progressAccuracy != ProgressAccuracy.Default)
 			{
-				Debug.LogWarning("AsyncGPUReadback is not supported! Switching to ProgressAccuracy.Default.");
 				progressAccuracy = ProgressAccuracy.Default;
 			}
 		}
@@ -204,67 +187,16 @@ namespace ScratchCardAsset
 			if (!isCompleted && !isCalculating)
 			{
 				isCalculating = true;
-				if (progressAccuracy == ProgressAccuracy.High)
-				{
-					if (!pixelsBuffer.IsCreated)
-					{
-						var length = card.RenderTexture.width * card.RenderTexture.height * bitsPerPixel;
-						pixelsBuffer = new NativeArray<byte>(length, Allocator.Persistent, NativeArrayOptions.UninitializedMemory);
-					}
 
-					asyncGPUReadbackFrame = Time.frameCount;
-					var request = AsyncGPUReadback.RequestIntoNativeArray(ref pixelsBuffer, card.RenderTexture);
-					yield return new WaitUntil(() => request.done);
-					if (request.hasError)
-					{
-						isCalculating = false;
-						updateProgress = false;
-						Debug.LogError("GPU readback error detected.");
-						yield break;
-					}
-					
-					progress = 0f;
-					if (sampleSourceTexture)
-					{
-						var totalAlpha = 0f;
-						for (var i = 0; i < pixelsBuffer.Length; i += bitsPerPixel)
-						{
-							var sourceAlpha = sourceSpritePixels[i / bitsPerPixel].a;
-							totalAlpha += sourceAlpha;
-							progress += pixelsBuffer[i] / 255f * sourceAlpha;
-						}
-						
-						var div = pixelsBuffer.Length / (float)bitsPerPixel;
-						totalAlpha /= div;
-						progress /= div;
-						progress /= totalAlpha;
-					}
-					else
-					{
-						for (var i = 0; i < pixelsBuffer.Length; i += bitsPerPixel)
-						{
-							progress += pixelsBuffer[i] / 255f;
-						}
-						
-						progress /= pixelsBuffer.Length / (float)bitsPerPixel;
-					}
+				var prevRenderTexture = RenderTexture.active;
+				RenderTexture.active = percentRenderTexture;
+				progressTexture.ReadPixels(percentTextureRect, 0, 0);
+				progressTexture.Apply();
+				RenderTexture.active = prevRenderTexture;
 
-					if (asyncGPUReadbackFrame > updateProgressFrame)
-					{
-						updateProgress = false;
-					}
-				}
-				else if (progressAccuracy == ProgressAccuracy.Default)
-				{
-					var prevRenderTexture = RenderTexture.active;
-					RenderTexture.active = percentRenderTexture;
-					progressTexture.ReadPixels(percentTextureRect, 0, 0);
-					progressTexture.Apply();
-					RenderTexture.active = prevRenderTexture;
-					var pixel = progressTexture.GetPixel(0, 0);
-					progress = pixel.r;
-				}
-				
+				var pixel = progressTexture.GetPixel(0, 0);
+				progress = pixel.r;
+
 				OnProgress?.Invoke(progress);
 				if (OnCompleted != null)
 				{
@@ -275,13 +207,16 @@ namespace ScratchCardAsset
 						isCompleted = true;
 					}
 				}
+
 				isCalculating = false;
 			}
-			else if (progressAccuracy == ProgressAccuracy.High && isCalculating && card.IsScratched)
+			else if (isCalculating && card.IsScratched)
 			{
 				updateProgress = true;
 				updateProgressFrame = Time.frameCount;
 			}
+
+			yield break;
 		}
 		
 		#endregion
