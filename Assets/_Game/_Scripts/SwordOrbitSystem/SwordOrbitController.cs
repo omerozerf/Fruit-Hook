@@ -14,28 +14,12 @@ namespace _Game._Scripts.SwordOrbitSystem
     {
         [SerializeField] private bool _isPlayer;
 
-        [Header("Settings")] [SerializeField] private SwordOrbitSettingsSO _settings;
+        [Header("Settings")]
+        [SerializeField] private SwordOrbitSettingsSO _settings;
 
-        [Header("References")] [SerializeField]
-        private ScratchCard _scratchCard;
-
+        [Header("References")]
+        [SerializeField] private ScratchCard _scratchCard;
         [SerializeField] private OrbitReferences _references = OrbitReferences.Default;
-
-        [Header("Scratch Erase")] [SerializeField]
-        private bool _enableSwordScratchErase = true;
-
-        [SerializeField] [Range(0.01f, 1f)] private float _scratchPressure = 1f;
-
-        [SerializeField] [Min(0.001f)] private float _scratchWidth = 0.5f;
-
-        [SerializeField] [Min(0.01f)] private float _scratchLength = 2.5f;
-
-
-        [Header("Orbit Center Erase")] [SerializeField]
-        private bool _enableOrbitCenterErase;
-
-        [SerializeField] [Min(0.001f)] private float _orbitCenterEraseRadius = 0.5f;
-        [SerializeField] [Range(0.01f, 1f)] private float _orbitCenterErasePressure = 1f;
 
 
         private readonly List<Transform> m_ActiveSwords = new();
@@ -178,7 +162,7 @@ namespace _Game._Scripts.SwordOrbitSystem
 
         private void TickSwordScratchErase()
         {
-            if (!_enableSwordScratchErase)
+            if (!_settings.EnableSwordScratchErase)
                 return;
 
             if (!_scratchCard)
@@ -196,8 +180,8 @@ namespace _Game._Scripts.SwordOrbitSystem
                 return;
 
             // One size control: _scratchWidth maps 1:1 to ScratchCard.BrushSize
-            if (Math.Abs(_scratchCard.BrushSize - _scratchWidth) > 0.0001f)
-                _scratchCard.BrushSize = Mathf.Max(0.001f, _scratchWidth);
+            if (Math.Abs(_scratchCard.BrushSize - _settings.ScratchWidth) > 0.0001f)
+                _scratchCard.BrushSize = Mathf.Max(0.001f, _settings.ScratchWidth);
 
             ScratchOrbitCenter();
             ScratchWithActiveSwords();
@@ -205,7 +189,7 @@ namespace _Game._Scripts.SwordOrbitSystem
 
         private void ScratchOrbitCenter()
         {
-            if (!_enableOrbitCenterErase)
+            if (!_settings.EnableOrbitCenterErase)
                 return;
 
             if (_scratchCard.ScratchData == null)
@@ -227,12 +211,12 @@ namespace _Game._Scripts.SwordOrbitSystem
 
             // Temporarily override brush size for center erase only, so it doesn't affect sword erase brush.
             var prevBrush = _scratchCard.BrushSize;
-            var newBrush = Mathf.Max(0.001f, _orbitCenterEraseRadius);
+            var newBrush = Mathf.Max(0.001f, _settings.OrbitCenterEraseRadius);
 
             if (Math.Abs(prevBrush - newBrush) > 0.0001f)
                 _scratchCard.BrushSize = newBrush;
 
-            _scratchCard.ScratchHole(scratchCenter, Mathf.Clamp01(_orbitCenterErasePressure));
+            _scratchCard.ScratchHole(scratchCenter, Mathf.Clamp01(_settings.OrbitCenterErasePressure));
 
             // Restore.
             if (Math.Abs(_scratchCard.BrushSize - prevBrush) > 0.0001f)
@@ -283,12 +267,12 @@ namespace _Game._Scripts.SwordOrbitSystem
 
             if (m_LastScratchPosBySwordId.TryGetValue(id, out var lastScratchPos))
             {
-                _scratchCard.ScratchLine(lastScratchPos, scratchPos, _scratchPressure, _scratchPressure);
+                _scratchCard.ScratchLine(lastScratchPos, scratchPos, _settings.ScratchPressure, _settings.ScratchPressure);
                 m_LastScratchPosBySwordId[id] = scratchPos;
             }
             else
             {
-                _scratchCard.ScratchHole(scratchPos, _scratchPressure);
+                _scratchCard.ScratchHole(scratchPos, _settings.ScratchPressure);
                 m_LastScratchPosBySwordId.Add(id, scratchPos);
             }
         }

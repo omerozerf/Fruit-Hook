@@ -6,7 +6,6 @@ namespace _Game._Scripts.SwordSystem
 {
     public class SwordCollisionController : MonoBehaviour
     {
-        [SerializeField] private bool _isPlayer;
         [SerializeField] private Sword _sword;
         [SerializeField] private LayerMask _swordLayerMask;
         [SerializeField] private Collider2D _collider;

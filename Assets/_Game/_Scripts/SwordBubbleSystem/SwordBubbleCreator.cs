@@ -11,15 +11,15 @@ namespace _Game._Scripts.SwordBubbleSystem
 {
     public sealed class SwordBubbleCreator : MonoBehaviour
     {
-        [Header("Settings")] [SerializeField] private SwordBubbleCreatorSettingsSO _settings;
+        [Header("Settings")]
+        [SerializeField] private SwordBubbleCreatorSettingsSO _settings;
 
-        [Header("Prefab & Pool")] [SerializeField]
-        private Transform _swordBubblePrefab;
-
+        [Header("Prefab & Pool")]
+        [SerializeField] private Transform _swordBubblePrefab;
         [SerializeField] private Transform _poolParent;
 
-        [Header("References")] [SerializeField]
-        private Transform _player;
+        [Header("References")]
+        [SerializeField] private Transform _player;
 
         private bool m_IsRunning;
         private EventBinding<PlayerDiedEvent> m_PlayerDiedEventBinding;

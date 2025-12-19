@@ -8,9 +8,11 @@ namespace _Game._Scripts.ScriptableObjects
         order = 0)]
     public class PlayerMovementSettingsSO : ScriptableObject
     {
-        [Header("Movement")] [SerializeField] private float _moveSpeed;
+        [Header("Movement")]
+        [SerializeField] private float _moveSpeed;
 
-        [Header("Knockback")] [SerializeField] private float _knockbackDisableDuration;
+        [Header("Knockback")]
+        [SerializeField] private float _knockbackDisableDuration;
 
 
         public float MoveSpeed => _moveSpeed;

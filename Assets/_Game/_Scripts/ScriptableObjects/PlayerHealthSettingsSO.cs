@@ -9,20 +9,20 @@ namespace _Game._Scripts.ScriptableObjects
         order = 0)]
     public class PlayerHealthSettingsSO : ScriptableObject
     {
-        [Header("Health")] [SerializeField] private int _maxHealth;
+        [Header("Health")]
+        [SerializeField] private int _maxHealth;
 
-        [Header("White Indicator")] [SerializeField]
-        private float _whiteBarDelay;
-
+        [Header("White Indicator")]
+        [SerializeField] private float _whiteBarDelay;
         [SerializeField] private float _whiteBarTweenDuration;
 
-        [Header("Colors")] [SerializeField] private Color _fullHealthColor = Color.green;
-
+        [Header("Colors")]
+        [SerializeField] private Color _fullHealthColor = Color.green;
         [SerializeField] private Color _midHealthColor = new(1f, 0.5f, 0f);
         [SerializeField] private Color _lowHealthColor = Color.red;
 
-        [Header("Death")] [SerializeField] private float _deathMoveDistance;
-
+        [Header("Death")]
+        [SerializeField] private float _deathMoveDistance;
         [SerializeField] private float _deathDuration;
         [SerializeField] private Ease _deathEase = Ease.InQuad;
 

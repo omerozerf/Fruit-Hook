@@ -10,12 +10,12 @@ namespace _Game._Scripts.EnemyMoveSystem
 {
     public class EnemyAIController : MonoBehaviour
     {
-        [Header("References")] [SerializeField]
-        private ExternalMoveInputSource _externalMoveInputSource;
-
+        [Header("References")]
+        [SerializeField] private ExternalMoveInputSource _externalMoveInputSource;
         [SerializeField] private SwordOrbitController _swordOrbitController;
 
-        [Header("Settings")] [SerializeField] private EnemyAISettingsSO _settings;
+        [Header("Settings")]
+        [SerializeField] private EnemyAISettingsSO _settings;
 
         private Vector2 m_AvoidVector;
         private Transform m_ClosestEnemy;

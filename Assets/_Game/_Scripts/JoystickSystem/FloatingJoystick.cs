@@ -1,5 +1,6 @@
 using _Game._Scripts.GameEvents;
 using _Game._Scripts.Patterns.EventBusPattern;
+using _Game._Scripts.ScriptableObjects;
 using DG.Tweening;
 using UnityEngine;
 
@@ -16,7 +17,6 @@ namespace _Game._Scripts.JoystickSystem
 
         [Header("Optional")]
         [SerializeField] private Canvas _canvas;
-
         [SerializeField] private Camera _uiCamera;
 
         private int m_ActiveFingerId = -1;

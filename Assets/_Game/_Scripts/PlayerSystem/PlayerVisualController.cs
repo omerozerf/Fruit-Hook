@@ -6,10 +6,11 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerVisualController : MonoBehaviour
     {
-        [Header("Settings")] [SerializeField] private PlayerVisualSettingsSO _settings;
+        [Header("Settings")]
+        [SerializeField] private PlayerVisualSettingsSO _settings;
 
-        [Header("References")] [SerializeField]
-        private SpriteRenderer[] _spriteRendererArray;
+        [Header("References")]
+        [SerializeField] private SpriteRenderer[] _spriteRendererArray;
 
 
         private void Awake()

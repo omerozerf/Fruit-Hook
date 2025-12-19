@@ -6,11 +6,11 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerAnimator : MonoBehaviour
     {
-        [Header("Settings")] [SerializeField] private PlayerAnimatorSettingsSO _settings;
+        [Header("Settings")]
+        [SerializeField] private PlayerAnimatorSettingsSO _settings;
 
-        [Header("References")] [SerializeField]
-        private Transform _bodyTransform;
-
+        [Header("References")]
+        [SerializeField] private Transform _bodyTransform;
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Transform _leftFootTransform;
         [SerializeField] private Transform _rightFootTransform;

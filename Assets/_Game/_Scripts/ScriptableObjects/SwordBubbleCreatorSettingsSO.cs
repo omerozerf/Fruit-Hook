@@ -8,22 +8,20 @@ namespace _Game._Scripts.ScriptableObjects
         order = 0)]
     public class SwordBubbleCreatorSettingsSO : ScriptableObject
     {
-        [Header("Pool")] [SerializeField] private int _prewarmCount = 8;
+        [Header("Pool")]
+        [SerializeField] private int _prewarmCount = 8;
 
-        [Header("Spawn Timing (seconds)")] [SerializeField]
-        private float _baseSpawnInterval = 3f;
-
+        [Header("Spawn Timing (seconds)")]
+        [SerializeField] private float _baseSpawnInterval = 3f;
         [SerializeField] private float _intervalVariation = 1.5f; // final = base + Random(-variation, +variation)
         [SerializeField] private bool _spawnOnStart = true;
 
-        [Header("Spawn Rules")] [SerializeField]
-        private float _minDistanceFromPlayer = 1.5f;
-
+        [Header("Spawn Rules")]
+        [SerializeField] private float _minDistanceFromPlayer = 1.5f;
         [SerializeField] private int _positionTryCount = 12;
 
-        [Header("Enemy Died")] [SerializeField]
-        private int _dropCount;
-
+        [Header("Enemy Died")]
+        [SerializeField] private int _dropCount;
         [SerializeField] private float _dropRadius;
 
 

@@ -1218,13 +1218,6 @@ MonoBehaviour:
   _references:
     _center: {fileID: 997336167}
     _swordPrefab: {fileID: 5994103736001037649, guid: d0df00ece857e45948a962b1967c774c, type: 3}
-  _enableSwordScratchErase: 1
-  _scratchPressure: 1
-  _scratchWidth: 0.85
-  _scratchLength: 3
-  _enableOrbitCenterErase: 1
-  _orbitCenterEraseRadius: 1
-  _orbitCenterErasePressure: 1
 --- !u!1 &1041625305
 GameObject:
   m_ObjectHideFlags: 0
@@ -1637,11 +1630,7 @@ MonoBehaviour:
   - {fileID: 181995628524107270, guid: 4a602a0ef7221436ca5343db7b9ed2f9, type: 3}
   - {fileID: 181995628524107270, guid: e0f6c119c26324626b067c22cd85f72d, type: 3}
   _scratchCard: {fileID: 7160611703705161347}
-  _candidateSampleCount: 300
-  _topCandidatesToChooseFrom: 10
-  _minEnemyDistance: 3
-  _useFixedSeed: 0
-  _fixedSeed: 12345
+  _settings: {fileID: 11400000, guid: 7e6aabd91bd6e464c8d5341a855bab65, type: 2}
 --- !u!4 &1133550502
 Transform:
   m_ObjectHideFlags: 0
@@ -2986,7 +2975,7 @@ GameObject:
   - component: {fileID: 7160611703698354295}
   - component: {fileID: 7160611703677411827}
   m_Layer: 0
-  m_Name: Scratch Surface Sprite
+  m_Name: scratch_surface_sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3003,7 +2992,7 @@ GameObject:
   - component: {fileID: 7160611703698257733}
   - component: {fileID: 7160611703705149373}
   m_Layer: 0
-  m_Name: ScratchCardManager
+  m_Name: scratch_card_manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3021,7 +3010,7 @@ GameObject:
   - component: {fileID: 7160611703705161347}
   - component: {fileID: 7117862702765555101}
   m_Layer: 0
-  m_Name: Scratch Card
+  m_Name: scratch_card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3039,7 +3028,7 @@ GameObject:
   - component: {fileID: 7160611703696466577}
   - component: {fileID: 7160611703695451387}
   m_Layer: 0
-  m_Name: Scratch Surface Mesh
+  m_Name: scratch_surface_mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3266,13 +3255,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _background: {fileID: 8170153793458276665}
   _handle: {fileID: 8170153791592018723}
-  _radius: 80
-  _deadZone: 0.05
-  _followTouch: 1
-  _showHintOnStart: 1
-  _hintAmplitude: 110
-  _hintVerticalScale: 0.5
-  _hintLoopDuration: 1.2
+  _settings: {fileID: 11400000, guid: 12311ad06bae0489cbe90e0d0465fe5a, type: 2}
   _canvas: {fileID: 25640710}
   _uiCamera: {fileID: 0}
 --- !u!222 &8170153793458276660

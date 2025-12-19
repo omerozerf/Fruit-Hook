@@ -5,11 +5,11 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [Header("Settings")] [SerializeField] private PlayerMovementSettingsSO _settings;
+        [Header("Settings")]
+        [SerializeField] private PlayerMovementSettingsSO _settings;
 
-        [Header("Runtime References")] [SerializeField]
-        private Rigidbody2D _rigidbody2D;
-
+        [Header("Runtime References")]
+        [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Transform _visualsTransform;
 
         private Vector2 m_MovementInput;

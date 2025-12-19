@@ -6,11 +6,11 @@ namespace _Game._Scripts.MapSystem
 {
     public sealed class GridMapBuilder : MonoBehaviour
     {
-        [Header("Settings")] [SerializeField] private GridMapBuilderSettingsSO _settings;
+        [Header("Settings")]
+        [SerializeField] private GridMapBuilderSettingsSO _settings;
 
-        [Header("Scene References")] [SerializeField]
-        private Camera _cullCamera;
-
+        [Header("Scene References")]
+        [SerializeField] private Camera _cullCamera;
         [SerializeField] private Transform _areaTransform;
 
         private BoundaryColliderBuilder m_BoundaryBuilder;

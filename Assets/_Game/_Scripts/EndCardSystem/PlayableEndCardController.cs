@@ -8,13 +8,13 @@ namespace _Game._Scripts
 {
     public class PlayableEndCardController : MonoBehaviour
     {
-        [Header("References")] [SerializeField]
-        private Canvas _canvas;
-
+        [Header("References")]
+        [SerializeField] private Canvas _canvas;
         [SerializeField] private Button _ctaButton;
         [SerializeField] private CanvasGroup _canvasGroup;
 
-        [Header("Settings")] [SerializeField] private string _editorFallbackUrl = "";
+        [Header("Settings")]
+        [SerializeField] private string _editorFallbackUrl = "";
 
         private int m_DeadAiCount;
         private bool m_IsShown;

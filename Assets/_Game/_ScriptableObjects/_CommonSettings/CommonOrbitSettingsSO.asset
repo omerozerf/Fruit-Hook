@@ -30,3 +30,10 @@ MonoBehaviour:
     _removeInterval: 5
   _shakeDuration: 0.3
   _shakeStrength: 0.7
+  _enableSwordScratchErase: 1
+  _scratchPressure: 1
+  _scratchWidth: 0.85
+  _scratchLength: 3
+  _enableOrbitCenterErase: 1
+  _orbitCenterEraseRadius: 1
+  _orbitCenterErasePressure: 1

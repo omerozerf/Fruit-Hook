@@ -6,15 +6,16 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerJoystickInputSource : MonoBehaviour
     {
-        [Header("References")] [SerializeField]
-        private PlayerMovement _movement;
-
+        [Header("References")]
+        [SerializeField] private PlayerMovement _movement;
         [SerializeField] private JoystickSystem.FloatingJoystick _floatingJoystick;
 
-        [Header("Settings")] [SerializeField] private bool _isEnabled = true;
+        [Header("Settings")]
+        [SerializeField] private bool _isEnabled = true;
 
         private EventBinding<EndCardShowed> m_EndCardShowedEventBinding;
 
+        
         private void Update()
         {
             if (!_isEnabled)

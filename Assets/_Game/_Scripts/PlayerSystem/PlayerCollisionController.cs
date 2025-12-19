@@ -11,19 +11,21 @@ namespace _Game._Scripts.PlayerSystem
 {
     public class PlayerCollisionController : MonoBehaviour
     {
-        private const float SAME_COLLIDER_DAMAGE_COOLDOWN = 0.5f;
-        private const int COLLIDER_COOLDOWN_CACHE_SIZE = 16;
         [SerializeField] private bool _isPlayer;
+        
+        [Header("Settings")]
+        [SerializeField] private PlayerCollisionSettingsSO _settings;
 
-        [Header("Settings")] [SerializeField] private PlayerCollisionSettingsSO _settings;
-
-        [Header("References")] [SerializeField]
-        private PlayerMovement _playerMovement;
-
+        [Header("References")]
+        [SerializeField] private PlayerMovement _playerMovement;
         [SerializeField] private PlayerVisualController _playerVisualController;
         [SerializeField] private PlayerHealthController _playerHealthController;
         [SerializeField] private SwordOrbitController _swordOrbitController;
         [SerializeField] private Rigidbody2D _rigidbody2D;
+        
+        private const float SAME_COLLIDER_DAMAGE_COOLDOWN = 0.5f;
+        private const int COLLIDER_COOLDOWN_CACHE_SIZE = 16;
+        
         private int m_CacheWriteIndex;
 
         private Tween m_CameraShakeTween;

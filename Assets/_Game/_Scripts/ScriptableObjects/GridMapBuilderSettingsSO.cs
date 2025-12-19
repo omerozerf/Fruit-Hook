@@ -9,44 +9,37 @@ namespace _Game._Scripts.ScriptableObjects
         order = 0)]
     public class GridMapBuilderSettingsSO : ScriptableObject
     {
-        [Header("Grid")] [Min(1)] [SerializeField]
-        private int _width = 10;
+        [Header("Grid")]
+        [SerializeField, Min(1)] private int _width = 10;
+        [SerializeField, Min(1)] private int _height = 10;
+        [SerializeField, Min(0.01f)] private float _cellSize = 1f;
 
-        [Min(1)] [SerializeField] private int _height = 10;
-        [Min(0.01f)] [SerializeField] private float _cellSize = 1f;
+        [Header("Ground Prefabs (Weighted)")]
+        [SerializeField] private WeightedPrefab[] _groundVariants;
 
-        [Header("Ground Prefabs (Weighted)")] [SerializeField]
-        private WeightedPrefab[] _groundVariants;
-
-        [Header("Fence")] [SerializeField] private Transform _fenceVertical;
-
+        [Header("Fence")]
+        [SerializeField] private Transform _fenceVertical;
         [SerializeField] private Transform _fenceHorizontal;
         [SerializeField] private Transform _fenceCorner;
 
-        [Header("Global Sorting")] [SerializeField]
-        private int _startSortingOrder;
+        [Header("Global Sorting")]
+        [SerializeField] private int _startSortingOrder;
 
-        [Header("Extra Padding")] [Min(0)] [SerializeField]
-        private int _extraPaddingCells;
+        [Header("Extra Padding")]
+        [Min(0)] [SerializeField] private int _extraPaddingCells;
 
         [Header("Area Transform")]
-        [Tooltip("GridMapBuilder içindeki Area Transform güncellemesini aç/kapat")]
-        [SerializeField]
-        private bool _canUpdateArea = true;
+        [SerializeField] private bool _canUpdateArea = true;
+        [SerializeField] private float _areaScaleMultiplier = 1f;
 
-        [Tooltip("Harita boyutundan hesaplanan base scale ile çarpılır")] [SerializeField]
-        private float _areaScaleMultiplier = 1f;
-
-        [Header("Chunk Culling")] [SerializeField]
-        private bool _enableChunkCulling = true;
-
+        [Header("Chunk Culling")]
+        [SerializeField] private bool _enableChunkCulling = true;
         [SerializeField] [Min(1)] private int _chunkSizeInCells = 8;
         [SerializeField] [Min(0f)] private float _cullPaddingWorld = 1f;
 
-        [Header("Boundary Colliders")] [SerializeField]
-        private bool _enableBoundaryColliders = true;
-
-        [SerializeField] [Min(0.01f)] private float _boundaryThicknessWorld = 0.5f;
+        [Header("Boundary Colliders")]
+        [SerializeField] private bool _enableBoundaryColliders = true;
+        [SerializeField, Min(0.01f)] private float _boundaryThicknessWorld = 0.5f;
 
 
         public int Width => _width;

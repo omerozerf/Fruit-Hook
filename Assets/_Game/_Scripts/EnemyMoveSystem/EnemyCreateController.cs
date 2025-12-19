@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Game._Scripts.MapSystem;
+using _Game._Scripts.ScriptableObjects;
 using _Game._Scripts.SwordOrbitSystem;
 using ScratchCardAsset;
 using UnityEngine;
@@ -8,24 +9,13 @@ namespace _Game._Scripts.EnemyMoveSystem
 {
     public class EnemyCreateController : MonoBehaviour
     {
-        [Header("References")] [SerializeField]
-        private Transform _playerTransform;
-
+        [Header("References")]
+        [SerializeField] private Transform _playerTransform;
         [SerializeField] private Transform[] _enemyPrefabArray;
         [SerializeField] private ScratchCard _scratchCard;
 
-        [Header("Spawn Randomness")] [SerializeField] [Min(1)]
-        private int _candidateSampleCount = 300;
-
-        [SerializeField] [Min(1)] private int _topCandidatesToChooseFrom = 10;
-
-        [Header("Constraints")] [SerializeField] [Min(0f)]
-        private float _minEnemyDistance = 3f;
-
-        [Header("Optional Determinism")] [SerializeField]
-        private bool _useFixedSeed;
-
-        [SerializeField] private int _fixedSeed = 12345;
+        [Header("Settings")]
+        [SerializeField] private EnemyCreateSettingsSO _settings;
 
         private readonly List<Vector3> m_SpawnedEnemyPositions = new();
         private readonly List<ScoredPoint> m_TopCandidates = new();
@@ -35,10 +25,18 @@ namespace _Game._Scripts.EnemyMoveSystem
 
         private void Awake()
         {
+            if (!_settings)
+            {
+                Debug.LogError(
+                    $"{nameof(EnemyCreateController)} on '{name}' has no {nameof(EnemyCreateSettingsSO)} assigned.");
+                enabled = false;
+                return;
+            }
+
             CacheMapSize();
 
-            if (_useFixedSeed)
-                Random.InitState(_fixedSeed);
+            if (_settings.UseFixedSeed)
+                Random.InitState(_settings.FixedSeed);
 
             SpawnEnemies();
         }
@@ -57,8 +55,8 @@ namespace _Game._Scripts.EnemyMoveSystem
             {
                 var spawnPosition = FindRandomBestSpawnPoint();
                 m_SpawnedEnemyPositions.Add(spawnPosition);
-                var transform = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
-                transform.GetComponentInChildren<SwordOrbitController>().SetScratchCard(_scratchCard);
+                var transformEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+                transformEnemy.GetComponentInChildren<SwordOrbitController>().SetScratchCard(_scratchCard);
             }
         }
 
@@ -66,37 +64,31 @@ namespace _Game._Scripts.EnemyMoveSystem
         {
             m_TopCandidates.Clear();
 
-            // Map sınırları: 0..width-1, 0..height-1 (<= değil <)
             var maxX = Mathf.Max(1, m_MapWidth) - 1;
             var maxY = Mathf.Max(1, m_MapHeight) - 1;
 
-            // Rastgele aday örnekle
-            for (var i = 0; i < _candidateSampleCount; i++)
+            for (var i = 0; i < _settings.CandidateSampleCount; i++)
             {
                 var x = Random.Range(0, maxX + 1);
                 var y = Random.Range(0, maxY + 1);
                 var candidate = new Vector3(x, y, 0f);
 
                 var score = CalculateSpawnScore(candidate);
-                if (score == float.MinValue)
+                if (Mathf.Approximately(score, float.MinValue))
                     continue;
 
                 TryAddTopCandidate(candidate, score);
             }
 
-            // Eğer hiç geçerli aday yoksa fallback: deterministik tarama
             if (m_TopCandidates.Count == 0)
                 return FindBestSpawnPointDeterministic();
 
-            // En iyi N adayın içinden rastgele seç
             var pickIndex = Random.Range(0, m_TopCandidates.Count);
             return m_TopCandidates[pickIndex].point;
         }
 
         private void TryAddTopCandidate(Vector3 point, float score)
         {
-            // Listeyi (küçük N) score'a göre azalan tutuyoruz.
-            // N küçük olduğu için basit insertion yeterli.
             var sp = new ScoredPoint(point, score);
 
             var insertIndex = m_TopCandidates.Count;
@@ -109,14 +101,13 @@ namespace _Game._Scripts.EnemyMoveSystem
 
             m_TopCandidates.Insert(insertIndex, sp);
 
-            var limit = Mathf.Max(1, _topCandidatesToChooseFrom);
+            var limit = Mathf.Max(1, _settings.TopCandidatesToChooseFrom);
             if (m_TopCandidates.Count > limit)
                 m_TopCandidates.RemoveAt(m_TopCandidates.Count - 1);
         }
 
         private float CalculateSpawnScore(Vector3 candidate)
         {
-            // Player'dan uzaklık temel skor
             var score = Vector3.Distance(candidate, _playerTransform.position);
 
             // Diğer enemy’lerden yeterince uzak değilse eliyoruz
@@ -124,7 +115,7 @@ namespace _Game._Scripts.EnemyMoveSystem
             {
                 var distance = Vector3.Distance(candidate, enemyPos);
 
-                if (distance < _minEnemyDistance)
+                if (distance < _settings.MinEnemyDistance)
                     return float.MinValue;
 
                 // Enemy’lerden de uzak olmayı ödüllendir

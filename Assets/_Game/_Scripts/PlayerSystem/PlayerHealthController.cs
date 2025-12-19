@@ -11,15 +11,16 @@ namespace _Game._Scripts.PlayerSystem
     {
         [SerializeField] private bool _isPlayer;
 
-        [Header("UI")] [SerializeField] private Transform _playerInfoCanvas;
-
+        [Header("UI")]
+        [SerializeField] private Transform _playerInfoCanvas;
         [SerializeField] private Image _healthBar;
         [SerializeField] private Image _healthWhiteIndicatorBar;
 
-        [Header("Settings")] [SerializeField] private PlayerHealthSettingsSO _settings;
-
-        [Header("Death Settings")] [SerializeField]
-        private Collider2D _collider;
+        [Header("Settings")]
+        [SerializeField] private PlayerHealthSettingsSO _settings;
+        
+        [Header("Death Settings")]
+        [SerializeField] private Collider2D _collider;
 
         private int m_CurrentHealth;
         private bool m_IsDead;

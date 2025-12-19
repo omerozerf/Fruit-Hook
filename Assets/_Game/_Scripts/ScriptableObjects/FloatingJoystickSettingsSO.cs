@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _Game._Scripts.JoystickSystem
+namespace _Game._Scripts.ScriptableObjects
 {
     [CreateAssetMenu(
         fileName = "FloatingJoystickSettingsSO",
@@ -8,13 +8,13 @@ namespace _Game._Scripts.JoystickSystem
         order = 0)]
     public class FloatingJoystickSettingsSO : ScriptableObject
     {
-        [Header("Settings")] [SerializeField] private float _radius = 80f;
+        [Header("Settings")]
+        [SerializeField] private float _radius = 80f;
         [SerializeField, Range(0f, 1f)] private float _deadZone = 0.05f;
         [SerializeField] private bool _followTouch = true;
 
-        [Header("Tutorial Hint")] [SerializeField]
-        private bool _showHintOnStart = true;
-
+        [Header("Tutorial Hint")]
+        [SerializeField] private bool _showHintOnStart = true;
         [SerializeField] private float _hintAmplitude = 45f;
         [SerializeField] private float _hintVerticalScale = 0.5f;
         [SerializeField] private float _hintLoopDuration = 1.2f;
