@@ -989,10 +989,10 @@ MonoBehaviour:
     _swordPrefab: {fileID: 5994103736001037649, guid: d0df00ece857e45948a962b1967c774c, type: 3}
   _enableSwordScratchErase: 1
   _scratchPressure: 1
-  _scratchWidth: 0.25
+  _scratchWidth: 0.85
   _scratchLength: 3
   _enableOrbitCenterErase: 1
-  _orbitCenterEraseRadius: 0.4
+  _orbitCenterEraseRadius: 1
   _orbitCenterErasePressure: 1
 --- !u!1 &6941443361876175035
 GameObject:

@@ -3,27 +3,19 @@ using _Game._Scripts.Patterns.EventBusPattern;
 using DG.Tweening;
 using UnityEngine;
 
-namespace _Game._Scripts
+namespace _Game._Scripts.JoystickSystem
 {
     public class FloatingJoystick : MonoBehaviour
     {
-        [Header("UI")] [SerializeField] private RectTransform _background;
-
+        [Header("UI")]
+        [SerializeField] private RectTransform _background;
         [SerializeField] private RectTransform _handle;
 
-        [Header("Settings")] [SerializeField] private float _radius = 80f;
+        [Header("Settings")]
+        [SerializeField] private FloatingJoystickSettingsSO _settings;
 
-        [SerializeField] private float _deadZone = 0.05f;
-        [SerializeField] private bool _followTouch = true;
-
-        [Header("Tutorial Hint")] [SerializeField]
-        private bool _showHintOnStart = true;
-
-        [SerializeField] private float _hintAmplitude = 45f;
-        [SerializeField] private float _hintVerticalScale = 0.5f;
-        [SerializeField] private float _hintLoopDuration = 1.2f;
-
-        [Header("Optional")] [SerializeField] private Canvas _canvas;
+        [Header("Optional")]
+        [SerializeField] private Canvas _canvas;
 
         [SerializeField] private Camera _uiCamera;
 
@@ -43,6 +35,14 @@ namespace _Game._Scripts
 
         private void Awake()
         {
+            if (!_settings)
+            {
+                Debug.LogError(
+                    $"{nameof(FloatingJoystick)} on '{name}' has no {nameof(FloatingJoystickSettingsSO)} assigned.");
+                enabled = false;
+                return;
+            }
+
             if (!_uiCamera && _canvas && _canvas.renderMode != RenderMode.ScreenSpaceOverlay)
                 _uiCamera = _canvas.worldCamera;
 
@@ -82,13 +82,6 @@ namespace _Game._Scripts
         {
             if (!_canvas)
                 _canvas = GetComponentInParent<Canvas>();
-
-            _radius = Mathf.Max(1f, _radius);
-            _deadZone = Mathf.Clamp01(_deadZone);
-
-            _hintAmplitude = Mathf.Max(0f, _hintAmplitude);
-            _hintVerticalScale = Mathf.Max(0f, _hintVerticalScale);
-            _hintLoopDuration = Mathf.Max(0.01f, _hintLoopDuration);
         }
 
 
@@ -116,7 +109,7 @@ namespace _Game._Scripts
 
         private void TryStartHint()
         {
-            if (!_showHintOnStart)
+            if (!_settings.ShowHintOnStart)
                 return;
 
             if (m_HintDismissed)
@@ -143,7 +136,7 @@ namespace _Game._Scripts
                     m_HintT = x;
                     if (_handle)
                         _handle.anchoredPosition = GetInfinityHintPos(m_HintT);
-                }, 1f, Mathf.Max(0.01f, _hintLoopDuration))
+                }, 1f, Mathf.Max(0.01f, _settings.HintLoopDuration))
                 .SetEase(Ease.Linear)
                 .SetLoops(-1, LoopType.Restart)
                 .SetUpdate(true);
@@ -151,8 +144,8 @@ namespace _Game._Scripts
 
         private Vector2 GetInfinityHintPos(float t01)
         {
-            var a = Mathf.Abs(_hintAmplitude);
-            var b = a * Mathf.Max(0f, _hintVerticalScale);
+            var a = Mathf.Abs(_settings.HintAmplitude);
+            var b = a * Mathf.Max(0f, _settings.HintVerticalScale);
 
             var theta = t01 * Mathf.PI * 2f;
             var x = a * Mathf.Sin(theta);
@@ -196,13 +189,7 @@ namespace _Game._Scripts
             var screenPos = GetActiveScreenPosition();
 
             var parent = _background.parent as RectTransform;
-            if (!parent)
-            {
-                m_Input = Vector2.zero;
-                return;
-            }
-
-            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            if (!parent || !RectTransformUtility.ScreenPointToLocalPointInRectangle(
                     parent,
                     screenPos,
                     _uiCamera,
@@ -214,11 +201,11 @@ namespace _Game._Scripts
 
             var delta = currentLocalPos - m_CenterLocalPos;
 
-            var clamped = Vector2.ClampMagnitude(delta, _radius);
+            var clamped = Vector2.ClampMagnitude(delta, _settings.Radius);
             _handle.anchoredPosition = clamped;
 
-            var raw = clamped / Mathf.Max(1f, _radius);
-            m_Input = raw.magnitude < _deadZone ? Vector2.zero : raw;
+            var raw = clamped / Mathf.Max(1f, _settings.Radius);
+            m_Input = raw.magnitude < _settings.DeadZone ? Vector2.zero : raw;
         }
 
         private Vector2 GetActiveScreenPosition()
@@ -245,7 +232,7 @@ namespace _Game._Scripts
             if (!parent)
                 return;
 
-            if (_followTouch)
+            if (_settings.FollowTouch)
             {
                 if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
                         parent,

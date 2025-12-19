@@ -9,7 +9,7 @@ namespace _Game._Scripts.PlayerSystem
         [Header("References")] [SerializeField]
         private PlayerMovement _movement;
 
-        [SerializeField] private FloatingJoystick _floatingJoystick;
+        [SerializeField] private JoystickSystem.FloatingJoystick _floatingJoystick;
 
         [Header("Settings")] [SerializeField] private bool _isEnabled = true;
 

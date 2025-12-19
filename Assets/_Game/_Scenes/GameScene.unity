@@ -1220,10 +1220,10 @@ MonoBehaviour:
     _swordPrefab: {fileID: 5994103736001037649, guid: d0df00ece857e45948a962b1967c774c, type: 3}
   _enableSwordScratchErase: 1
   _scratchPressure: 1
-  _scratchWidth: 0.25
+  _scratchWidth: 0.85
   _scratchLength: 3
   _enableOrbitCenterErase: 1
-  _orbitCenterEraseRadius: 0.4
+  _orbitCenterEraseRadius: 1
   _orbitCenterErasePressure: 1
 --- !u!1 &1041625305
 GameObject:
@@ -2970,8 +2970,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 15, y: 25, z: 0}
-  m_LocalScale: {x: 12.5, y: 12.5, z: 12.5}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 4.89, y: 4.89, z: 4.89}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7160611703698257733}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
