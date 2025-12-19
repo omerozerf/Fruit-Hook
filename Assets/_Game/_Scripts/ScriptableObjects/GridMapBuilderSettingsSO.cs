@@ -28,6 +28,13 @@ namespace _Game._Scripts.ScriptableObjects
         [Header("Extra Padding")]
         [Min(0)] [SerializeField] private int _extraPaddingCells;
 
+        [Header("Area Transform")]
+        [Tooltip("GridMapBuilder içindeki Area Transform güncellemesini aç/kapat")]
+        [SerializeField] private bool _canUpdateArea = true;
+
+        [Tooltip("Harita boyutundan hesaplanan base scale ile çarpılır")]
+        [SerializeField] private float _areaScaleMultiplier = 1f;
+
         [Header("Chunk Culling")]
         [SerializeField] private bool _enableChunkCulling = true;
         [SerializeField, Min(1)] private int _chunkSizeInCells = 8;
@@ -50,6 +57,9 @@ namespace _Game._Scripts.ScriptableObjects
 
         public int StartSortingOrder => _startSortingOrder;
         public int ExtraPaddingCells => _extraPaddingCells;
+
+        public bool CanUpdateArea => _canUpdateArea;
+        public float AreaScaleMultiplier => _areaScaleMultiplier;
 
         public bool EnableChunkCulling => _enableChunkCulling;
         public int ChunkSizeInCells => _chunkSizeInCells;

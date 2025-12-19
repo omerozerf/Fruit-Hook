@@ -8468,10 +8468,6 @@
                 "excluded": true
             },
             {
-                "name": "ScratchCardAsset.Core.ScratchData.MeshRendererData",
-                "excluded": true
-            },
-            {
                 "name": "ScratchCardAsset.Core.Constants",
                 "excluded": true
             },
@@ -15457,7 +15453,7 @@
                     },
                     {
                         "name": "min#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "min#set",
@@ -17067,11 +17063,11 @@
                     },
                     {
                         "name": "GetVector$1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetVector",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "SetVector$1",
@@ -18343,7 +18339,7 @@
                     },
                     {
                         "name": "sharedMaterial#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "sharedMaterial#set",
@@ -33475,7 +33471,7 @@
                     },
                     {
                         "name": "sharedMesh#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "sharedMesh#set",
@@ -37820,6 +37816,24 @@
                     {
                         "name": "$clone",
                         "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "ScratchCardAsset.Core.ScratchData.MeshRendererData",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Bounds#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
                     }
                 ]
             }

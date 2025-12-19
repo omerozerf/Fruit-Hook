@@ -29,6 +29,8 @@ MonoBehaviour:
   _fenceCorner: {fileID: 6743821381425734164, guid: f149173e3ef2743b1857b479093805ef, type: 3}
   _startSortingOrder: 0
   _extraPaddingCells: 20
+  _canUpdateArea: 0
+  _areaScaleMultiplier: 0.25
   _enableChunkCulling: 1
   _chunkSizeInCells: 8
   _cullPaddingWorld: 1

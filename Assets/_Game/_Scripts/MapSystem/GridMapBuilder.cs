@@ -12,11 +12,7 @@ namespace _Game._Scripts.MapSystem
         [Header("Scene References")]
         [SerializeField] private Camera _cullCamera;
         [SerializeField] private Transform _areaTransform;
-
-        [Header("Area Transform Settings")]
-        [Tooltip("Harita boyutundan hesaplanan scale ile çarpılır")]
-        [SerializeField] private float _areaScaleMultiplier = 1f;
-
+        
         private BoundaryColliderBuilder m_BoundaryBuilder;
         private ChunkRootProvider m_ChunkRoots;
 
@@ -90,7 +86,7 @@ namespace _Game._Scripts.MapSystem
         /// </summary>
         private void UpdateAreaTransform()
         {
-            if (!_areaTransform)
+            if (!_areaTransform || !_settings.CanUpdateArea)
                 return;
 
             Vector2 mapSizeWorld = GetMapWorldSize();
@@ -102,7 +98,7 @@ namespace _Game._Scripts.MapSystem
             );
 
             float baseScale = Mathf.Max(mapSizeWorld.x, mapSizeWorld.y);
-            float finalScale = baseScale * _areaScaleMultiplier;
+            float finalScale = baseScale * _settings.AreaScaleMultiplier;
 
             _areaTransform.position = centerPos;
             _areaTransform.localScale = Vector3.one * finalScale;
