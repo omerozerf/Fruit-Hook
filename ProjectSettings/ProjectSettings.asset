@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: Loop Games
-  productName: Fruit-Hook
+  productName: Fruit Hook
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.14117648, g: 0.14117648, b: 0.14117648, a: 1}

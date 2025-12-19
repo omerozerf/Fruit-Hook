@@ -10,7 +10,8 @@ namespace _Game._Scripts.ScriptableObjects
     public class SwordOrbitSettingsSO : ScriptableObject
     {
         [Header("Start")]
-        [SerializeField] private int _startCount;
+        [SerializeField] private int _playerStartCount;
+        [SerializeField] private int _aiStartCount;
 
         [Header("Orbit")]
         [SerializeField] private SwordOrbitController.OrbitSettings _orbit = SwordOrbitController.OrbitSettings.Default;
@@ -40,7 +41,8 @@ namespace _Game._Scripts.ScriptableObjects
         [SerializeField, Range(0.01f, 1f)] private float _orbitCenterErasePressure = 1f;
 
 
-        public int StartCount => _startCount;
+        public int PlayerStartCount => _playerStartCount;
+        public int AiStartCount => _aiStartCount;
         public SwordOrbitController.OrbitSettings Orbit => _orbit;
         public SwordOrbitController.DespawnSettings Despawn => _despawn;
         public int PrewarmCount => _prewarmCount;

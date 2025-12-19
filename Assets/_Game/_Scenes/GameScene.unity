@@ -1579,7 +1579,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _settings: {fileID: 11400000, guid: a66938b9e53f14289b10896f5a80001f, type: 2}
   _cullCamera: {fileID: 519420031}
-  _areaTransform: {fileID: 7160611703698354295}
+  _areaTransform: {fileID: 0}
 --- !u!4 &1113936022
 Transform:
   m_ObjectHideFlags: 0
@@ -2845,7 +2845,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 80.11, y: 63.91}
+  m_Size: {x: 20, y: 20}
   m_AdaptiveModeThreshold: 0
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
