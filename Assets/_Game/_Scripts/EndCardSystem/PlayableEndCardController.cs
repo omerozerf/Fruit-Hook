@@ -72,7 +72,7 @@ namespace _Game._Scripts
 
         private void RequestInstall()
         {
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
             // Required by some ad networks for CTA/install tracking.
             Luna.Unity.Playable.InstallFullGame();
 #else

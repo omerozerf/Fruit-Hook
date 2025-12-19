@@ -130,7 +130,7 @@
             ]
         },
         "scenes": [
-            "Assets/_Game/Scenes/GameScene.unity"
+            "Assets/_Game/_Scenes/GameScene.unity"
         ],
         "disabledScenes": [],
         "startupScene": 0,
@@ -28320,104 +28320,6 @@
                 ]
             },
             {
-                "className": "_Game._Scripts.FloatingJoystick",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "Horizontal#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Vertical#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Direction#get",
-                        "excluded": true
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Update",
-                        "excluded": false
-                    },
-                    {
-                        "name": "UpdatePointerState",
-                        "excluded": false
-                    },
-                    {
-                        "name": "UpdateHandleAndInput",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetActiveScreenPosition",
-                        "excluded": false
-                    },
-                    {
-                        "name": "BeginAtScreenPosition",
-                        "excluded": false
-                    },
-                    {
-                        "name": "End",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ResetHandle",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetVisualActive",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnValidate",
-                        "excluded": true
-                    },
-                    {
-                        "name": "Start",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDisable",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnDestroy",
-                        "excluded": true
-                    },
-                    {
-                        "name": "TryStartHint",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetInfinityHintPos",
-                        "excluded": false
-                    },
-                    {
-                        "name": "DismissHintIfNeeded",
-                        "excluded": false
-                    },
-                    {
-                        "name": "KillHintTween",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnEnable",
-                        "excluded": false
-                    },
-                    {
-                        "name": "HandleEndCardShowed",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
                 "className": "UnityEngine.TextCore.FaceInfo",
                 "staticMethods": [],
                 "instanceMethods": [
@@ -32906,28 +32808,6 @@
                 ]
             },
             {
-                "className": "_Game._Scripts.CameraController",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "OnEnable",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDisable",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnValidate",
-                        "excluded": true
-                    },
-                    {
-                        "name": "HandlePlayerDied",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
                 "className": "_Game._Scripts.PlayableEndCardController",
                 "staticMethods": [],
                 "instanceMethods": [
@@ -33240,6 +33120,14 @@
                     {
                         "name": "BoundaryThicknessWorld#get",
                         "excluded": false
+                    },
+                    {
+                        "name": "CanUpdateArea#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "AreaScaleMultiplier#get",
+                        "excluded": true
                     }
                 ]
             },
@@ -33452,7 +33340,39 @@
                         "excluded": false
                     },
                     {
-                        "name": "StartCount#get",
+                        "name": "PlayerStartCount#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "AiStartCount#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "EnableSwordScratchErase#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ScratchPressure#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ScratchWidth#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ScratchLength#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "EnableOrbitCenterErase#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OrbitCenterEraseRadius#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OrbitCenterErasePressure#get",
                         "excluded": false
                     }
                 ]
@@ -33577,10 +33497,6 @@
                     },
                     {
                         "name": "BuildAll",
-                        "excluded": false
-                    },
-                    {
-                        "name": "init",
                         "excluded": false
                     },
                     {
@@ -37834,6 +37750,202 @@
                     {
                         "name": "ctor",
                         "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.CameraSystem.CameraController",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "OnEnable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDisable",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnValidate",
+                        "excluded": true
+                    },
+                    {
+                        "name": "HandlePlayerDied",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.JoystickSystem.FloatingJoystick",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Horizontal#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Vertical#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Direction#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Start",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Update",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnEnable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDisable",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnDestroy",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnValidate",
+                        "excluded": true
+                    },
+                    {
+                        "name": "HandleEndCardShowed",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdatePointerState",
+                        "excluded": false
+                    },
+                    {
+                        "name": "TryStartHint",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetInfinityHintPos",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DismissHintIfNeeded",
+                        "excluded": false
+                    },
+                    {
+                        "name": "KillHintTween",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdateHandleAndInput",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetActiveScreenPosition",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BeginAtScreenPosition",
+                        "excluded": false
+                    },
+                    {
+                        "name": "End",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ResetHandle",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetVisualActive",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.ScriptableObjects.EnemyCreateSettingsSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "CandidateSampleCount#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "TopCandidatesToChooseFrom#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "MinEnemyDistance#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UseFixedSeed#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "FixedSeed#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnValidate",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.ScriptableObjects.FloatingJoystickSettingsSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Radius#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DeadZone#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "FollowTouch#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ShowHintOnStart#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "HintAmplitude#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "HintVerticalScale#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "HintLoopDuration#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnValidate",
+                        "excluded": true
                     }
                 ]
             }

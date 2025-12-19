@@ -613,7 +613,7 @@ namespace ScratchCardAsset
 				var isActive = card.Key == RenderType;
 				if (card.Value)
 				{
-					card.Value.gameObject.SetActive(isActive);
+					card.Value.gameObject.SetActive(!isActive);
 					if (isActive)
 					{
 						Card.SurfaceTransform = card.Value.transform;
