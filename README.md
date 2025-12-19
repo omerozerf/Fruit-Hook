@@ -6,6 +6,8 @@
 ### ▶ Playable Demo  
 🔗 **Play now:** [https://omerozerf.itch.io/fruit-hook](https://omerozerf.itch.io/fruit-hook)
 
+---
+
 <p align="center">
   <img src="fruit-hook.gif" alt="Fruit Hook gameplay" width="360" />
 </p>
