@@ -17329,7 +17329,7 @@
                     },
                     {
                         "name": "name#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "name#set",
@@ -31894,6 +31894,10 @@
                     {
                         "name": "Tick",
                         "excluded": false
+                    },
+                    {
+                        "name": "Tick\",this)}this.c$-=t;if(this.c$<=0){pc.Application.getApplication().events.off(\"update",
+                        "excluded": false
                     }
                 ]
             },
@@ -33314,14 +33318,6 @@
                         "excluded": false
                     },
                     {
-                        "name": "FallbackMin#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "FallbackMax#get",
-                        "excluded": false
-                    },
-                    {
                         "name": "MinDistanceFromPlayer#get",
                         "excluded": false
                     },
@@ -33376,7 +33372,11 @@
                         "excluded": false
                     },
                     {
-                        "name": "StartCount#get",
+                        "name": "PlayerStartCount#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "AiStartCount#get",
                         "excluded": false
                     }
                 ]
@@ -33777,7 +33777,7 @@
                 "instanceMethods": [
                     {
                         "name": "init",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "attachedRigidbody#get",
@@ -35630,6 +35630,58 @@
                     {
                         "name": "$clone",
                         "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.MapSystem.GridMapManager",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "inherits",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetWidth",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetHeight",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.EnemyMoveSystem.EnemyCreateController",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CacheMapSize",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SpawnEnemies",
+                        "excluded": false
+                    },
+                    {
+                        "name": "FindBestSpawnPoint",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CalculateSpawnScore",
+                        "excluded": false
+                    },
+                    {
+                        "name": "FindFarthestPointFromPlayer",
+                        "excluded": true
                     }
                 ]
             }
