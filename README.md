@@ -1,156 +1,171 @@
-# Fruit Hook
-
-A short-loop, performance-focused action prototype developed specifically for the playable ads format. The project was designed around WebGL / Luna constraints, prioritizing stability and fast iteration.
+# Fruit Hook  
+*A performance-driven playable ad prototype*
 
 ---
 
-## ▶️ Playable Demo
-🔗 **Play:** [https://omerozerf.itch.io/fruit-hook](https://omerozerf.itch.io/fruit-hook)
+### ▶ Playable Demo  
+🔗 **Play now:** [https://omerozerf.itch.io/fruit-hook](https://omerozerf.itch.io/fruit-hook)
 
 <p align="center">
-  <img src="fruit-hook.gif" alt="Fruit Hook Gameplay" width="360"/>
+  <img src="fruit-hook.gif" alt="Fruit Hook gameplay" width="360" />
 </p>
 
 ---
 
-## 🎯 Project Goals
+## Overview
+**Fruit Hook** is a short-loop action prototype built specifically for **playable ads**.  
+The project is shaped around **WebGL and Luna constraints**, with a clear focus on runtime stability, predictable performance, and fast iteration.
 
-| Goal | Description |
+---
+
+## Project Goals
+
+| Focus | Description |
 |------|------------|
-| Playable compatibility | Architecture suitable for ad formats |
-| Performance | Low CPU / GPU usage |
-| Fast iteration | ScriptableObject-based tuning |
-| Stability | Compliance with Luna constraints |
+| Playable-first | Designed for ad networks and playable runtimes |
+| Performance | Low CPU / GPU footprint |
+| Iteration speed | ScriptableObject-driven tuning |
+| Stability | Luna-compatible architecture |
 
 ---
 
-## 🌿 Branch Structure
+## Branches
 
-| Branch | Description |
-|------|-------------|
-| `main` | Base gameplay version without ScratchCard integration |
-| `scratch-card-entegration` | Version with ScratchCard mechanics integrated |
-
----
-
-## ⚙️ Architecture & Configuration
-- Almost all gameplay and balance parameters are managed via **ScriptableObject**.
-- Damage, speed, spawn rates, area sizes, and similar values can be:
-  - Adjusted without code changes
-  - Controlled from a single source
-- This enables fast tuning and easy playable variant creation.
+| Branch | Purpose |
+|------|--------|
+| `main` | Core gameplay, no ScratchCard integration |
+| `scratch-card-entegration` | Gameplay with ScratchCard erase mechanics |
 
 ---
 
-## 🚀 Performance & Optimization
-
-> **Note:**  
-> To improve map performance, **Tilemap** and **Mesh Renderer–based** solutions were initially targeted.  
-> However, these systems could not be integrated stably with **Luna** and caused performance degradation.
-
-Because of this, the approach was changed:
-
-| Topic | Applied Approach |
-|------|------------------|
-| Map system | Manual tile generation |
-| Tilemap / MeshRenderer | Not used due to Luna integration issues |
-| Performance issue | Excessive render and update cost |
-| Solution | **Chunk-based culling** |
-| Off-camera areas | Render + update disabled |
-
-This approach resulted in **more predictable and stable performance** in Luna + WebGL environments.
+## Architecture & Configuration
+- Nearly all gameplay and balance values are controlled via **ScriptableObjects**.
+- Damage, speed, spawn rates, area sizes, and thresholds can be adjusted:
+  - Without touching code  
+  - From a single, centralized configuration
+- This enables rapid tuning and easy creation of playable variants.
 
 ---
 
-## 🧠 Codebase – Key Technical Decisions
+## Performance Strategy
 
-### Update Load Management
-- Constantly running `Update()` calls were minimized.
-- Most systems operate:
-  - State-driven
-  - Manually triggered
-  - Activated only when necessary
-- This significantly reduces CPU load in WebGL builds.
+> **Initial approach:**  
+> Tilemap and MeshRenderer-based map systems were planned to improve rendering performance.  
+>  
+> **Problem:**  
+> These systems could not be integrated reliably with **Luna**, leading to unstable behavior and performance drops.
 
----
+### Final Approach
 
-### Modular System Separation
+| Aspect | Solution |
+|------|----------|
+| Map generation | Manual tile spawning |
+| Tilemap / MeshRenderer | Abandoned due to Luna issues |
+| Performance bottleneck | Excessive render & update cost |
+| Optimization | **Chunk-based culling** |
+| Off-screen areas | Rendering & updates disabled |
 
-| System | Responsibility |
-|------|----------------|
-| Gameplay | Sword / hook / combat |
-| Map | Area and chunk management |
-| Spawn | Enemy placement |
-| Rendering | Visibility and culling |
-| Scratch | Erase logic |
-
-Systems are isolated, loosely coupled, and can be disabled independently.
+This resulted in a **more stable and predictable runtime** for Luna + WebGL.
 
 ---
 
-### Map & Area Management
+## Codebase Highlights
+
+### Update Load Control
+- Continuous `Update()` calls are minimized.
+- Systems are:
+  - State-driven  
+  - Manually triggered  
+  - Activated only when needed  
+- This significantly reduces CPU load in WebGL environments.
+
+---
+
+### Modular System Design
+
+| Module | Responsibility |
+|------|---------------|
+| Gameplay | Sword / hook / combat logic |
+| World | Map & chunk management |
+| Spawning | Enemy placement logic |
+| Rendering | Visibility & culling |
+| Scratch | Erase mechanics |
+
+Each module is isolated, loosely coupled, and can be disabled independently.
+
+---
+
+### World & Map Management
 - Tiles are generated at runtime.
-- Instead of Tilemap, manual generation + chunk culling is used.
-- Chunks are enabled/disabled based on camera visibility.
-- This acts as a deliberate workaround for Luna Tilemap limitations.
+- Tilemap is intentionally avoided.
+- Chunk culling enables:
+  - Visibility-based activation
+  - Reduced render and physics overhead
+- Acts as a deliberate workaround for Luna limitations.
 
 ---
 
-### Scratch / Erase Logic (ScratchCard Version)
+### Scratch / Erase Mechanics (ScratchCard Branch)
 
-| Feature | Description |
-|------|-------------|
+| Feature | Implementation |
+|------|----------------|
 | Physics usage | Minimal |
-| Erase area | Vertical, sword-shaped |
+| Erase shape | Vertical, sword-like |
 | Reference | Sword transform |
-| Goal | Stable and performant erase behavior |
+| Goal | Stable, low-cost erase logic |
 
 ---
 
 ### Sword Orbit System
-- Swords rotate around a central orbit.
-- Orbit radius and internal sword parameters are decoupled.
-- Visual changes do not affect damage or erase areas.
+- Swords rotate around a shared orbit center.
+- Orbit radius and sword parameters are decoupled.
+- Visual changes do not affect damage or erase behavior.
 
 ---
 
-### Enemy Spawn Logic
+### Enemy Spawning
 
-| Criterion | Implementation |
-|---------|----------------|
-| Distance from player | Maximized |
+| Rule | Behavior |
+|----|----------|
+| Player distance | Maximized |
 | Play area bounds | Enforced |
-| Enemy-to-enemy spacing | Overlap prevention |
+| Enemy spacing | Overlap prevented |
+
+Ensures clean first frames and avoids collision spikes.
 
 ---
 
-### Luna Compatibility Measures
-- Unsupported Unity packages were avoided.
+## Luna Compatibility
+- Unsupported Unity packages are avoided.
 - No Timeline or Async GPU Readback usage.
-- Heavy LINQ and unnecessary allocations were minimized.
+- Heavy LINQ and unnecessary allocations are minimized.
+
+**Goal:** predictable behavior across ad networks.
 
 ---
 
-## 🎨 Content Production
+## Content Pipeline
 
-| Content | Tool |
-|-------|------|
-| Audio editing | Audacity |
-| Sprite color editing | Picsart |
-
----
-
-## 🛠️ Technologies
-- Unity
-- C#
-- ScriptableObject
-- Chunk-based culling
-- Luna / WebGL-compatible architecture
+| Asset | Tool |
+|-----|------|
+| Audio | Audacity |
+| Sprite color edits | Picsart |
 
 ---
 
-## 📌 Final Notes
-This project was shaped around **playable ad realities** rather than traditional Unity game development practices.  
-The primary goal was not visual complexity, but a **stable, fast, and controllable playable experience**.
+## Tech Stack
+- Unity  
+- C#  
+- ScriptableObject architecture  
+- Chunk-based culling  
+- Luna / WebGL-friendly design  
 
-As a result, several Unity conveniences were deliberately avoided.
+---
+
+## Final Notes
+This project prioritizes **playable ad realities** over traditional Unity workflows.  
+Visual complexity was intentionally sacrificed in favor of:
+
+> **Stability · Performance · Control**
+
+Several Unity conveniences were deliberately avoided to meet these goals.
