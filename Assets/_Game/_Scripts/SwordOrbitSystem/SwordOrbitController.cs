@@ -49,10 +49,8 @@ namespace _Game._Scripts.SwordOrbitSystem
 
         private void Start()
         {
-            for (int i = 0; i < _settings.StartCount; i++)
-            {
-                SpawnSword();
-            }
+            if (_isPlayer) for (int i = 0; i < _settings.PlayerStartCount; i++) SpawnSword();
+            else for (int i = 0; i < _settings.AiStartCount; i++) SpawnSword();
         }
 
         private void Update()
