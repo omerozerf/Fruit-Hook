@@ -364,6 +364,11 @@ namespace _Game._Scripts.SwordOrbitSystem
             if (_isPlayer) PlayCameraShake();
         }
 
+        public void SetScratchCard(ScratchCard scratchCard)
+        {
+            _scratchCard = scratchCard;
+        }
+
 
         [Serializable]
         public struct OrbitSettings

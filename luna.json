@@ -17385,7 +17385,7 @@
                     },
                     {
                         "name": "name#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "name#set",
@@ -27920,6 +27920,18 @@
                     {
                         "name": "ScratchWithSwordTransform",
                         "excluded": false
+                    },
+                    {
+                        "name": "ScratchOrbitCenter",
+                        "excluded": false
+                    },
+                    {
+                        "name": "TryWorldToScratch",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetScratchCard",
+                        "excluded": false
                     }
                 ]
             },
@@ -31966,6 +31978,10 @@
                     {
                         "name": "Tick",
                         "excluded": false
+                    },
+                    {
+                        "name": "Tick\",this)}this.c$-=t;if(this.c$<=0){pc.Application.getApplication().events.off(\"update",
+                        "excluded": false
                     }
                 ]
             },
@@ -33565,6 +33581,18 @@
                     },
                     {
                         "name": "BuildAll",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdateAreaTransform",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetMapWorldSize",
                         "excluded": false
                     }
                 ]
@@ -37089,26 +37117,30 @@
                     },
                     {
                         "name": "Awake",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "CacheMapSize",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "SpawnEnemies",
-                        "excluded": true
-                    },
-                    {
-                        "name": "FindBestSpawnPoint",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "CalculateSpawnScore",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
-                        "name": "FindFarthestPointFromPlayer",
+                        "name": "FindRandomBestSpawnPoint",
+                        "excluded": false
+                    },
+                    {
+                        "name": "TryAddTopCandidate",
+                        "excluded": false
+                    },
+                    {
+                        "name": "FindBestSpawnPointDeterministic",
                         "excluded": true
                     }
                 ]
@@ -37754,6 +37786,40 @@
                     {
                         "name": "ctor",
                         "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "_Game._Scripts.EnemyMoveSystem.EnemyCreateController.ScoredPoint",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "getDefaultValue",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "$ctor1",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getHashCode",
+                        "excluded": true
+                    },
+                    {
+                        "name": "equals",
+                        "excluded": true
+                    },
+                    {
+                        "name": "$clone",
+                        "excluded": true
                     }
                 ]
             }

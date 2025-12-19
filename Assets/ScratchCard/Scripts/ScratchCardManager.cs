@@ -394,20 +394,30 @@ namespace ScratchCardAsset
 		{
 			ReleaseTexture();
 			var scratchSurfaceMaterial = Card.SurfaceMaterial;
-			var isPartOfAtlas = sprite != null && (sprite.texture.width != sprite.rect.size.x || sprite.texture.height != sprite.rect.size.y);
+			var isPartOfAtlas = sprite && (!Mathf.Approximately(sprite.texture.width, sprite.rect.size.x) || !Mathf.Approximately(sprite.texture.height, sprite.rect.size.y));
 			if (Application.isPlaying)
 			{
 				if (isPartOfAtlas || scratchSurfaceSpriteHasAlpha)
 				{
 					if (sprite.texture.isReadable)
 					{
-						if (sprite.packed)
+						// Avoid Sprite.packed (unsupported in some runtimes, e.g. Luna). Decide by rects instead.
+						// If the sprite is part of an atlas (or otherwise cropped), textureRect points to the correct region.
+						if (isPartOfAtlas)
 						{
-							spritePixels = sprite.texture.GetPixels((int)sprite.textureRect.x, (int)sprite.textureRect.y, (int)sprite.rect.width, (int)sprite.rect.height);
+							spritePixels = sprite.texture.GetPixels(
+								(int)sprite.textureRect.x,
+								(int)sprite.textureRect.y,
+								(int)sprite.textureRect.width,
+								(int)sprite.textureRect.height);
 						}
 						else
 						{
-							spritePixels = sprite.texture.GetPixels((int)sprite.rect.x, (int)sprite.rect.y, (int)sprite.rect.width, (int)sprite.rect.height);
+							spritePixels = sprite.texture.GetPixels(
+								(int)sprite.rect.x,
+								(int)sprite.rect.y,
+								(int)sprite.rect.width,
+								(int)sprite.rect.height);
 						}
 					}
 					else

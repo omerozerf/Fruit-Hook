@@ -1,26 +1,56 @@
 using System.Collections.Generic;
 using _Game._Scripts.MapSystem;
+using _Game._Scripts.SwordOrbitSystem;
+using ScratchCardAsset;
 using UnityEngine;
 
 namespace _Game._Scripts.EnemyMoveSystem
 {
     public class EnemyCreateController : MonoBehaviour
     {
+        [Header("References")]
         [SerializeField] private Transform _playerTransform;
         [SerializeField] private Transform[] _enemyPrefabArray;
+        [SerializeField] private ScratchCard _scratchCard;
+
+        [Header("Spawn Randomness")]
+        [SerializeField, Min(1)] private int _candidateSampleCount = 300;
+        [SerializeField, Min(1)] private int _topCandidatesToChooseFrom = 10;
+
+        [Header("Constraints")]
+        [SerializeField, Min(0f)] private float _minEnemyDistance = 3f;
+
+        [Header("Optional Determinism")]
+        [SerializeField] private bool _useFixedSeed;
+        [SerializeField] private int _fixedSeed = 12345;
 
         private readonly List<Vector3> m_SpawnedEnemyPositions = new();
-        private int m_MapHeight;
+        private readonly List<ScoredPoint> m_TopCandidates = new();
 
+        private int m_MapHeight;
         private int m_MapWidth;
 
+        private struct ScoredPoint
+        {
+            public readonly Vector3 point;
+            public readonly float score;
+
+            public ScoredPoint(Vector3 point, float score)
+            {
+                this.point = point;
+                this.score = score;
+            }
+        }
 
         private void Awake()
         {
             CacheMapSize();
+
+            if (_useFixedSeed)
+                Random.InitState(_fixedSeed);
+
             SpawnEnemies();
         }
-
 
         private void CacheMapSize()
         {
@@ -34,22 +64,99 @@ namespace _Game._Scripts.EnemyMoveSystem
 
             foreach (var enemyPrefab in _enemyPrefabArray)
             {
-                var spawnPosition = FindBestSpawnPoint();
+                var spawnPosition = FindRandomBestSpawnPoint();
                 m_SpawnedEnemyPositions.Add(spawnPosition);
-                Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+                var transform = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+                transform.GetComponentInChildren<SwordOrbitController>().SetScratchCard(_scratchCard);
             }
         }
 
-        private Vector3 FindBestSpawnPoint()
+        private Vector3 FindRandomBestSpawnPoint()
+        {
+            m_TopCandidates.Clear();
+
+            // Map sınırları: 0..width-1, 0..height-1 (<= değil <)
+            var maxX = Mathf.Max(1, m_MapWidth) - 1;
+            var maxY = Mathf.Max(1, m_MapHeight) - 1;
+
+            // Rastgele aday örnekle
+            for (var i = 0; i < _candidateSampleCount; i++)
+            {
+                var x = Random.Range(0, maxX + 1);
+                var y = Random.Range(0, maxY + 1);
+                var candidate = new Vector3(x, y, 0f);
+
+                var score = CalculateSpawnScore(candidate);
+                if (score == float.MinValue)
+                    continue;
+
+                TryAddTopCandidate(candidate, score);
+            }
+
+            // Eğer hiç geçerli aday yoksa fallback: deterministik tarama
+            if (m_TopCandidates.Count == 0)
+                return FindBestSpawnPointDeterministic();
+
+            // En iyi N adayın içinden rastgele seç
+            var pickIndex = Random.Range(0, m_TopCandidates.Count);
+            return m_TopCandidates[pickIndex].point;
+        }
+
+        private void TryAddTopCandidate(Vector3 point, float score)
+        {
+            // Listeyi (küçük N) score'a göre azalan tutuyoruz.
+            // N küçük olduğu için basit insertion yeterli.
+            var sp = new ScoredPoint(point, score);
+
+            var insertIndex = m_TopCandidates.Count;
+            for (var i = 0; i < m_TopCandidates.Count; i++)
+            {
+                if (score > m_TopCandidates[i].score)
+                {
+                    insertIndex = i;
+                    break;
+                }
+            }
+
+            m_TopCandidates.Insert(insertIndex, sp);
+
+            var limit = Mathf.Max(1, _topCandidatesToChooseFrom);
+            if (m_TopCandidates.Count > limit)
+                m_TopCandidates.RemoveAt(m_TopCandidates.Count - 1);
+        }
+
+        private float CalculateSpawnScore(Vector3 candidate)
+        {
+            // Player'dan uzaklık temel skor
+            var score = Vector3.Distance(candidate, _playerTransform.position);
+
+            // Diğer enemy’lerden yeterince uzak değilse eliyoruz
+            foreach (var enemyPos in m_SpawnedEnemyPositions)
+            {
+                var distance = Vector3.Distance(candidate, enemyPos);
+
+                if (distance < _minEnemyDistance)
+                    return float.MinValue;
+
+                // Enemy’lerden de uzak olmayı ödüllendir
+                score += distance;
+            }
+
+            return score;
+        }
+
+        private Vector3 FindBestSpawnPointDeterministic()
         {
             var bestPoint = Vector3.zero;
             var bestScore = float.MinValue;
 
-            for (var x = 0; x <= m_MapWidth; x++)
-            for (var y = 0; y <= m_MapHeight; y++)
-            {
-                var candidate = new Vector3(x, y, 0);
+            var maxX = Mathf.Max(1, m_MapWidth) - 1;
+            var maxY = Mathf.Max(1, m_MapHeight) - 1;
 
+            for (var x = 0; x <= maxX; x++)
+            for (var y = 0; y <= maxY; y++)
+            {
+                var candidate = new Vector3(x, y, 0f);
                 var score = CalculateSpawnScore(candidate);
 
                 if (score > bestScore)
@@ -60,53 +167,6 @@ namespace _Game._Scripts.EnemyMoveSystem
             }
 
             return bestPoint;
-        }
-
-        private float CalculateSpawnScore(Vector3 candidate)
-        {
-            const float minEnemyDistance = 3f;
-
-            var score = Vector3.Distance(candidate, _playerTransform.position);
-
-            foreach (var enemyPos in m_SpawnedEnemyPositions)
-            {
-                var distance = Vector3.Distance(candidate, enemyPos);
-
-                if (distance < minEnemyDistance)
-                    return float.MinValue;
-
-                score += distance;
-            }
-
-            return score;
-        }
-
-        private Vector3 FindFarthestPointFromPlayer()
-        {
-            var playerPos = _playerTransform.position;
-
-            Vector3[] candidatePoints =
-            {
-                new(0, 0, 0),
-                new(m_MapWidth, 0, 0),
-                new(0, m_MapHeight, 0),
-                new(m_MapWidth, m_MapHeight, 0)
-            };
-
-            var farthestPoint = candidatePoints[0];
-            var maxDistance = Vector3.Distance(playerPos, farthestPoint);
-
-            for (var i = 1; i < candidatePoints.Length; i++)
-            {
-                var distance = Vector3.Distance(playerPos, candidatePoints[i]);
-                if (distance > maxDistance)
-                {
-                    maxDistance = distance;
-                    farthestPoint = candidatePoints[i];
-                }
-            }
-
-            return farthestPoint;
         }
     }
 }
