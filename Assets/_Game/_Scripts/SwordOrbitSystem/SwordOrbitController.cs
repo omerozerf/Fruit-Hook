@@ -14,11 +14,11 @@ namespace _Game._Scripts.SwordOrbitSystem
     {
         [SerializeField] private bool _isPlayer;
 
-        [Header("Settings")]
-        [SerializeField] private SwordOrbitSettingsSO _settings;
+        [Header("Settings")] [SerializeField] private SwordOrbitSettingsSO _settings;
 
-        [Header("References")]
-        [SerializeField] private ScratchCard _scratchCard;
+        [Header("References")] [SerializeField]
+        private ScratchCard _scratchCard;
+
         [SerializeField] private OrbitReferences _references = OrbitReferences.Default;
 
         private readonly SwordOrbitList m_OrbitList = new();
@@ -29,15 +29,27 @@ namespace _Game._Scripts.SwordOrbitSystem
         private float m_SpawnTimer;
         private ObjectPool<Transform> m_SwordPool;
 
-        [Header("Scratch Erase")]
-        [SerializeField] private bool _enableSwordScratchErase = true;
-        [SerializeField] private float _scratchBrushSize = 0.5f;
+        [Header("Scratch Erase")] [SerializeField]
+        private bool _enableSwordScratchErase = true;
+
         [SerializeField, Range(0.01f, 1f)] private float _scratchPressure = 1f;
+
+        [SerializeField, Min(0.001f)] private float _scratchWidth = 0.5f;
+
+        [SerializeField, Min(0.01f)] private float _scratchLength = 2.5f;
+
+
+        [Header("Orbit Center Erase")] [SerializeField]
+        private bool _enableOrbitCenterErase = false;
+
+        [SerializeField, Min(0.001f)] private float _orbitCenterEraseRadius = 0.5f;
+        [SerializeField, Range(0.01f, 1f)] private float _orbitCenterErasePressure = 1f;
+
 
         private readonly List<Transform> m_ActiveSwords = new();
         private readonly Dictionary<int, Vector2> m_LastScratchPosBySwordId = new();
 
-        
+
         private void Awake()
         {
             if (!_settings)
@@ -78,7 +90,7 @@ namespace _Game._Scripts.SwordOrbitSystem
             TickRotation();
             TickSwordScratchErase();
         }
-        
+
 
         private void PlayCameraShake()
         {
@@ -186,11 +198,48 @@ namespace _Game._Scripts.SwordOrbitSystem
             if (!cam)
                 return;
 
-            // Ensure brush size is what we expect (designer-tunable).
-            if (Math.Abs(_scratchCard.BrushSize - _scratchBrushSize) > 0.0001f)
-                _scratchCard.BrushSize = Mathf.Max(0.001f, _scratchBrushSize);
+            // One size control: _scratchWidth maps 1:1 to ScratchCard.BrushSize
+            if (Math.Abs(_scratchCard.BrushSize - _scratchWidth) > 0.0001f)
+                _scratchCard.BrushSize = Mathf.Max(0.001f, _scratchWidth);
 
+            ScratchOrbitCenter();
             ScratchWithActiveSwords();
+        }
+
+        private void ScratchOrbitCenter()
+        {
+            if (!_enableOrbitCenterErase)
+                return;
+
+            if (_scratchCard.ScratchData == null)
+                return;
+
+            var cam = _scratchCard.ScratchData.Camera ? _scratchCard.ScratchData.Camera : m_Cam;
+            if (!cam)
+                return;
+
+            var surface = _scratchCard.SurfaceTransform;
+            if (!surface)
+                return;
+
+            // Use transform.position as center; project onto scratch surface plane to avoid parallax.
+            var worldCenter = ProjectPointToPlane(transform.position, surface.position, surface.forward);
+
+            if (!TryWorldToScratch(cam, worldCenter, out var scratchCenter))
+                return;
+
+            // Temporarily override brush size for center erase only, so it doesn't affect sword erase brush.
+            var prevBrush = _scratchCard.BrushSize;
+            var newBrush = Mathf.Max(0.001f, _orbitCenterEraseRadius);
+
+            if (Math.Abs(prevBrush - newBrush) > 0.0001f)
+                _scratchCard.BrushSize = newBrush;
+
+            _scratchCard.ScratchHole(scratchCenter, Mathf.Clamp01(_orbitCenterErasePressure));
+
+            // Restore.
+            if (Math.Abs(_scratchCard.BrushSize - prevBrush) > 0.0001f)
+                _scratchCard.BrushSize = prevBrush;
         }
 
         private void ScratchWithActiveSwords()
@@ -222,8 +271,8 @@ namespace _Game._Scripts.SwordOrbitSystem
             if (!surface)
                 return;
 
-            // Project sword position onto the scratch surface plane to avoid depth/parallax offsets.
-            // For a SpriteRenderer surface, forward is typically the plane normal.
+
+            // Fallback: scratch using the sword pivot projected onto the surface.
             var projectedWorld = ProjectPointToPlane(sword.position, surface.position, surface.forward);
 
             var screenPos3 = cam.WorldToScreenPoint(projectedWorld);
@@ -231,9 +280,6 @@ namespace _Game._Scripts.SwordOrbitSystem
                 return;
 
             var screenPos = new Vector2(screenPos3.x, screenPos3.y);
-
-            // Match the same pipeline as ScratchCardInput:
-            // screen -> ScratchData.GetScratchPosition -> renderer scratch.
             var scratchPos = _scratchCard.ScratchData.GetScratchPosition(screenPos);
 
             var id = sword.GetInstanceID();
@@ -250,18 +296,33 @@ namespace _Game._Scripts.SwordOrbitSystem
             }
         }
 
+
         private static Vector3 ProjectPointToPlane(Vector3 point, Vector3 planePoint, Vector3 planeNormal)
         {
             var n = planeNormal.sqrMagnitude > 0.000001f ? planeNormal.normalized : Vector3.forward;
             var dist = Vector3.Dot(point - planePoint, n);
             return point - dist * n;
         }
-        
+
+
+        private bool TryWorldToScratch(Camera cam, Vector3 world, out Vector2 scratch)
+        {
+            scratch = default;
+
+            var sp3 = cam.WorldToScreenPoint(world);
+            if (sp3.z <= 0f)
+                return false;
+
+            var screen = new Vector2(sp3.x, sp3.y);
+            scratch = _scratchCard.ScratchData.GetScratchPosition(screen);
+            return true;
+        }
+
         public int GetSwordCount()
         {
             return m_OrbitList.Count;
         }
-        
+
         public void SpawnSword()
         {
             if (!_references._swordPrefab)
@@ -303,7 +364,7 @@ namespace _Game._Scripts.SwordOrbitSystem
             if (_isPlayer) PlayCameraShake();
         }
 
-        
+
         [Serializable]
         public struct OrbitSettings
         {
