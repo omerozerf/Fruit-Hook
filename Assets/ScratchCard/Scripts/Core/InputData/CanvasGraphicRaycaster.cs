@@ -18,7 +18,7 @@ namespace ScratchCardAsset.Core.InputData
             raycastResults = new List<RaycastResult>();
             TryGetComponent(out raycaster);
             TryGetComponent(out eventSystem);
-            if (eventSystem == null)
+            if (!eventSystem)
             {
                 eventSystem = FindObjectOfType<EventSystem>();
             }
@@ -26,7 +26,7 @@ namespace ScratchCardAsset.Core.InputData
 
         public List<RaycastResult> GetRaycasts(Vector2 position)
         {
-            if (raycaster == null)
+            if (!raycaster)
                 return null;
             
             raycastResults.Clear();

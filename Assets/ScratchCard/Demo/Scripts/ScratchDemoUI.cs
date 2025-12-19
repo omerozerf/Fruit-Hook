@@ -236,7 +236,7 @@ namespace ScratchCardAsset.Demo
 
 		private void HideCursor()
 		{
-			if (cursorSprite != null)
+			if (cursorSprite)
 			{
 				cursorSprite.Hide();
 			}

@@ -89,20 +89,20 @@ namespace ScratchCardAsset
 
 		private void OnDestroy()
 		{
-			if (percentRenderTexture != null && percentRenderTexture.IsCreated())
+			if (percentRenderTexture && percentRenderTexture.IsCreated())
 			{
 				percentRenderTexture.Release();
 				Destroy(percentRenderTexture);
 				percentRenderTexture = null;
 			}
 			
-			if (progressTexture != null)
+			if (progressTexture)
 			{
 				Destroy(progressTexture);
 				progressTexture = null;
 			}
 
-			if (mesh != null)
+			if (mesh)
 			{
 				Destroy(mesh);
 				mesh = null;
@@ -114,7 +114,7 @@ namespace ScratchCardAsset
 				commandBuffer = null;
 			}
 
-			if (card != null)
+			if (card)
 			{
 				card.OnRenderTextureInitialized -= OnCardRenderTextureInitialized;
 			}
@@ -140,7 +140,7 @@ namespace ScratchCardAsset
 
 		private void Init()
 		{
-			if (card == null)
+			if (!card)
 			{
 				Debug.LogError("Card field is not assigned!");
 				enabled = false;

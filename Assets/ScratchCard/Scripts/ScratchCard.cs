@@ -40,7 +40,7 @@ namespace ScratchCardAsset
 			set
 			{
 				mode = value;
-				if (BrushMaterial != null)
+				if (BrushMaterial)
 				{
 					var blendOp = mode == ScratchMode.Erase ? (int) BlendOp.Add : (int) BlendOp.ReverseSubtract;
 					BrushMaterial.SetInt(Constants.BrushShader.BlendOpShaderParam, blendOp);
@@ -178,7 +178,7 @@ namespace ScratchCardAsset
 		
 		private void ReleaseRenderTexture()
 		{
-			if (RenderTexture != null && RenderTexture.IsCreated())
+			if (RenderTexture && RenderTexture.IsCreated())
 			{
 				RenderTexture.Release();
 				Destroy(RenderTexture);

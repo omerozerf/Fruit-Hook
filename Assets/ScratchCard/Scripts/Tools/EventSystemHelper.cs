@@ -23,7 +23,7 @@ namespace ScratchCardAsset.Tools
             }
 #elif ENABLE_LEGACY_INPUT_MANAGER
             var inputSystemUIModule = eventSystem.GetComponent("InputSystemUIInputModule");
-            if (inputSystemUIModule != null)
+            if (inputSystemUIModule)
             {
                 Destroy(inputSystemUIModule);
             }
@@ -36,7 +36,7 @@ namespace ScratchCardAsset.Tools
 
         private void OnValidate()
         {
-            if (eventSystem == null)
+            if (!eventSystem)
             {
                 TryGetComponent(out eventSystem);
             }

@@ -39,13 +39,13 @@ namespace ScratchCardAsset.Core
 				commandBuffer = null;
 			}
 			
-			if (meshHole != null)
+			if (meshHole)
 			{
 				Object.Destroy(meshHole);
 				meshHole = null;
 			}
 			
-			if (meshLine != null)
+			if (meshLine)
 			{
 				Object.Destroy(meshLine);
 				meshLine = null;
@@ -141,7 +141,7 @@ namespace ScratchCardAsset.Core
 
 			if (positions.Count > 0)
 			{
-				if (meshLine != null)
+				if (meshLine)
 				{
 					meshLine.Clear(false);
 				}

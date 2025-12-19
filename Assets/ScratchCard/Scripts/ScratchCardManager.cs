@@ -51,7 +51,7 @@ namespace ScratchCardAsset
 			set
 			{
 				scratchSurfaceSpriteHasAlpha = value;
-				if (Progress != null)
+				if (Progress)
 				{
 					Progress.SampleSourceTexture = scratchSurfaceSpriteHasAlpha;
 				}
@@ -69,7 +69,7 @@ namespace ScratchCardAsset
 			set
 			{
 				mode = value;
-				if (Card != null)
+				if (Card)
 				{
 					Card.Mode = mode;
 				}
@@ -83,7 +83,7 @@ namespace ScratchCardAsset
 			set
 			{
 				mainCamera = value;
-				if (Card != null && Card.ScratchData != null)
+				if (Card && Card.ScratchData != null)
 				{
 					Card.ScratchData.Camera = mainCamera;
 				}
@@ -97,7 +97,7 @@ namespace ScratchCardAsset
 			set
 			{
 				scratchSurfaceSprite = value;
-				if (Card != null)
+				if (Card)
 				{
 					if (Application.isPlaying)
 					{
@@ -106,7 +106,7 @@ namespace ScratchCardAsset
 							UpdateCardSprite(scratchSurfaceSprite);
 							Card.SetRenderType(RenderType, mainCamera);
 							Card.Init();
-							if (Progress != null)
+							if (Progress)
 							{
 								Progress.ResetProgress();
 								Progress.UpdateProgress();
@@ -128,7 +128,7 @@ namespace ScratchCardAsset
 			set
 			{
 				progressAccuracy = value;
-				if (Progress != null && Progress.ProgressMaterial != null)
+				if (Progress && Progress.ProgressMaterial)
 				{
 					Progress.ProgressAccuracy = progressAccuracy;
 				}
@@ -142,7 +142,7 @@ namespace ScratchCardAsset
 			set
 			{
 				brushTexture = value;
-				if (Card != null && Card.BrushMaterial != null)
+				if (Card && Card.BrushMaterial)
 				{
 					Card.BrushMaterial.mainTexture = brushTexture;
 				}
@@ -156,7 +156,7 @@ namespace ScratchCardAsset
 			set
 			{
 				brushSize = value;
-				if (Card != null && Card.Initialized)
+				if (Card && Card.Initialized)
 				{
 					Card.BrushSize = brushSize;
 				}
@@ -170,7 +170,7 @@ namespace ScratchCardAsset
 			set
 			{
 				brushOpacity = value;
-				if (Card != null && Card.BrushMaterial != null)
+				if (Card && Card.BrushMaterial)
 				{
 					Card.BrushMaterial.color = new Color(Card.BrushMaterial.color.r, Card.BrushMaterial.color.g, Card.BrushMaterial.color.b, brushOpacity);
 				}
@@ -199,7 +199,7 @@ namespace ScratchCardAsset
 			set
 			{
 				usePressure = value;
-				if (Card != null && Card.Initialized)
+				if (Card && Card.Initialized)
 				{
 					Card.Input.UsePressure = usePressure;
 				}
@@ -213,7 +213,7 @@ namespace ScratchCardAsset
 			set
 			{
 				checkCanvasRaycasts = value;
-				if (Card != null && Card.Initialized)
+				if (Card && Card.Initialized)
 				{
 					Card.Input.CheckCanvasRaycasts = checkCanvasRaycasts;
 					if (checkCanvasRaycasts)
@@ -231,7 +231,7 @@ namespace ScratchCardAsset
 			set
 			{
 				canvasesForRaycastsBlocking = value;
-				if (Card != null && Card.Initialized)
+				if (Card && Card.Initialized)
 				{
 					Card.Input.InitRaycastsController(Card.SurfaceTransform.gameObject, canvasesForRaycastsBlocking);
 				}
@@ -282,7 +282,7 @@ namespace ScratchCardAsset
 
 		private void OnDestroy()
 		{
-			if (surfaceMaterial != null)
+			if (surfaceMaterial)
 			{
 				if (Application.isPlaying)
 				{
@@ -298,7 +298,7 @@ namespace ScratchCardAsset
 			if (!Application.isPlaying)
 				return;
 
-			if (Card != null)
+			if (Card)
 			{
 				Card.OnInitialized -= OnCardInitialized;
 				Card.OnRenderTextureInitialized -= OnCardRenderTextureInitialized;
@@ -308,15 +308,15 @@ namespace ScratchCardAsset
 
 		public void Init()
 		{
-			if (Card == null)
+			if (!Card)
 			{
 				Debug.LogError("ScratchCard field is not assigned!");
 				return;
 			}
 			
-			if (mainCamera == null)
+			if (!mainCamera)
 			{
-				mainCamera = mainCamera != null ? mainCamera : Camera.main;
+				mainCamera = mainCamera ? mainCamera : Camera.main;
 			}
 
 			InitSurfaceMaterial();
@@ -358,7 +358,7 @@ namespace ScratchCardAsset
 
 		private void OnCardRenderTextureInitialized(RenderTexture renderTexture)
 		{
-			if (Progress != null && Progress.ProgressMaterial != null)
+			if (Progress && Progress.ProgressMaterial)
 			{
 				Progress.ProgressMaterial.mainTexture = renderTexture;
 			}
@@ -366,13 +366,13 @@ namespace ScratchCardAsset
 		
 		private void ReleaseTexture()
 		{
-			if (scratchTexture != null)
+			if (scratchTexture)
 			{
 				Destroy(scratchTexture);
 				scratchTexture = null;
 			}
 
-			if (scratchSprite != null)
+			if (scratchSprite)
 			{
 				Destroy(scratchSprite);
 				scratchSprite = null;
@@ -381,7 +381,7 @@ namespace ScratchCardAsset
 
 		public void InitSurfaceMaterial()
 		{
-			if (Card != null && Card.SurfaceMaterial == null)
+			if (Card && !Card.SurfaceMaterial)
 			{
 				var scratchSurfaceMaterial = new Material(maskShader);
 				Card.SurfaceMaterial = scratchSurfaceMaterial;
@@ -432,7 +432,7 @@ namespace ScratchCardAsset
 					scratchTexture.SetPixels(spritePixels);
 					scratchTexture.Apply();
 					
-					if (scratchSurfaceMaterial != null)
+					if (scratchSurfaceMaterial)
 					{
 						scratchSurfaceMaterial.mainTexture = scratchTexture;
 					}
@@ -445,50 +445,50 @@ namespace ScratchCardAsset
 						sprite = scratchSprite;
 					}
 				}
-				else if (scratchSurfaceMaterial != null && scratchSurfaceSprite != null)
+				else if (scratchSurfaceMaterial && scratchSurfaceSprite)
 				{
 					scratchSurfaceMaterial.mainTexture = scratchSurfaceSprite.texture;
 				}
 				UpdateProgressMaterial();
 			}
-			else if (Card.SurfaceMaterial != null && scratchSurfaceSprite != null)
+			else if (Card.SurfaceMaterial && scratchSurfaceSprite)
 			{
 				Card.SurfaceMaterial.mainTexture = scratchSurfaceSprite.texture;
 			}
 
 			UpdateCardOffset();
 
-			if (RenderType == ScratchCardRenderType.MeshRenderer && meshRendererCard != null)
+			if (RenderType == ScratchCardRenderType.MeshRenderer && meshRendererCard)
 			{
-				if (Card.SurfaceMaterial != null)
+				if (Card.SurfaceMaterial)
 				{
 					meshRendererCard.sharedMaterial = Card.SurfaceMaterial;
 				}
-				if (Card.SurfaceMaterial != null && scratchSurfaceSprite != null)
+				if (Card.SurfaceMaterial && scratchSurfaceSprite)
 				{
 					Card.SurfaceMaterial.mainTexture = scratchSurfaceSprite.texture;
 				}
 			}
 			
-			if (RenderType == ScratchCardRenderType.SpriteRenderer && SpriteRendererCard != null)
+			if (RenderType == ScratchCardRenderType.SpriteRenderer && SpriteRendererCard)
 			{
-				if (Card.SurfaceMaterial != null)
+				if (Card.SurfaceMaterial)
 				{
 					SpriteRendererCard.sharedMaterial = Card.SurfaceMaterial;
 				}
-				if (sprite != null)
+				if (sprite)
 				{
 					SpriteRendererCard.sprite = sprite;
 				}
 			}
 			
-			if (RenderType == ScratchCardRenderType.CanvasRenderer && CanvasRendererCard != null)
+			if (RenderType == ScratchCardRenderType.CanvasRenderer && CanvasRendererCard)
 			{
-				if (Card.SurfaceMaterial != null)
+				if (Card.SurfaceMaterial)
 				{
 					CanvasRendererCard.material = Card.SurfaceMaterial;
 				}
-				if (sprite != null)
+				if (sprite)
 				{
 					CanvasRendererCard.sprite = sprite;
 				}
@@ -497,9 +497,9 @@ namespace ScratchCardAsset
 
 		private void UpdateCardOffset()
 		{
-			if (Card.SurfaceMaterial != null)
+			if (Card.SurfaceMaterial)
 			{
-				if (RenderType == ScratchCardRenderType.MeshRenderer && scratchSurfaceSprite != null)
+				if (RenderType == ScratchCardRenderType.MeshRenderer && scratchSurfaceSprite)
 				{
 					var offset = new Vector4(
 						scratchSurfaceSprite.textureRect.min.x / scratchSurfaceSprite.texture.width,
@@ -517,7 +517,7 @@ namespace ScratchCardAsset
 
 		private void InitBrushMaterial()
 		{
-			if (Card.BrushMaterial == null)
+			if (!Card.BrushMaterial)
 			{
 				Card.BrushMaterial = new Material(brushShader);
 			}
@@ -527,10 +527,10 @@ namespace ScratchCardAsset
 
 		private void InitProgressMaterial()
 		{
-			if (Progress == null)
+			if (!Progress)
 				return;
 			
-			if (Progress.ProgressMaterial == null)
+			if (!Progress.ProgressMaterial)
 			{
 				var progressMaterial = new Material(maskProgressShader);
 				Progress.ProgressMaterial = progressMaterial;
@@ -545,11 +545,11 @@ namespace ScratchCardAsset
 		{
 			if (scratchSurfaceSpriteHasAlpha)
 			{
-				if (scratchTexture != null)
+				if (scratchTexture)
 				{
 					Progress.ProgressMaterial.SetTexture(Constants.ProgressShader.SourceTexture, scratchTexture);
 				}
-				else if (scratchSurfaceSprite != null)
+				else if (scratchSurfaceSprite)
 				{
 					Progress.ProgressMaterial.SetTexture(Constants.ProgressShader.SourceTexture, scratchSurfaceSprite.texture);
 				}
@@ -558,9 +558,9 @@ namespace ScratchCardAsset
 
 		private void UpdateProgressMaterial()
 		{
-			if (Progress != null)
+			if (Progress)
 			{
-				if (Progress.ProgressMaterial != null)
+				if (Progress.ProgressMaterial)
 				{
 					SetProgressSourceTexture();
 				}
@@ -581,7 +581,7 @@ namespace ScratchCardAsset
 		public void FillScratchCard()
 		{
 			Card.Fill(false);
-			if (Progress != null)
+			if (Progress)
 			{
 				Progress.UpdateProgress();
 			}
@@ -593,7 +593,7 @@ namespace ScratchCardAsset
 		public void ClearScratchCard()
 		{
 			Card.Clear(false);
-			if (Progress != null)
+			if (Progress)
 			{
 				Progress.UpdateProgress();
 			}
@@ -611,7 +611,7 @@ namespace ScratchCardAsset
 			foreach (var card in cards)
 			{
 				var isActive = card.Key == RenderType;
-				if (card.Value != null)
+				if (card.Value)
 				{
 					card.Value.gameObject.SetActive(isActive);
 					if (isActive)
@@ -633,10 +633,10 @@ namespace ScratchCardAsset
 			var cardRenderType = RenderType;
 			if (cardRenderType == ScratchCardRenderType.MeshRenderer)
 			{
-				if (MeshRendererCard != null && MeshRendererCard.sharedMaterial != null && MeshRendererCard.sharedMaterial.mainTexture != null)
+				if (MeshRendererCard && MeshRendererCard.sharedMaterial && MeshRendererCard.sharedMaterial.mainTexture)
 				{
 					float width, height;
-					if (scratchSurfaceSprite != null)
+					if (scratchSurfaceSprite)
 					{
 						width = scratchSurfaceSprite.rect.width;
 						height = scratchSurfaceSprite.rect.height;
@@ -655,14 +655,14 @@ namespace ScratchCardAsset
 			}
 			else if (cardRenderType == ScratchCardRenderType.SpriteRenderer)
 			{
-				if (SpriteRendererCard != null)
+				if (SpriteRendererCard)
 				{
 					SpriteRendererCard.transform.localScale = Vector3.one;
 				}
 			}
 			else if (cardRenderType == ScratchCardRenderType.CanvasRenderer)
 			{
-				if (CanvasRendererCard != null)
+				if (CanvasRendererCard)
 				{
 					CanvasRendererCard.SetNativeSize();
 				}

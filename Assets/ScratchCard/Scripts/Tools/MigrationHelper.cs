@@ -12,18 +12,18 @@ namespace ScratchCardAsset.Tools
         
         public void StartMigrate(ScratchCardManager scratchCardManager)
         {
-            if (scratchCardManager == null)
+            if (!scratchCardManager)
                 return;
 
             var result = false;
-            if (scratchCardManager.MeshRendererCard == null)
+            if (!scratchCardManager.MeshRendererCard)
             {
                 var field = scratchCardManager.GetType().GetField("MeshCard");
                 var meshCardValue = field.GetValue(scratchCardManager);
                 if (meshCardValue != null)
                 {
                     var meshCardGameObject = (GameObject)meshCardValue;
-                    if (meshCardGameObject != null)
+                    if (meshCardGameObject)
                     {
                         if (meshCardGameObject.TryGetComponent<MeshRenderer>(out var meshRenderer))
                         {
@@ -35,14 +35,14 @@ namespace ScratchCardAsset.Tools
                 }
             }
             
-            if (scratchCardManager.SpriteRendererCard == null)
+            if (!scratchCardManager.SpriteRendererCard)
             {
                 var field = scratchCardManager.GetType().GetField("SpriteCard");
                 var spriteCardValue = field.GetValue(scratchCardManager);
                 if (spriteCardValue != null)
                 {
                     var spriteCardGameObject = (GameObject)spriteCardValue;
-                    if (spriteCardGameObject != null)
+                    if (spriteCardGameObject)
                     {
                         if (spriteCardGameObject.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
                         {
@@ -54,14 +54,14 @@ namespace ScratchCardAsset.Tools
                 }
             }
             
-            if (scratchCardManager.CanvasRendererCard == null)
+            if (!scratchCardManager.CanvasRendererCard)
             {
                 var field = scratchCardManager.GetType().GetField("ImageCard");
                 var imageCardValue = field.GetValue(scratchCardManager);
                 if (imageCardValue != null)
                 {
                     var imageCardGameObject = (GameObject)imageCardValue;
-                    if (imageCardGameObject != null)
+                    if (imageCardGameObject)
                     {
                         if (imageCardGameObject.TryGetComponent<Image>(out var image))
                         {
@@ -82,7 +82,7 @@ namespace ScratchCardAsset.Tools
 
         public void FinishMigrate()
         {
-            if (migratedObject != null)
+            if (migratedObject)
             {
                 MarkAsDirty(migratedObject);
                 migratedObject = null;
@@ -96,7 +96,7 @@ namespace ScratchCardAsset.Tools
             {
                 UnityEditor.EditorUtility.SetDirty(unityObject);
                 var component = unityObject as Component;
-                if (component != null)
+                if (component)
                 {
                     UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(component.gameObject.scene);
                 }

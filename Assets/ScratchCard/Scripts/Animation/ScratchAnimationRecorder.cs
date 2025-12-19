@@ -32,14 +32,14 @@ namespace ScratchCardAsset.Animation
         
         private void OnValidate()
         {
-            if (ScratchCard == null)
+            if (!ScratchCard)
             {
                 if (TryGetComponent(out ScratchCard)) 
                     return;
                 
                 if (TryGetComponent<ScratchCardManager>(out var scratchCardManager))
                 {
-                    if (scratchCardManager.Card != null)
+                    if (scratchCardManager.Card)
                     {
                         ScratchCard = scratchCardManager.Card;
                     }

@@ -30,7 +30,7 @@ namespace ScratchCardAsset.Animation
         
         private void Start()
         {
-            if (ScratchAnimation != null && ScratchAnimation.ScratchSpace == ScratchAnimationSpace.UV)
+            if (ScratchAnimation && ScratchAnimation.ScratchSpace == ScratchAnimationSpace.UV)
             {
                 scale = ScratchCard.ScratchData.TextureSize;
             }
@@ -52,14 +52,14 @@ namespace ScratchCardAsset.Animation
 
         private void OnValidate()
         {
-            if (ScratchCard == null)
+            if (!ScratchCard)
             {
                 if (TryGetComponent(out ScratchCard)) 
                     return;
                 
                 if (TryGetComponent<ScratchCardManager>(out var scratchCardManager))
                 {
-                    if (scratchCardManager.Card != null)
+                    if (scratchCardManager.Card)
                     {
                         ScratchCard = scratchCardManager.Card;
                     }
@@ -69,7 +69,7 @@ namespace ScratchCardAsset.Animation
 
         private void UpdateScratches()
         {
-            if (ScratchAnimation == null || ScratchAnimation.Scratches.Count == 0)
+            if (!ScratchAnimation || ScratchAnimation.Scratches.Count == 0)
                 return;
                 
             var scratch = ScratchAnimation.Scratches[currentScratchIndex];

@@ -14,13 +14,13 @@ namespace ScratchCardAsset.Core.InputData
             scratchSurface = surfaceObject;
             raycasters = new List<CanvasGraphicRaycaster>();
             
-            if (surfaceObject.TryGetComponent<Image>(out var image) && image.canvas != null)
+            if (surfaceObject.TryGetComponent<Image>(out var image) && image.canvas)
             {
                 if (!image.canvas.TryGetComponent<CanvasGraphicRaycaster>(out var raycaster))
                 {
                     raycaster = image.canvas.gameObject.AddComponent<CanvasGraphicRaycaster>();
                 }
-                if (raycaster != null)
+                if (raycaster)
                 {
                     raycasters.Add(raycaster);
                 }
@@ -30,14 +30,15 @@ namespace ScratchCardAsset.Core.InputData
             {
                 foreach (var canvas in canvasesForRaycastsBlocking)
                 {
-                    if (canvas != null)
+                    if (canvas)
                     {
                         if (!canvas.TryGetComponent<CanvasGraphicRaycaster>(out var raycaster))
                         {
                             raycaster = canvas.gameObject.AddComponent<CanvasGraphicRaycaster>();
                         }
 
-                        if (raycaster != null)
+                        if (raycaster
+                            )
                         {
                             raycasters.Add(raycaster);
                         }
@@ -51,7 +52,7 @@ namespace ScratchCardAsset.Core.InputData
             var isBlock = false;
             foreach (var raycaster in raycasters)
             {
-                if (raycaster == null)
+                if (!raycaster)
                     continue;
                 
                 var result = raycaster.GetRaycasts(position);

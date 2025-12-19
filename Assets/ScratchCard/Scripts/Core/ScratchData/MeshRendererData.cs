@@ -12,11 +12,11 @@ namespace ScratchCardAsset.Core.ScratchData
             get
             {
                 // Prefer local-space mesh bounds via MeshFilter
-                if (filter != null && filter.sharedMesh != null)
+                if (filter && filter.sharedMesh != null)
                     return (Vector2)filter.sharedMesh.bounds.size;
 
                 // Fallback: world-space renderer bounds (should rarely be needed)
-                if (renderer != null)
+                if (renderer)
                     return (Vector2)renderer.bounds.size;
 
                 return Vector2.zero;
