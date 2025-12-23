@@ -1,173 +1,177 @@
-# Fruit Hook  
-*A performance-driven playable ad prototype*
+# Fruit Hook
+<div align="center">
+
+![Unity](https://img.shields.io/badge/Unity-2022.3.51f1-000000?style=for-the-badge&logo=unity&logoColor=white)
+![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
+![Platform](https://img.shields.io/badge/Platform-WebGL%20%7C%20Luna-blue?style=for-the-badge)
+![Architecture](https://img.shields.io/badge/Architecture-Event--Driven-orange?style=for-the-badge)
+
+<br><br>
+
+<img src="fruit-hook.gif" width="300" alt="Fruit Hook Gameplay" style="border-radius: 10px; box-shadow: 0px 4px 12px rgba(0,0,0,0.3);">
+
+<br>
+
+*A performance-driven playable ad prototype engineered for stability and rapid iteration.*
+
+<br>
+
+[🕹️ **Play Live Demo**](https://omerozerf.itch.io/fruit-hook)
+
+</div>
 
 ---
 
-### ▶ Playable Demo  
-🔗 **Play now:** [https://omerozerf.itch.io/fruit-hook](https://omerozerf.itch.io/fruit-hook)
+## 📖 Overview
+**Fruit Hook** is a high-performance action prototype designed specifically for the constraints of **playable ads** (Luna/WebGL). Unlike traditional games, this project prioritizes **zero-allocation runtime**, **predictable frame rates**, and **instant startup times**.
 
----
+The codebase demonstrates a modular, event-driven architecture that decouples logic from data, allowing designers to tune gameplay via `ScriptableObjects` without recompiling code.
 
-<p align="center">
-  <img src="fruit-hook.gif" alt="Fruit Hook gameplay" width="360" />
-</p>
-
----
-
-## Overview
-**Fruit Hook** is a short-loop action prototype built specifically for **playable ads**.  
-The project is shaped around **WebGL and Luna constraints**, with a clear focus on runtime stability, predictable performance, and fast iteration.
-
----
-
-## Project Goals
+### 🎯 Project Goals
 
 | Focus | Description |
-|------|------------|
-| Playable-first | Designed for ad networks and playable runtimes |
-| Performance | Low CPU / GPU footprint |
-| Iteration speed | ScriptableObject-driven tuning |
-| Stability | Luna-compatible architecture |
+| :--- | :--- |
+| **Playable-first** | Designed for ad networks and playable runtimes |
+| **Performance** | Low CPU / GPU footprint |
+| **Iteration speed** | ScriptableObject-driven tuning |
+| **Stability** | Luna-compatible architecture |
 
----
-
-## Branches
+### ᛦ Branches
 
 | Branch | Purpose |
-|------|--------|
+| :--- | :--- |
 | `main` | Core gameplay, no ScratchCard integration |
 | `scratch-card-entegration` | Gameplay with ScratchCard erase mechanics |
 
 ---
 
-## Architecture & Configuration
-- Nearly all gameplay and balance values are controlled via **ScriptableObjects**.
-- Damage, speed, spawn rates, area sizes, and thresholds can be adjusted:
-  - Without touching code  
-  - From a single, centralized configuration
-- This enables rapid tuning and easy creation of playable variants.
+## 🏗️ Architecture
+The project follows a **Component-Based** and **Event-Driven** architecture to ensure loose coupling between systems.
 
----
+### Core Loop Flow
+```mermaid
+graph TD
+    Input[PlayerJoystickInputSource] -->|Vector2| PM[PlayerMovement]
+    PM -->|Velocity| RB[Rigidbody2D]
+    
+    subgraph Event System
+        PD[PlayerDiedEvent]
+        ECS[EndCardShowed Event]
+    end
 
-## Performance Strategy
+    PM --Collision--> Health[PlayerHealthController]
+    Health --OnDeath--> PD
+    PD -->|Trigger| GM[GameManager]
+    GM -->|Show UI| ECS
+    ECS -->|Activate| EndCard[EndCardController]
+```
 
-> **Initial approach:**  
-> Tilemap and MeshRenderer-based map systems were planned to improve rendering performance.  
->  
-> **Problem:**  
-> These systems could not be integrated reliably with **Luna**, leading to unstable behavior and performance drops.
+### Event Bus Pattern
+The game uses a static, generic `EventBus<T>` to manage communication. This eliminates hard dependencies between unrelated systems (e.g., the `PlayerSystem` doesn't need to know about the `UISystem`).
 
-### Final Approach
+```csharp
+// Example: Decoupled Event Publication
+EventBus<PlayerDiedEvent>.Publish(new PlayerDiedEvent(victim: this));
+```
 
-| Aspect | Solution |
-|------|----------|
-| Map generation | Manual tile spawning |
-| Tilemap / MeshRenderer | Abandoned due to Luna issues |
-| Performance bottleneck | Excessive render & update cost |
-| Optimization | **Chunk-based culling** |
-| Off-screen areas | Rendering & updates disabled |
-
-This resulted in a **more stable and predictable runtime** for Luna + WebGL.
-
----
-
-## Codebase Highlights
-
-### Update Load Control
-- Continuous `Update()` calls are minimized.
-- Systems are:
-  - State-driven  
-  - Manually triggered  
-  - Activated only when needed  
-- This significantly reduces CPU load in WebGL environments.
-
----
-
-### Modular System Design
+### 🧩 Modular System Design
 
 | Module | Responsibility |
-|------|---------------|
-| Gameplay | Sword / hook / combat logic |
-| World | Map & chunk management |
-| Spawning | Enemy placement logic |
-| Rendering | Visibility & culling |
-| Scratch | Erase mechanics |
+| :--- | :--- |
+| **Gameplay** | Sword / hook / combat logic |
+| **World** | Map & chunk management |
+| **Spawning** | Enemy placement logic |
+| **Rendering** | Visibility & culling |
+| **Scratch** | Erase mechanics (Branch specific) |
 
 Each module is isolated, loosely coupled, and can be disabled independently.
 
 ---
 
-### World & Map Management
-- Tiles are generated at runtime.
-- Tilemap is intentionally avoided.
-- Chunk culling enables:
-  - Visibility-based activation
-  - Reduced render and physics overhead
-- Acts as a deliberate workaround for Luna limitations.
+## 🛠️ Technical Deep Dive
+
+### 1. Zero-Allocation Object Pooling
+To avoid Garbage Collection (GC) spikes—critical for WebGL performance—custom object pooling is implemented for all high-frequency entities (Projectiles, Particles, Enemies).
+- **Generic Implementation**: `ObjectPool<T>` handles any `Component`.
+- **Pre-warming**: Pools are initialized during loading to prevent runtime instantiation lag.
+- **Interface-Driven**: Objects implement `IPoolable` to handle their own reset logic (`OnSpawnedFromPool`, `OnDespawnedToPool`).
+
+### 2. Data-Driven Design (ScriptableObjects)
+All gameplay balance data is separated from code logic. This empowers designers to iterate safely.
+- **PlayerSettingsSO**: Controls movement speed, drag, and health.
+- **EnemySettingsSO**: Defines spawn rates, aggro ranges, and damage.
+- **Decoupling**: Systems reference abstract data containers rather than hardcoded values.
+
+### 3. Physics-Based Movement
+Reliable interaction is achieved through `Rigidbody2D` manipulation within `FixedUpdate`.
+- **Input Smoothing**: Raw input from the virtual joystick is clamped and smoothed before application.
+- **Velocity Control**: Instead of modifying `transform.position`, we manipulate velocity to ensure correct collision resolution with the Unity physics engine.
+- **Visual Feedback**: A separate `PlayerVisualController` reacts to velocity changes to handle sprite flipping and squashing/stretching via **DOTween**.
+
+### 4. Performance Strategy & Luna Optimizations
+The project prioritizes **Update Load Control**. Continuous `Update()` calls are minimized; systems are state-driven and manually triggered.
+
+> **Why No Tilemaps?**
+> Initial attempts using Tilemap/MeshRenderer systems proved unstable in Luna. We pivoted to **Manual Tile Spawning** with **Chunk-based Culling**, ensuring off-screen areas incur zero render/update cost.
+
+**Luna Specific Constraints:**
+- 🚫 No `AsyncGPUReadback` or `Timeline`.
+- 🚫 Minimal LINQ usage to reduce allocations.
+- ✅ Custom "Spike-free" collision handling.
+
+### 5. Enemy & Combat Design
+- **Sword Orbit System**: Swords rotate around a shared orbit center with decoupled radius parameters. Visual changes do not affect damage logic.
+- **Smart Spawning**: Enemies spawn with maximized distance from the player, strictly within bounds, and with overlap prevention to promote clean first frames.
 
 ---
 
-### Scratch / Erase Mechanics (ScratchCard Branch)
+## 📂 Project Structure
+A clean, modular hierarchy ensures maintainability.
 
-| Feature | Implementation |
-|------|----------------|
-| Physics usage | Minimal |
-| Erase shape | Vertical, sword-like |
-| Reference | Sword transform |
-| Goal | Stable, low-cost erase logic |
-
----
-
-### Sword Orbit System
-- Swords rotate around a shared orbit center.
-- Orbit radius and sword parameters are decoupled.
-- Visual changes do not affect damage or erase behavior.
-
----
-
-### Enemy Spawning
-
-| Rule | Behavior |
-|----|----------|
-| Player distance | Maximized |
-| Play area bounds | Enforced |
-| Enemy spacing | Overlap prevented |
-
-Ensures clean first frames and avoids collision spikes.
+```text
+Assets/_Game/_Scripts
+├── GameEvents/            # Event Definitions (PlayerDied, LevelComplete)
+├── MapSystem/             # Chunk-based world generation logic
+├── ObjectPoolSystem/      # Generic Object Pool implementation
+├── Patterns/
+│   ├── EventBusPattern/   # Core Event Bus logic
+│   └── SingletonPattern/  # Managers (Audio, Game)
+├── PlayerSystem/          # Modular Player Components (Movement, Health, Anim)
+└── ScriptableObjects/     # Configuration Assets
+```
 
 ---
 
-## Luna Compatibility
-- Unsupported Unity packages are avoided.
-- No Timeline or Async GPU Readback usage.
-- Heavy LINQ and unnecessary allocations are minimized.
+## 🎨 Content Pipeline
 
-**Goal:** predictable behavior across ad networks.
-
----
-
-## Content Pipeline
-
-| Asset | Tool |
-|-----|------|
-| Audio | Audacity |
-| Sprite color edits | Picsart |
+| Asset Type | Tools Used |
+| :--- | :--- |
+| **Audio** | Audacity |
+| **Sprites** | Picsart |
+| **Animation** | DOTween (Procedural) |
 
 ---
 
-## Tech Stack
-- Unity  
-- C#  
-- ScriptableObject architecture  
-- Chunk-based culling  
-- Luna / WebGL-friendly design  
+## 🚀 Getting Started
+
+1. **Clone the repo**:
+   ```bash
+   git clone https://github.com/omerozerf/Fruit-Hook.git
+   ```
+2. **Open in Unity**:
+   - Version: `2022.3.51f1`
+3. **Play**:
+   - Open `Assets/_Game/Scenes/GameScene.unity` and hit Play.
 
 ---
 
-## Final Notes
-This project prioritizes **playable ad realities** over traditional Unity workflows.  
-Visual complexity was intentionally sacrificed in favor of:
+## 📝 Final Notes
+This project prioritizes **playable ad realities** over traditional Unity workflows. Visual complexity was intentionally sacrificed in favor of **Stability**, **Performance**, and **Control**. Several Unity conveniences were deliberately avoided to meet these goals.
 
-> **Stability · Performance · Control**
+---
 
-Several Unity conveniences were deliberately avoided to meet these goals.
+<div align="center">
+    
+*Developed by [Omer Faruk Ozer](https://www.linkedin.com/in/omerozerf/)*
+
+</div>
